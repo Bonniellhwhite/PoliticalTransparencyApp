@@ -13,6 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.testdbapp.ui.theme.TestDBappTheme
 import android.util.Log
+import android.widget.TextView
+
 
 import com.example.testdbapp.MyDatabaseHelper
 import android.widget.Button
@@ -37,10 +39,16 @@ class MainActivity : ComponentActivity() {
                     setContentView(R.layout.activity_main)
 
                     dbHelper = MyDatabaseHelper(this)
+                    dbHelper.clearDatabase()
+                    val dataString = dbHelper.readAllData()
+
+                    val textView = findViewById<TextView>(R.id.dbtextView)
+                    textView.text = dataString
 
                     val add_button: Button = findViewById(R.id.add_button)
                     add_button.setOnClickListener {
                         add_db()
+                        textView.text = dbHelper.readAllData()
                     }
 
 
