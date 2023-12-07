@@ -58,7 +58,7 @@ class MainActivity : ComponentActivity() {
     }
 
     fun show_db(){
-
+        // test
     }
 }
 
