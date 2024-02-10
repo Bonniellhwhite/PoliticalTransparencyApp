@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "21199134393",
+    "firebase_url": "https://testdbapp-8b71c-default-rtdb.firebaseio.com",
     "project_id": "testdbapp-8b71c",
     "storage_bucket": "testdbapp-8b71c.appspot.com"
   },
