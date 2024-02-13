@@ -1,89 +1,69 @@
 package com.example.testdbapp
 
-import android.database.sqlite.SQLiteOpenHelper
 import android.os.Bundle
+import android.util.Log
+import android.widget.Button
+import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.testdbapp.ui.theme.TestDBappTheme
-import android.util.Log
-import android.widget.TextView
-
-
-import com.example.testdbapp.MyDatabaseHelper
-import android.widget.Button
+import com.google.firebase.database.*
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.ktx.Firebase
+import com.google.firebase.database.ktx.database
 
 class MainActivity : ComponentActivity() {
 
-
-    private lateinit var dbHelper: MyDatabaseHelper
+    private lateinit var database: FirebaseDatabase
+    private lateinit var myRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContent {
-            TestDBappTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
+        setContentView(R.layout.activity_main)// Make sure you have this layout
+
+        // Initialize Firebase Database
+        database = Firebase.database
+        myRef = database.getReference("message")
 
 
 
-                    setContentView(R.layout.activity_main)
-
-                    dbHelper = MyDatabaseHelper(this)
-                    dbHelper.clearDatabase()
-                    val dataString = dbHelper.readAllData()
-
-                    val textView = findViewById<TextView>(R.id.dbtextView)
-                    textView.text = dataString
-
-                    val add_button: Button = findViewById(R.id.add_button)
-                    add_button.setOnClickListener {
-                        add_db()
-                        textView.text = dbHelper.readAllData()
-                    }
 
 
-                }
-            }
+        val add_button: Button = findViewById(R.id.add_button)
+        add_button.setOnClickListener {
+            write()
+            read()
         }
-    }
-
-    fun add_db() {
-        // Insert data
-
-        val newRowId = dbHelper.insertData("John Doe")
-        Log.d("MyApp", "DataSuccess $newRowId")
 
     }
 
-    fun show_db(){
-        // test
+    fun write(){
+        // Write a message to the database
+        myRef.setValue("Hello, World!")
     }
-}
 
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
+    fun read(){
+        // Read from the database
+        myRef.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val value = snapshot.getValue<String>()
+                Log.d("MainActivity", "Value is: $value")
+                val dataString =  value
 
+                val textView = findViewById<TextView>(R.id.dbtextView)
+                textView.text = dataString
+            }
 
+            override fun onCancelled(error: DatabaseError) {
+                Log.w("MainActivity", "Failed to read value.", error.toException())
+            }
+        })
 
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    TestDBappTheme {
-        Greeting("Android")
     }
 }
