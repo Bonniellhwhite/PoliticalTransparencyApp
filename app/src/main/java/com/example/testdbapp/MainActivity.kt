@@ -17,6 +17,8 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.database.ktx.database
+import com.example.testdbapp.BillSearchFilter
+import com.example.testdbapp.RepSearchFilter
 
 class MainActivity : ComponentActivity() {
 
@@ -25,7 +27,7 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)// Make sure you have this layout
+        setContentView(R.layout.activity_main)
 
         // Initialize Firebase Database
         database = Firebase.database
@@ -39,6 +41,16 @@ class MainActivity : ComponentActivity() {
         add_button.setOnClickListener {
             write()
             read()
+        }
+
+        val navToBillSearch: Button = findViewById(R.id.btn_bill_search)
+        navToBillSearch.setOnClickListener{
+            setContentView(R.layout.bill_search_filter)
+        }
+
+        val navToRepSearch: Button = findViewById(R.id.btn_rep_search)
+        navToRepSearch.setOnClickListener{
+            setContentView(R.layout.rep_search_filter)
         }
 
     }

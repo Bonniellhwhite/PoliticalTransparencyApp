@@ -5,6 +5,38 @@
     android:layout_height="match_parent">
 
     <EditText
+        android:id="@+id/editTextText2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Temp Home page" />
+
+    <Button
+        android:id="@+id/btn_rep_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Search Representatives" />
+
+    <Button
+        android:id="@+id/btn_bill_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Search Bills" />
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Button" />
+
+    <EditText
         android:id="@+id/editTextText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -22,4 +54,5 @@
         android:id="@+id/dbtextView"
         android:layout_width="match_parent"
         android:layout_height="177dp" />
+
 </LinearLayout>
