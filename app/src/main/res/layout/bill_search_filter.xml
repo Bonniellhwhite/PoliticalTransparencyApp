@@ -24,12 +24,11 @@
         android:id="@+id/imageView6"
         android:layout_width="108dp"
         android:layout_height="102dp"
-        android:layout_marginTop="16dp"
         android:background="@drawable/profile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.968"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        tools:layout_editor_absoluteY="31dp" />
 
     <ImageView
         android:id="@+id/imageView7"
@@ -49,7 +48,7 @@
         android:layout_marginTop="8dp"
         android:layout_marginBottom="248dp"
         android:fontFamily="@font/poppins_medium"
-        android:text="Enter keywords to look up bills!"
+        android:text="Enter keywords to look up representatives!"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="#6A6A6A"
@@ -71,12 +70,14 @@
         app:layout_constraintStart_toStartOf="parent"
         tools:layout_editor_absoluteY="-12dp" />
 
-    <Button
-        android:id="@+id/btn_back_home"
-        android:layout_width="79dp"
-        android:layout_height="78dp"
+    <ImageButton
+        android:id="@+id/btn_return_home_bill"
+        android:layout_width="71dp"
+        android:layout_height="73dp"
+        android:layout_marginEnd="136dp"
+        android:layout_marginBottom="128dp"
         android:background="@drawable/baseline_arrow_back_24"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="-1dp" />
+        app:layout_constraintBottom_toBottomOf="@+id/imageView5"
+        app:layout_constraintEnd_toEndOf="@+id/imageView5" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
