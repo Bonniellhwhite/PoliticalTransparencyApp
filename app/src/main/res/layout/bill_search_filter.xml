@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#F5F5F5F5">
+    android:background="#F3F3F3">
 
     <SearchView
         android:id="@+id/searchView"
@@ -26,38 +26,24 @@
         android:layout_height="102dp"
         android:background="@drawable/profile"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.968"
+        app:layout_constraintHorizontal_bias="0.867"
         app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="31dp" />
-
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="376dp"
-        android:layout_height="86dp"
-        android:background="@drawable/menu"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.957" />
+        tools:layout_editor_absoluteY="38dp" />
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="208dp"
         android:layout_height="46dp"
         android:layout_marginTop="8dp"
-        android:layout_marginBottom="248dp"
         android:fontFamily="@font/poppins_medium"
         android:text="Enter keywords to look up representatives!"
         android:textAlignment="center"
         android:textAppearance="@style/TextAppearance.AppCompat.Medium"
         android:textColor="#6A6A6A"
-        app:layout_constraintBottom_toTopOf="@+id/imageView7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/searchView" />
 
     <ImageView
         android:id="@+id/imageView5"
@@ -79,5 +65,77 @@
         android:background="@drawable/baseline_arrow_back_24"
         app:layout_constraintBottom_toBottomOf="@+id/imageView5"
         app:layout_constraintEnd_toEndOf="@+id/imageView5" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:layout_width="357dp"
+        android:layout_height="70dp"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/menuBackground"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="66dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingTop="5dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="15dp">
+
+            <ImageButton
+                android:id="@+id/btn_nav_bills"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/greybackgroundcircle"
+                app:srcCompat="@drawable/baseline_settings_24" />
+
+            <ImageButton
+                android:id="@+id/btn_nav_bills"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/greybackgroundcircle"
+                app:srcCompat="@drawable/baseline_account_balance_24" />
+
+            <ImageButton
+                android:id="@+id/btn_nav_bills"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/greybackgroundcircle"
+                app:srcCompat="@drawable/favorite_fill0_wght400_grad0_opsz24" />
+
+            <ImageButton
+                android:id="@+id/btn_nav_bills"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/greybackgroundcircle"
+                app:srcCompat="@drawable/baseline_groups_24" />
+
+            <ImageButton
+                android:id="@+id/btn_nav_bills"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/greybackgroundcircle"
+                app:srcCompat="@drawable/baseline_account_circle_24" />
+
+        </LinearLayout>
+    </com.google.android.material.bottomnavigation.BottomNavigationView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
