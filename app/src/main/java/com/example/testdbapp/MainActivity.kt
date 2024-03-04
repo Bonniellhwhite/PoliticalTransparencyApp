@@ -56,6 +56,20 @@ class MainActivity : ComponentActivity() {
             startActivity(intent)
         }
 
+        val navToLogin: Button = findViewById(R.id.btn_login)
+        navToLogin.setOnClickListener{
+
+            val intent = Intent(this, SignIn::class.java)
+            startActivity(intent)
+        }
+
+        val navToSignUp: Button = findViewById(R.id.btn_sign_up)
+        navToSignUp.setOnClickListener{
+
+            val intent = Intent(this, SignUp::class.java)
+            startActivity(intent)
+        }
+
 
 
 

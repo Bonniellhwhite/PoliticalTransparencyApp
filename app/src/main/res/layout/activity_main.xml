@@ -25,16 +25,23 @@
         android:text="Search Bills" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Button" />
+        android:text="login" />
+
+    <Button
+        android:id="@+id/btn_sign_up"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="SIGN up" />
 
     <Button
         android:id="@+id/button2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Button" />
+
 
     <EditText
         android:id="@+id/editTextText"

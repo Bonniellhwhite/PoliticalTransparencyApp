@@ -23,8 +23,19 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".BillSearch" android:theme="@style/AppTheme"/>
-        <activity android:name=".RepSearch" android:theme="@style/AppTheme"/>
+        <activity
+            android:name=".BillSearch"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".RepSearch"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".SignIn"
+            android:theme="@style/AppTheme" />
+        <activity
+            android:name=".SignUp"
+            android:theme="@style/AppTheme" />
+
         <meta-data
             android:name="preloaded_fonts"
             android:resource="@array/preloaded_fonts" />
