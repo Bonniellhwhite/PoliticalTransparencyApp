@@ -1,7 +1,9 @@
 package com.example.testdbapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageButton
 
 class SignUp : AppCompatActivity() {
@@ -11,7 +13,14 @@ class SignUp : AppCompatActivity() {
 
         val home: ImageButton = findViewById(R.id.btn_return_home_bill)
         home.setOnClickListener {
-            finish()
+            finish( )
+        }
+
+        val navBackToLogin: Button = findViewById(R.id.btn_direct_login)
+        navBackToLogin.setOnClickListener{
+
+            val intent = Intent(this, SignIn::class.java)
+            startActivity(intent)
         }
     }
 }

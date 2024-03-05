@@ -91,24 +91,8 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.541" />
 
-    <EditText
-        android:id="@+id/Confrim_Password"
-        android:layout_width="324dp"
-        android:layout_height="50dp"
-        android:ems="10"
-        android:fontFamily="sans-serif"
-        android:hint="Comfrim Password"
-        android:inputType="textPassword"
-        android:paddingStart="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.719" />
-
     <Button
-        android:id="@+id/button2"
+        android:id="@+id/btn_submit_sign_up"
         android:layout_width="324dp"
         android:layout_height="65dp"
         android:backgroundTint="#D7A62C2C"
@@ -138,7 +122,7 @@
         app:layout_constraintVertical_bias="0.865" />
 
     <Button
-        android:id="@+id/button3"
+        android:id="@+id/btn_direct_login"
         android:layout_width="102dp"
         android:layout_height="50dp"
         android:backgroundTint="#00FFFFFF"
@@ -150,7 +134,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.924" />
-
 
 
     <ImageButton
