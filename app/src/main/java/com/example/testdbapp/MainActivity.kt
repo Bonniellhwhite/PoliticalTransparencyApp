@@ -1,24 +1,15 @@
 package com.example.testdbapp
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
-import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.ComponentActivity
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.*
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.database.ktx.database
-
-import androidx.appcompat.app.AppCompatActivity
-import android.content.Intent
-
-import com.example.testdbapp.BillSearch
 
 class MainActivity : ComponentActivity() {
 
@@ -33,16 +24,11 @@ class MainActivity : ComponentActivity() {
         database = Firebase.database
         myRef = database.getReference("message")
 
+        // Write to database and read data
+        write()
+        read()
 
-
-
-
-        val add_button: Button = findViewById(R.id.add_button)
-        add_button.setOnClickListener {
-            write()
-            read()
-        }
-
+        // Navigation buttons
         val navToBillSearch: Button = findViewById(R.id.btn_bill_search)
         navToBillSearch.setOnClickListener{
             val intent = Intent(this, BillSearch::class.java)
@@ -51,28 +37,21 @@ class MainActivity : ComponentActivity() {
 
         val navToRepSearch: Button = findViewById(R.id.btn_rep_search)
         navToRepSearch.setOnClickListener{
-
             val intent = Intent(this, RepSearch::class.java)
             startActivity(intent)
         }
 
         val navToLogin: Button = findViewById(R.id.btn_login)
         navToLogin.setOnClickListener{
-
             val intent = Intent(this, SignIn::class.java)
             startActivity(intent)
         }
 
         val navToSignUp: Button = findViewById(R.id.btn_sign_up)
         navToSignUp.setOnClickListener{
-
             val intent = Intent(this, SignUp::class.java)
             startActivity(intent)
         }
-
-
-
-
     }
 
     fun write(){
@@ -96,6 +75,5 @@ class MainActivity : ComponentActivity() {
                 Log.w("MainActivity", "Failed to read value.", error.toException())
             }
         })
-
     }
 }
