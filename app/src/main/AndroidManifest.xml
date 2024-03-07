@@ -13,6 +13,10 @@
         android:theme="@style/Theme.TestDBapp"
         tools:targetApi="31">
         <activity
+            android:name=".billPageActivity"
+            android:exported="false"
+            android:label="@string/title_activity_bill_page" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:label="@string/app_name"

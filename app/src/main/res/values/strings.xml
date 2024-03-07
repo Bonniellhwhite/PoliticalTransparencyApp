@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">testDBapp</string>
+    <string name="title_activity_bill_page">billPageActivity</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>
