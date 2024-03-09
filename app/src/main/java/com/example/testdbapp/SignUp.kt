@@ -9,15 +9,18 @@ import android.widget.ImageButton
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
-
+import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.firestore.FirebaseFirestore
 class SignUp : AppCompatActivity() {
     private lateinit var mAuth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.sign_up)
 
         mAuth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
 
         val home: ImageButton = findViewById(R.id.btn_return_home_sign_up)
         home.setOnClickListener {
@@ -44,12 +47,33 @@ class SignUp : AppCompatActivity() {
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
                         // Sign up success, update UI with the signed-in user's information
-                        Toast.makeText(this, "Sign up successful!", Toast.LENGTH_SHORT).show()
+                        val user: FirebaseUser? = mAuth.currentUser
+                        val uid = user?.uid
 
-                        // Redirect to home page or any other activity upon successful signup
-                        val intent = Intent(this, HomePage::class.java)
-                        startActivity(intent)
-                        finish()
+                        // Save user information to Firestore
+                        val userMap = hashMapOf(
+                            "email" to email,
+                            "username" to username
+                            // You can add more fields here if needed
+                        )
+                        if (uid != null) {
+                            firestore.collection("users").document(uid)
+                                .set(userMap)
+                                .addOnSuccessListener {
+                                    Toast.makeText(this, "Sign up successful!", Toast.LENGTH_SHORT).show()
+
+                                    // Redirect to home page or any other activity upon successful signup
+                                    val intent = Intent(this, HomePage::class.java)
+                                    startActivity(intent)
+                                    finish()
+                                }
+                                .addOnFailureListener { e ->
+                                    Toast.makeText(
+                                        baseContext, "Error: ${e.message}",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                        }
                     } else {
                         // If sign up fails, display a message to the user.
                         if (task.exception is FirebaseAuthUserCollisionException) {
