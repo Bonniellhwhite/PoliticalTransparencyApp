@@ -39,8 +39,7 @@ class MainActivity : ComponentActivity() {
 
         val add_button: Button = findViewById(R.id.add_button)
         add_button.setOnClickListener {
-            write()
-            read()
+
         }
 
         val navToBillSearch: Button = findViewById(R.id.btn_bill_search)
@@ -61,27 +60,4 @@ class MainActivity : ComponentActivity() {
 
     }
 
-    fun write(){
-        // Write a message to the database
-        myRef.setValue("Hello, World!")
-    }
-
-    fun read(){
-        // Read from the database
-        myRef.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val value = snapshot.getValue<String>()
-                Log.d("MainActivity", "Value is: $value")
-                val dataString =  value
-
-                val textView = findViewById<TextView>(R.id.dbtextView)
-                textView.text = dataString
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.w("MainActivity", "Failed to read value.", error.toException())
-            }
-        })
-
-    }
 }
