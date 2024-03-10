@@ -29,34 +29,26 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+
         // Initialize Firebase Database
         database = Firebase.database
         myRef = database.getReference("message")
 
 
-
-
-
-        val add_button: Button = findViewById(R.id.add_button)
-        add_button.setOnClickListener {
-
-        }
-
-        val navToBillSearch: Button = findViewById(R.id.btn_bill_search)
+        // Navigation Bill Button
+        val navToBillSearch: ImageButton = findViewById(R.id.btn_nav_bills)
         navToBillSearch.setOnClickListener{
             val intent = Intent(this, BillSearch::class.java)
             startActivity(intent)
         }
 
-        val navToRepSearch: Button = findViewById(R.id.btn_rep_search)
+        // Navigation Rep Button
+        val navToRepSearch: ImageButton = findViewById(R.id.btn_nav_reps)
         navToRepSearch.setOnClickListener{
 
             val intent = Intent(this, RepSearch::class.java)
             startActivity(intent)
         }
-
-
-
 
     }
 

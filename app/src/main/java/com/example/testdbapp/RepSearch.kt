@@ -9,7 +9,10 @@ class RepSearch : AppCompatActivity(){
             super.onCreate(savedInstanceState)
             setContentView(R.layout.rep_search_filter)
 
-
+            val backBillSearch: ImageButton = findViewById(R.id.btn_nav_home)
+            backBillSearch.setOnClickListener {
+                finish()
+            }
         }
     }
 
