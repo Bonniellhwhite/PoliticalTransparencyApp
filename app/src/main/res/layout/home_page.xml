@@ -51,16 +51,19 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:background="?android:attr/listDivider"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="277dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="16dp" />
 
     <ImageButton
         android:id="@+id/btn_return_home_home_page"
         android:layout_width="71dp"
         android:layout_height="73dp"
+        android:layout_marginBottom="356dp"
         android:background="@drawable/baseline_arrow_back_24"
-        tools:layout_editor_absoluteX="124dp"
-        tools:layout_editor_absoluteY="290dp" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/divider2"
+        app:layout_constraintStart_toStartOf="@+id/divider2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -8,6 +8,7 @@ import android.widget.ImageButton
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
 import com.google.firebase.auth.FirebaseUser
 
 class SignIn : AppCompatActivity() {
@@ -57,10 +58,27 @@ class SignIn : AppCompatActivity() {
 
         // Navigate to sign up activity
         val navBackToSignUp: Button = findViewById(R.id.btn_direct_sign_up)
-        navBackToSignUp.setOnClickListener{
+        navBackToSignUp.setOnClickListener {
             val intent = Intent(this, SignUp::class.java)
             startActivity(intent)
         }
+        // Find the "Forgot Password" button
+        val btnForgotPassword: Button = findViewById(R.id.btn_forgot_password)
+
+// Set OnClickListener for the "Forgot Password" button
+        btnForgotPassword.setOnClickListener {
+            val email = editTextEmail.text.toString().trim()
+
+            if (email.isEmpty()) {
+                editTextEmail.error = "Enter your email"
+                editTextEmail.requestFocus()
+            } else {
+                // Call method to handle forgot password
+                forgotPassword(email)
+            }
+        }
+
+
     }
 
     private fun updateUI(currentUser: FirebaseUser?) {
@@ -71,4 +89,24 @@ class SignIn : AppCompatActivity() {
             finish() // Finish the current activity to prevent returning to it on back press
         }
     }
+
+    private fun forgotPassword(email: String) {
+        auth.sendPasswordResetEmail(email)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    Toast.makeText(
+                        baseContext,
+                        "Password reset email sent to $email",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                } else {
+                    Toast.makeText(
+                        baseContext,
+                        "Failed to send password reset email.",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+    }
+
 }
