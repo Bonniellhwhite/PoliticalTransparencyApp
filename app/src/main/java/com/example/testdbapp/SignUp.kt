@@ -22,17 +22,20 @@ class SignUp : AppCompatActivity() {
         mAuth = FirebaseAuth.getInstance()
         firestore = FirebaseFirestore.getInstance()
 
+        // Navigates back to "Home Page"
         val home: ImageButton = findViewById(R.id.btn_return_home_sign_up)
         home.setOnClickListener {
             finish()
         }
 
+        // Navigates to login
         val navBackToLogin: Button = findViewById(R.id.btn_direct_login)
         navBackToLogin.setOnClickListener {
             val intent = Intent(this, SignIn::class.java)
             startActivity(intent)
         }
 
+        // When sign up button is pushed
         val signUpButton: Button = findViewById(R.id.btn_submit_sign_up)
         signUpButton.setOnClickListener {
             val emailEditText: EditText = findViewById(R.id.Email)
@@ -54,7 +57,6 @@ class SignUp : AppCompatActivity() {
                         val userMap = hashMapOf(
                             "email" to email,
                             "username" to username
-                            // You can add more fields here if needed
                         )
                         if (uid != null) {
                             firestore.collection("users").document(uid)

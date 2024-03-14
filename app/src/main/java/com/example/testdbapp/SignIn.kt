@@ -22,31 +22,30 @@ class SignIn : AppCompatActivity() {
         // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance()
 
-
+        // Navigates to "Home Page"
         val home: ImageButton = findViewById(R.id.btn_return_home_login)
         home.setOnClickListener {
             finish()
         }
 
-        // Find views
         val btnLogin: Button = findViewById(R.id.btn_submit_login)
         val editTextEmail: EditText = findViewById(R.id.editTextTextEmailAddress)
         val editTextPassword: EditText = findViewById(R.id.editTextTextPassword)
 
-        // Set OnClickListener for login button
+        // Login button
         btnLogin.setOnClickListener {
             val email = editTextEmail.text.toString()
             val password = editTextPassword.text.toString()
 
-            // Perform Firebase authentication
+            // Firebase authentication
             auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this) { task ->
                     if (task.isSuccessful) {
-                        // Sign in success, update UI with the signed-in user's information
+                        // If sign in success, update UI with the signed-in user's information
                         val user = auth.currentUser
                         updateUI(user)
                     } else {
-                        // If sign in fails, display a message to the user.
+                        // If sign in fails, display a message to the user
                         Toast.makeText(
                             baseContext, "Authentication failed.",
                             Toast.LENGTH_SHORT
@@ -65,7 +64,7 @@ class SignIn : AppCompatActivity() {
         // Find the "Forgot Password" button
         val btnForgotPassword: Button = findViewById(R.id.btn_forgot_password)
 
-// Set OnClickListener for the "Forgot Password" button
+        // Forgot Password button
         btnForgotPassword.setOnClickListener {
             val email = editTextEmail.text.toString().trim()
 
@@ -86,7 +85,7 @@ class SignIn : AppCompatActivity() {
             // Redirect to homepage activity upon successful login
             val intent = Intent(this, HomePage::class.java)
             startActivity(intent)
-            finish() // Finish the current activity to prevent returning to it on back press
+            finish()
         }
     }
 
