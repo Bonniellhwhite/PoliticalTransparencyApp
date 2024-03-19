@@ -58,6 +58,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewSearchResults2"
+        android:layout_width="409dp"
+        android:layout_height="342dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintTop_toBottomOf="@+id/billSearchPrompt"
+        app:layout_constraintVertical_bias="0.0"
+        tools:layout_editor_absoluteX="0dp"
+        tools:visibility="visible" />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="357dp"
         android:layout_height="70dp"
