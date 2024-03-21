@@ -10,6 +10,13 @@ import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.*
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.database.ktx.database
+// Added for notify with compose
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 
 class MainActivity : ComponentActivity() {
 
@@ -20,6 +27,15 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        // Add a button to trigger notify 
+        // Needs to be merged (Just added without theme)
+        Box(modifier = Modifier.fillMaxSize()){
+            Button(onClick = {
+                service.showNotification(Counter.value)
+            }) { 
+                Text(text="Show Notification")
+            }
+        }
 
         // Initialize Firebase Database
         database = Firebase.database
