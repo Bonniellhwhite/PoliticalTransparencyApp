@@ -15,6 +15,9 @@
 
         <!-- Splash Screen Activity -->
         <activity
+            android:name=".representativePageActivity"
+            android:exported="false" />
+        <activity
             android:name=".Splash_Screen"
             android:exported="true"
             android:theme="@style/AppTheme">
