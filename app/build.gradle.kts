@@ -44,6 +44,7 @@ android {
     buildFeatures {
         viewBinding = true
         compose = true
+        viewBinding = true
     }
 
     composeOptions {
@@ -71,6 +72,13 @@ dependencies {
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
+    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
+    implementation("com.google.android.material:material:1.4.0")
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.7.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.7.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.6.0")
+    implementation("androidx.navigation:navigation-ui-ktx:2.6.0")
     implementation("com.google.firebase:firebase-database:20.3.0")
     implementation ("androidx.appcompat:appcompat:1.6.1")
     implementation("com.google.android.material:material:1.11.0")
