@@ -33,6 +33,7 @@
         android:id="@+id/billSearchPrompt"
         android:layout_width="286dp"
         android:layout_height="47dp"
+        android:layout_marginEnd="60dp"
         android:fontFamily="@font/poppins_medium"
         android:gravity="center"
         android:text="See Whats New!"
@@ -40,20 +41,18 @@
         android:textAppearance="@style/TextAppearance.AppCompat.Display1"
         android:textColor="#6A6A6A"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="221dp" />
+        tools:layout_editor_absoluteY="220dp" />
 
     <ScrollView
         style="@android:style/Widget.Holo.Light.ScrollView"
-        android:layout_width="434dp"
-        android:layout_height="421dp"
-        android:layout_marginBottom="55dp"
+        android:layout_width="397dp"
+        android:layout_height="412dp"
         android:focusableInTouchMode="false"
         android:scrollbarStyle="insideInset"
-        app:layout_constraintBottom_toBottomOf="@+id/bottomNavigationView"
-        app:layout_constraintTop_toBottomOf="@+id/billSearchPrompt"
-        tools:layout_editor_absoluteX="4dp">
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/billSearchPrompt">
 
         <LinearLayout
             android:layout_width="match_parent"

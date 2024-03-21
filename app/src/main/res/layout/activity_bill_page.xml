@@ -23,11 +23,14 @@
         app:layout_constraintEnd_toEndOf="parent" />
 
     <!--Bottom navigation container for buttons-->
+
+    <!--Text box displays bill name longhand-->
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
         android:layout_width="378dp"
         android:layout_height="67dp"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="16dp"
         android:layout_marginBottom="16dp"
         android:background="#D5D6D6"
         android:visibility="visible"
@@ -38,7 +41,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/bottom_nav_menu" />
 
-    <!--Text box displays bill name longhand-->
     <TextView
         android:id="@+id/billLongName"
         android:layout_width="wrap_content"
@@ -130,15 +132,16 @@
         tools:layout_editor_absoluteY="589dp" />
 
     <!--Button leads to favorites page-->
+
+    <!--Button leads to home page-->
     <ImageButton
         android:id="@+id/likesButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:srcCompat="@drawable/ellipse_4"
         tools:layout_editor_absoluteX="176dp"
-        tools:layout_editor_absoluteY="589dp" />
+        tools:layout_editor_absoluteY="590dp" />
 
-    <!--Button leads to home page-->
     <ImageButton
         android:id="@+id/homeButton"
         android:layout_width="wrap_content"

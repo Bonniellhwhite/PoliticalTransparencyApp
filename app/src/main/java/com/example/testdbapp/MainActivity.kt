@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AppCompatActivity
@@ -25,15 +26,8 @@ class MainActivity : ComponentActivity() {
         database = Firebase.database
         myRef = database.getReference("message")
 
-
-        // Navigation Bill Button
-        val navToBillSearch: ImageButton = findViewById(R.id.btn_nav_bills)
-        // Write to database and read data
-        write()
-        read()
-
         // Navigation buttons
-        val navToBillSearch: Button = findViewById(R.id.btn_bill_search)
+        val navToBillSearch: ImageButton = findViewById(R.id.btn_nav_bills)
         navToBillSearch.setOnClickListener{
             val intent = Intent(this, BillSearch::class.java)
             startActivity(intent)
@@ -46,6 +40,7 @@ class MainActivity : ComponentActivity() {
             startActivity(intent)
         }
 
+        /*   // disabling for now, code For future - Bonnie 3/20
         val navToLogin: Button = findViewById(R.id.btn_login)
         navToLogin.setOnClickListener{
             val intent = Intent(this, SignIn::class.java)
@@ -56,7 +51,7 @@ class MainActivity : ComponentActivity() {
         navToSignUp.setOnClickListener{
             val intent = Intent(this, SignUp::class.java)
             startActivity(intent)
-        }
+
     }
 
     fun write(){
@@ -80,7 +75,6 @@ class MainActivity : ComponentActivity() {
                 Log.w("MainActivity", "Failed to read value.", error.toException())
             }
         })
+    }*/
     }
-    }
-
 }
