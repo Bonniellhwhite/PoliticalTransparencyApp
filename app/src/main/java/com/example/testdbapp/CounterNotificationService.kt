@@ -1,4 +1,4 @@
-package com.example.greetingcard
+package com.example.testdbapp
 
 import android.app.NotificationManager
 import android.app.PendingIntent
