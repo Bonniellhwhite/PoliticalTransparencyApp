@@ -32,7 +32,7 @@ import com.example.politipal.ui.navigation.PermanentNavigationDrawerContent
 import com.example.politipal.ui.navigation.ReplyBottomNavigationBar
 import com.example.politipal.ui.navigation.ReplyNavigationActions
 import com.example.politipal.ui.navigation.ReplyNavigationRail
-import com.example.politipal.ui.navigation.ReplyRoute
+import com.example.politipal.ui.navigation.PolitipalRoute
 import com.example.politipal.ui.navigation.ReplyTopLevelDestination
 import com.example.politipal.ui.utils.DevicePosture
 import com.example.politipal.ui.utils.ReplyContentType
@@ -43,7 +43,8 @@ import com.example.politipal.ui.utils.isSeparating
 import kotlinx.coroutines.launch
 
 @Composable
-fun ReplyApp(
+fun PolitipalApp(
+    // Parameters
     windowSize: WindowSizeClass,
     displayFeatures: List<DisplayFeature>,
     replyHomeUIState: ReplyHomeUIState,
@@ -151,7 +152,7 @@ private fun ReplyNavigationWrapper(
     }
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val selectedDestination =
-        navBackStackEntry?.destination?.route ?: ReplyRoute.INBOX
+        navBackStackEntry?.destination?.route ?: PolitipalRoute.SETTINGS
 
     if (navigationType == ReplyNavigationType.PERMANENT_NAVIGATION_DRAWER) {
         // TODO check on custom width of PermanentNavigationDrawer: b/232495216
@@ -279,9 +280,9 @@ private fun ReplyNavHost(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = ReplyRoute.INBOX,
+        startDestination = PolitipalRoute.SETTINGS,
     ) {
-        composable(ReplyRoute.INBOX) {
+        composable(PolitipalRoute.SETTINGS) {
             ReplyInboxScreen(
                 contentType = contentType,
                 replyHomeUIState = replyHomeUIState,
@@ -292,13 +293,13 @@ private fun ReplyNavHost(
                 toggleSelectedEmail = toggleSelectedEmail
             )
         }
-        composable(ReplyRoute.DM) {
+        composable(PolitipalRoute.PROFILE) {
             EmptyComingSoon()
         }
-        composable(ReplyRoute.ARTICLES) {
+        composable(PolitipalRoute.BILLS) {
             EmptyComingSoon()
         }
-        composable(ReplyRoute.GROUPS) {
+        composable(PolitipalRoute.REPS) {
             EmptyComingSoon()
         }
     }

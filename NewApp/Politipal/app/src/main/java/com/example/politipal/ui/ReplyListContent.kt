@@ -65,7 +65,6 @@ fun ReplyInboxScreen(
 
     val emailLazyListState = rememberLazyListState()
 
-    // TODO: Show top app bar over full width of app when in multi-select mode
 
     if (contentType == ReplyContentType.DUAL_PANE) {
         TwoPane(
@@ -98,23 +97,6 @@ fun ReplyInboxScreen(
                 closeDetailScreen = closeDetailScreen,
                 navigateToDetail = navigateToDetail
             )
-            // When we have bottom navigation we show FAB at the bottom end.
-            if (navigationType == ReplyNavigationType.BOTTOM_NAVIGATION) {
-                LargeFloatingActionButton(
-                    onClick = { /*TODO*/ },
-                    modifier = Modifier
-                        .align(Alignment.BottomEnd)
-                        .padding(16.dp),
-                    containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                    contentColor = MaterialTheme.colorScheme.onTertiaryContainer
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Edit,
-                        contentDescription = stringResource(id = R.string.edit),
-                        modifier = Modifier.size(28.dp)
-                    )
-                }
-            }
         }
     }
 }

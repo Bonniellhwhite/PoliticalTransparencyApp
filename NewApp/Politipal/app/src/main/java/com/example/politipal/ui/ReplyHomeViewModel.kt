@@ -2,6 +2,8 @@
 
 package com.example.politipal.ui
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.politipal.data.Email
@@ -78,3 +80,9 @@ data class ReplyHomeUIState(
     val loading: Boolean = false,
     val error: String? = null
 )
+
+@Preview
+@Composable
+fun HomeView() {
+    ReplyHomeViewModel()
+}

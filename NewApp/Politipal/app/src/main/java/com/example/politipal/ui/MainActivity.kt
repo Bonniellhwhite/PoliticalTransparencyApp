@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.politipal.data.local.LocalEmailsDataProvider
-import com.example.politipal.ui.theme.ContrastAwareReplyTheme
+import com.example.politipal.ui.theme.AppTheme
 import com.google.accompanist.adaptive.calculateDisplayFeatures
 
 class MainActivity : ComponentActivity() {
@@ -29,12 +29,12 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
 
         setContent {
-            ContrastAwareReplyTheme {
+            AppTheme {
                 val windowSize = calculateWindowSizeClass(this)
                 val displayFeatures = calculateDisplayFeatures(this)
                 val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-                ReplyApp(
+                PolitipalApp(
                     windowSize = windowSize,
                     displayFeatures = displayFeatures,
                     replyHomeUIState = uiState,
@@ -56,63 +56,11 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Preview(showBackground = true)
 @Composable
-fun ReplyAppPreview() {
-    ContrastAwareReplyTheme {
-        ReplyApp(
+fun AppPreview() {
+    AppTheme {
+        PolitipalApp(
             replyHomeUIState = ReplyHomeUIState(emails = LocalEmailsDataProvider.allEmails),
             windowSize = WindowSizeClass.calculateFromSize(DpSize(400.dp, 900.dp)),
-            displayFeatures = emptyList(),
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
-@Preview(showBackground = true, widthDp = 700, heightDp = 500)
-@Composable
-fun ReplyAppPreviewTablet() {
-    ContrastAwareReplyTheme {
-        ReplyApp(
-            replyHomeUIState = ReplyHomeUIState(emails = LocalEmailsDataProvider.allEmails),
-            windowSize = WindowSizeClass.calculateFromSize(DpSize(700.dp, 500.dp)),
-            displayFeatures = emptyList(),
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
-@Preview(showBackground = true, widthDp = 500, heightDp = 700)
-@Composable
-fun ReplyAppPreviewTabletPortrait() {
-    ContrastAwareReplyTheme {
-        ReplyApp(
-            replyHomeUIState = ReplyHomeUIState(emails = LocalEmailsDataProvider.allEmails),
-            windowSize = WindowSizeClass.calculateFromSize(DpSize(500.dp, 700.dp)),
-            displayFeatures = emptyList(),
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
-@Preview(showBackground = true, widthDp = 1100, heightDp = 600)
-@Composable
-fun ReplyAppPreviewDesktop() {
-    ContrastAwareReplyTheme {
-        ReplyApp(
-            replyHomeUIState = ReplyHomeUIState(emails = LocalEmailsDataProvider.allEmails),
-            windowSize = WindowSizeClass.calculateFromSize(DpSize(1100.dp, 600.dp)),
-            displayFeatures = emptyList(),
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
-@Preview(showBackground = true, widthDp = 600, heightDp = 1100)
-@Composable
-fun ReplyAppPreviewDesktopPortrait() {
-    ContrastAwareReplyTheme {
-        ReplyApp(
-            replyHomeUIState = ReplyHomeUIState(emails = LocalEmailsDataProvider.allEmails),
-            windowSize = WindowSizeClass.calculateFromSize(DpSize(600.dp, 1100.dp)),
             displayFeatures = emptyList(),
         )
     }
