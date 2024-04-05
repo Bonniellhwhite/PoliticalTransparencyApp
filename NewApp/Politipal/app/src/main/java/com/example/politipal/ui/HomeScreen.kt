@@ -2,13 +2,18 @@
 package com.example.politipal.ui
 
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
@@ -17,25 +22,30 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
+import com.example.politipal.R
 import com.example.politipal.data.Email
 import com.example.politipal.ui.components.EmailDetailAppBar
 import com.example.politipal.ui.components.ReplyEmailListItem
 import com.example.politipal.ui.components.ReplyEmailThreadItem
 import com.example.politipal.ui.utils.ReplyContentType
 import com.example.politipal.ui.utils.ReplyNavigationType
-import com.google.accompanist.adaptive.HorizontalTwoPaneStrategy
-import com.google.accompanist.adaptive.TwoPane
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ReplyInboxScreen(
+fun HomeScreen(
     contentType: ReplyContentType,
     homeUIState: homeUIState,
     navigationType: ReplyNavigationType,
@@ -55,31 +65,9 @@ fun ReplyInboxScreen(
     }
 
     val emailLazyListState = rememberLazyListState()
-
-
-    if (contentType == ReplyContentType.DUAL_PANE) {
-        TwoPane(
-            first = {
-                ReplyEmailList(
-                    emails = homeUIState.emails,
-                    openedEmail = homeUIState.openedEmail,
-                    selectedEmailIds = homeUIState.selectedEmails,
-                    toggleEmailSelection = toggleSelectedEmail,
-                    emailLazyListState = emailLazyListState,
-                    navigateToDetail = navigateToDetail
-                )
-            },
-            second = {
-                ReplyEmailDetail(
-                    email = homeUIState.openedEmail ?: homeUIState.emails.first(),
-                    isFullScreen = false
-                )
-            },
-            strategy = HorizontalTwoPaneStrategy(splitFraction = 0.5f, gapWidth = 16.dp),
-            displayFeatures = displayFeatures
-        )
-    } else {
         Box(modifier = modifier.fillMaxSize()) {
+
+
             ReplySinglePaneContent(
                 homeUIState = homeUIState,
                 toggleEmailSelection = toggleSelectedEmail,
@@ -90,7 +78,7 @@ fun ReplyInboxScreen(
             )
         }
     }
-}
+
 
 @Composable
 fun ReplySinglePaneContent(
@@ -109,6 +97,7 @@ fun ReplySinglePaneContent(
             closeDetailScreen()
         }
     } else {
+
         ReplyEmailList(
             emails = homeUIState.emails,
             openedEmail = homeUIState.openedEmail,
@@ -121,6 +110,7 @@ fun ReplySinglePaneContent(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ReplyEmailList(
     emails: List<Email>,
@@ -141,14 +131,17 @@ fun ReplyEmailList(
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 16.dp)
         )*/
-
         LazyColumn(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(top = 50.dp),
+                .padding(top = 10.dp),
             state = emailLazyListState
         ) {
+            item {
+                WelcomeSection()
+            }
             items(items = emails, key = { it.id }) { email ->
+
                 ReplyEmailListItem(
                     email = email,
                     navigateToDetail = { emailId ->
@@ -162,6 +155,29 @@ fun ReplyEmailList(
             // Add extra spacing at the bottom if
             item {
                 Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.systemBars))
+            }
+        }
+    }
+}
+
+@Composable
+fun WelcomeSection(){
+    Box(
+        modifier = Modifier
+            .fillMaxHeight()
+            .padding(16.dp),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(modifier = Modifier.fillMaxSize(), // Add this line to make Column fill the Box
+            horizontalAlignment = Alignment.CenterHorizontally ){
+            Text(text = "Welcome!", style = MaterialTheme.typography.displayLarge)
+            Image(
+                painter = painterResource(id = R.drawable.avatar_express),
+                contentDescription = "Home Icon",
+                modifier = Modifier.size(200.dp)
+            )
+            ExtendedFloatingActionButton(onClick = { /*TODO*/ }) {
+                
             }
         }
     }
