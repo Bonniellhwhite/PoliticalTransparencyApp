@@ -39,6 +39,8 @@ import androidx.compose.ui.unit.dp
 import com.example.politipal.R
 import com.example.politipal.data.Email
 
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ReplyDockedSearchBar(

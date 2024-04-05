@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.systemBars
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
@@ -18,23 +17,15 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
-import com.example.politipal.R
 import com.example.politipal.data.Email
 import com.example.politipal.ui.components.EmailDetailAppBar
-import com.example.politipal.ui.components.ReplyDockedSearchBar
 import com.example.politipal.ui.components.ReplyEmailListItem
 import com.example.politipal.ui.components.ReplyEmailThreadItem
 import com.example.politipal.ui.utils.ReplyContentType
@@ -46,7 +37,7 @@ import com.google.accompanist.adaptive.TwoPane
 @Composable
 fun ReplyInboxScreen(
     contentType: ReplyContentType,
-    replyHomeUIState: ReplyHomeUIState,
+    homeUIState: homeUIState,
     navigationType: ReplyNavigationType,
     displayFeatures: List<DisplayFeature>,
     closeDetailScreen: () -> Unit,
@@ -58,7 +49,7 @@ fun ReplyInboxScreen(
      * When moving from LIST_AND_DETAIL page to LIST page clear the selection and user should see LIST screen.
      */
     LaunchedEffect(key1 = contentType) {
-        if (contentType == ReplyContentType.SINGLE_PANE && !replyHomeUIState.isDetailOnlyOpen) {
+        if (contentType == ReplyContentType.SINGLE_PANE && !homeUIState.isDetailOnlyOpen) {
             closeDetailScreen()
         }
     }
@@ -70,9 +61,9 @@ fun ReplyInboxScreen(
         TwoPane(
             first = {
                 ReplyEmailList(
-                    emails = replyHomeUIState.emails,
-                    openedEmail = replyHomeUIState.openedEmail,
-                    selectedEmailIds = replyHomeUIState.selectedEmails,
+                    emails = homeUIState.emails,
+                    openedEmail = homeUIState.openedEmail,
+                    selectedEmailIds = homeUIState.selectedEmails,
                     toggleEmailSelection = toggleSelectedEmail,
                     emailLazyListState = emailLazyListState,
                     navigateToDetail = navigateToDetail
@@ -80,7 +71,7 @@ fun ReplyInboxScreen(
             },
             second = {
                 ReplyEmailDetail(
-                    email = replyHomeUIState.openedEmail ?: replyHomeUIState.emails.first(),
+                    email = homeUIState.openedEmail ?: homeUIState.emails.first(),
                     isFullScreen = false
                 )
             },
@@ -90,7 +81,7 @@ fun ReplyInboxScreen(
     } else {
         Box(modifier = modifier.fillMaxSize()) {
             ReplySinglePaneContent(
-                replyHomeUIState = replyHomeUIState,
+                homeUIState = homeUIState,
                 toggleEmailSelection = toggleSelectedEmail,
                 emailLazyListState = emailLazyListState,
                 modifier = Modifier.fillMaxSize(),
@@ -103,25 +94,25 @@ fun ReplyInboxScreen(
 
 @Composable
 fun ReplySinglePaneContent(
-    replyHomeUIState: ReplyHomeUIState,
+    homeUIState: homeUIState,
     toggleEmailSelection: (Long) -> Unit,
     emailLazyListState: LazyListState,
     modifier: Modifier = Modifier,
     closeDetailScreen: () -> Unit,
     navigateToDetail: (Long, ReplyContentType) -> Unit
 ) {
-    if (replyHomeUIState.openedEmail != null && replyHomeUIState.isDetailOnlyOpen) {
+    if (homeUIState.openedEmail != null && homeUIState.isDetailOnlyOpen) {
         BackHandler {
             closeDetailScreen()
         }
-        ReplyEmailDetail(email = replyHomeUIState.openedEmail) {
+        ReplyEmailDetail(email = homeUIState.openedEmail) {
             closeDetailScreen()
         }
     } else {
         ReplyEmailList(
-            emails = replyHomeUIState.emails,
-            openedEmail = replyHomeUIState.openedEmail,
-            selectedEmailIds = replyHomeUIState.selectedEmails,
+            emails = homeUIState.emails,
+            openedEmail = homeUIState.openedEmail,
+            selectedEmailIds = homeUIState.selectedEmails,
             toggleEmailSelection = toggleEmailSelection,
             emailLazyListState = emailLazyListState,
             modifier = modifier,
@@ -141,7 +132,7 @@ fun ReplyEmailList(
     navigateToDetail: (Long, ReplyContentType) -> Unit
 ) {
     Box(modifier = modifier.windowInsetsPadding(WindowInsets.statusBars)) {
-        ReplyDockedSearchBar(
+       /* ReplyDockedSearchBar(
             emails = emails,
             onSearchItemSelected = { searchedEmail ->
                 navigateToDetail(searchedEmail.id, ReplyContentType.SINGLE_PANE)
@@ -149,12 +140,12 @@ fun ReplyEmailList(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 16.dp, vertical = 16.dp)
-        )
+        )*/
 
         LazyColumn(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(top = 80.dp),
+                .padding(top = 50.dp),
             state = emailLazyListState
         ) {
             items(items = emails, key = { it.id }) { email ->

@@ -47,7 +47,7 @@ fun PolitipalApp(
     // Parameters
     windowSize: WindowSizeClass,
     displayFeatures: List<DisplayFeature>,
-    replyHomeUIState: ReplyHomeUIState,
+    homeUIState: homeUIState,
     closeDetailScreen: () -> Unit = {},
     navigateToDetail: (Long, ReplyContentType) -> Unit = { _, _ -> },
     toggleSelectedEmail: (Long) -> Unit = { }
@@ -125,7 +125,7 @@ fun PolitipalApp(
         contentType = contentType,
         displayFeatures = displayFeatures,
         navigationContentPosition = navigationContentPosition,
-        replyHomeUIState = replyHomeUIState,
+        homeUIState = homeUIState,
         closeDetailScreen = closeDetailScreen,
         navigateToDetail = navigateToDetail,
         toggleSelectedEmail = toggleSelectedEmail
@@ -138,7 +138,7 @@ private fun ReplyNavigationWrapper(
     contentType: ReplyContentType,
     displayFeatures: List<DisplayFeature>,
     navigationContentPosition: ReplyNavigationContentPosition,
-    replyHomeUIState: ReplyHomeUIState,
+    homeUIState: homeUIState,
     closeDetailScreen: () -> Unit,
     navigateToDetail: (Long, ReplyContentType) -> Unit,
     toggleSelectedEmail: (Long) -> Unit
@@ -168,7 +168,7 @@ private fun ReplyNavigationWrapper(
                 contentType = contentType,
                 displayFeatures = displayFeatures,
                 navigationContentPosition = navigationContentPosition,
-                replyHomeUIState = replyHomeUIState,
+                homeUIState = homeUIState,
                 navController = navController,
                 selectedDestination = selectedDestination,
                 navigateToTopLevelDestination = navigationActions::navigateTo,
@@ -198,7 +198,7 @@ private fun ReplyNavigationWrapper(
                 contentType = contentType,
                 displayFeatures = displayFeatures,
                 navigationContentPosition = navigationContentPosition,
-                replyHomeUIState = replyHomeUIState,
+                homeUIState = homeUIState,
                 navController = navController,
                 selectedDestination = selectedDestination,
                 navigateToTopLevelDestination = navigationActions::navigateTo,
@@ -221,7 +221,7 @@ fun ReplyAppContent(
     contentType: ReplyContentType,
     displayFeatures: List<DisplayFeature>,
     navigationContentPosition: ReplyNavigationContentPosition,
-    replyHomeUIState: ReplyHomeUIState,
+    homeUIState: homeUIState,
     navController: NavHostController,
     selectedDestination: String,
     navigateToTopLevelDestination: (ReplyTopLevelDestination) -> Unit,
@@ -248,7 +248,7 @@ fun ReplyAppContent(
                 navController = navController,
                 contentType = contentType,
                 displayFeatures = displayFeatures,
-                replyHomeUIState = replyHomeUIState,
+                homeUIState = homeUIState,
                 navigationType = navigationType,
                 closeDetailScreen = closeDetailScreen,
                 navigateToDetail = navigateToDetail,
@@ -270,7 +270,7 @@ private fun ReplyNavHost(
     navController: NavHostController,
     contentType: ReplyContentType,
     displayFeatures: List<DisplayFeature>,
-    replyHomeUIState: ReplyHomeUIState,
+    homeUIState: homeUIState,
     navigationType: ReplyNavigationType,
     closeDetailScreen: () -> Unit,
     navigateToDetail: (Long, ReplyContentType) -> Unit,
@@ -280,18 +280,10 @@ private fun ReplyNavHost(
     NavHost(
         modifier = modifier,
         navController = navController,
-        startDestination = PolitipalRoute.SETTINGS,
+        startDestination = PolitipalRoute.HOME,
     ) {
         composable(PolitipalRoute.SETTINGS) {
-            ReplyInboxScreen(
-                contentType = contentType,
-                replyHomeUIState = replyHomeUIState,
-                navigationType = navigationType,
-                displayFeatures = displayFeatures,
-                closeDetailScreen = closeDetailScreen,
-                navigateToDetail = navigateToDetail,
-                toggleSelectedEmail = toggleSelectedEmail
-            )
+            EmptyComingSoon()
         }
         composable(PolitipalRoute.PROFILE) {
             EmptyComingSoon()
@@ -301,6 +293,17 @@ private fun ReplyNavHost(
         }
         composable(PolitipalRoute.REPS) {
             EmptyComingSoon()
+        }
+        composable(PolitipalRoute.HOME) {
+            ReplyInboxScreen(
+                contentType = contentType,
+                homeUIState = homeUIState,
+                navigationType = navigationType,
+                displayFeatures = displayFeatures,
+                closeDetailScreen = closeDetailScreen,
+                navigateToDetail = navigateToDetail,
+                toggleSelectedEmail = toggleSelectedEmail
+            )
         }
     }
 }

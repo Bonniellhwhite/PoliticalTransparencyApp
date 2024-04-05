@@ -19,8 +19,8 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
     ViewModel() {
 
     // UI state exposed to the UI
-    private val _uiState = MutableStateFlow(ReplyHomeUIState(loading = true))
-    val uiState: StateFlow<ReplyHomeUIState> = _uiState
+    private val _uiState = MutableStateFlow(homeUIState(loading = true))
+    val uiState: StateFlow<homeUIState> = _uiState
 
     init {
         observeEmails()
@@ -30,13 +30,13 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
         viewModelScope.launch {
             emailsRepository.getAllEmails()
                 .catch { ex ->
-                    _uiState.value = ReplyHomeUIState(error = ex.message)
+                    _uiState.value = homeUIState(error = ex.message)
                 }
                 .collect { emails ->
                     /**
                      * We set first email selected by default for first App launch in large-screens
                      */
-                    _uiState.value = ReplyHomeUIState(
+                    _uiState.value = homeUIState(
                         emails = emails,
                         openedEmail = emails.first()
                     )
@@ -72,7 +72,7 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
     }
 }
 
-data class ReplyHomeUIState(
+data class homeUIState(
     val emails: List<Email> = emptyList(),
     val selectedEmails: Set<Long> = emptySet(),
     val openedEmail: Email? = null,

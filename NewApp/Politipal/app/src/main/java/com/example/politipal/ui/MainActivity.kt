@@ -37,7 +37,7 @@ class MainActivity : ComponentActivity() {
                 PolitipalApp(
                     windowSize = windowSize,
                     displayFeatures = displayFeatures,
-                    replyHomeUIState = uiState,
+                    homeUIState = uiState,
                     closeDetailScreen = {
                         viewModel.closeDetailScreen()
                     },
@@ -59,7 +59,7 @@ class MainActivity : ComponentActivity() {
 fun AppPreview() {
     AppTheme {
         PolitipalApp(
-            replyHomeUIState = ReplyHomeUIState(emails = LocalEmailsDataProvider.allEmails),
+            homeUIState = homeUIState(emails = LocalEmailsDataProvider.allEmails),
             windowSize = WindowSizeClass.calculateFromSize(DpSize(400.dp, 900.dp)),
             displayFeatures = emptyList(),
         )
