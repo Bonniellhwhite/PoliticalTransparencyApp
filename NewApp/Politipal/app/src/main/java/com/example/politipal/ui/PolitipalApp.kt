@@ -12,9 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.rememberDrawerState
-import androidx.compose.material3.windowsizeclass.WindowHeightSizeClass
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
-import androidx.compose.material3.windowsizeclass.WindowWidthSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
@@ -38,8 +36,6 @@ import com.example.politipal.ui.utils.DevicePosture
 import com.example.politipal.ui.utils.ReplyContentType
 import com.example.politipal.ui.utils.ReplyNavigationContentPosition
 import com.example.politipal.ui.utils.ReplyNavigationType
-import com.example.politipal.ui.utils.isBookPosture
-import com.example.politipal.ui.utils.isSeparating
 import kotlinx.coroutines.launch
 
 @Composable
@@ -52,73 +48,11 @@ fun PolitipalApp(
     navigateToDetail: (Long, ReplyContentType) -> Unit = { _, _ -> },
     toggleSelectedEmail: (Long) -> Unit = { }
 ) {
-    /**
-     * This will help us select type of navigation and content type depending on window size and
-     * fold state of the device.
-     */
-    val navigationType: ReplyNavigationType
-    val contentType: ReplyContentType
-
-    /**
-     * We are using display's folding features to map the device postures a fold is in.
-     * In the state of folding device If it's half fold in BookPosture we want to avoid content
-     * at the crease/hinge
-     */
+    val navigationType: ReplyNavigationType = ReplyNavigationType.BOTTOM_NAVIGATION
+    val contentType: ReplyContentType = ReplyContentType.SINGLE_PANE
     val foldingFeature = displayFeatures.filterIsInstance<FoldingFeature>().firstOrNull()
-
-    val foldingDevicePosture = when {
-        isBookPosture(foldingFeature) ->
-            DevicePosture.BookPosture(foldingFeature.bounds)
-
-        isSeparating(foldingFeature) ->
-            DevicePosture.Separating(foldingFeature.bounds, foldingFeature.orientation)
-
-        else -> DevicePosture.NormalPosture
-    }
-
-    when (windowSize.widthSizeClass) {
-        WindowWidthSizeClass.Compact -> {
-            navigationType = ReplyNavigationType.BOTTOM_NAVIGATION
-            contentType = ReplyContentType.SINGLE_PANE
-        }
-        WindowWidthSizeClass.Medium -> {
-            navigationType = ReplyNavigationType.NAVIGATION_RAIL
-            contentType = if (foldingDevicePosture != DevicePosture.NormalPosture) {
-                ReplyContentType.DUAL_PANE
-            } else {
-                ReplyContentType.SINGLE_PANE
-            }
-        }
-        WindowWidthSizeClass.Expanded -> {
-            navigationType = if (foldingDevicePosture is DevicePosture.BookPosture) {
-                ReplyNavigationType.NAVIGATION_RAIL
-            } else {
-                ReplyNavigationType.PERMANENT_NAVIGATION_DRAWER
-            }
-            contentType = ReplyContentType.DUAL_PANE
-        }
-        else -> {
-            navigationType = ReplyNavigationType.BOTTOM_NAVIGATION
-            contentType = ReplyContentType.SINGLE_PANE
-        }
-    }
-
-    /**
-     * Content inside Navigation Rail/Drawer can also be positioned at top, bottom or center for
-     * ergonomics and reachability depending upon the height of the device.
-     */
-    val navigationContentPosition = when (windowSize.heightSizeClass) {
-        WindowHeightSizeClass.Compact -> {
-            ReplyNavigationContentPosition.TOP
-        }
-        WindowHeightSizeClass.Medium,
-        WindowHeightSizeClass.Expanded -> {
-            ReplyNavigationContentPosition.CENTER
-        }
-        else -> {
-            ReplyNavigationContentPosition.TOP
-        }
-    }
+    val foldingDevicePosture = DevicePosture.NormalPosture
+    val navigationContentPosition = ReplyNavigationContentPosition.TOP
 
     ReplyNavigationWrapper(
         navigationType = navigationType,
@@ -295,7 +229,7 @@ private fun ReplyNavHost(
             EmptyComingSoon()
         }
         composable(PolitipalRoute.HOME) {
-            ReplyInboxScreen(
+            HomeScreen(
                 contentType = contentType,
                 homeUIState = homeUIState,
                 navigationType = navigationType,

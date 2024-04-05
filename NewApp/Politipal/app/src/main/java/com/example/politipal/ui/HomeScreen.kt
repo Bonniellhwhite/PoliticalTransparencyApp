@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBars
@@ -22,11 +23,16 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Article
+import androidx.compose.material.icons.filled.KeyboardDoubleArrowLeft
+import androidx.compose.material.icons.filled.KeyboardDoubleArrowRight
+import androidx.compose.material.icons.filled.People
+import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -137,8 +143,11 @@ fun ReplyEmailList(
                 .padding(top = 10.dp),
             state = emailLazyListState
         ) {
+
             item {
+                Spacer(modifier = Modifier.height(100.dp))
                 WelcomeSection()
+
             }
             items(items = emails, key = { it.id }) { email ->
 
@@ -170,15 +179,37 @@ fun WelcomeSection(){
     ) {
         Column(modifier = Modifier.fillMaxSize(), // Add this line to make Column fill the Box
             horizontalAlignment = Alignment.CenterHorizontally ){
+
             Text(text = "Welcome!", style = MaterialTheme.typography.displayLarge)
             Image(
                 painter = painterResource(id = R.drawable.avatar_express),
                 contentDescription = "Home Icon",
                 modifier = Modifier.size(200.dp)
             )
-            ExtendedFloatingActionButton(onClick = { /*TODO*/ }) {
-                
-            }
+            Spacer(modifier = Modifier.height(50.dp))
+            ExtendedFloatingActionButton(
+                text = { Text("Find Representatives") },
+                onClick = { /* TODO: Add your click handling logic here */ },
+                icon = { Icon(Icons.Default.People, contentDescription = "Left Arrow") }
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            ExtendedFloatingActionButton(
+                text = { Text("         Find Bills        ") },
+                onClick = { /* TODO: Add your click handling logic here */ },
+                icon = { Icon(Icons.Default.Article, contentDescription = "Left Arrow") }
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+
+            ExtendedFloatingActionButton(
+                text = { Text("Learn more about you!") },
+                onClick = { /* TODO: Add your click handling logic here */ },
+                icon = { Icon(Icons.Default.KeyboardDoubleArrowLeft, contentDescription = "Left Arrow")
+                }
+            )
+
+            Spacer(modifier = Modifier.height(24.dp))
+
+
         }
     }
 }
