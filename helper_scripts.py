@@ -40,4 +40,5 @@ async def summarize_text(text: str) -> str:
     )
     return response.choices[0].text.strip()
 
-print(openai_api_key)
+# For testing
+#print(openai_api_key)
