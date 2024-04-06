@@ -10,7 +10,7 @@ app = FastAPI()
 async def isServerUp():
     return {"Server is up!"}
 
-@app.get("/summarize-article/{url}")
+@app.get("/summarize_article/{url}")
 async def summarize_article(url: str):
     try:
         decoded_url = unquote(url)
