@@ -12,8 +12,8 @@ async def isServerUp():
 
 @app.get("/summarize_article/")
 async def summarize_article(url:str):
-    return{url}
-    '''
+   
+ 
     try:
         decoded_url = unquote(url)
         article_content = await helper_scripts.fetch_article_content(decoded_url)
@@ -23,7 +23,7 @@ async def summarize_article(url:str):
     except Exception as e:
         print("Error")
         return {"Error"}
-    '''
+
     
     
 @app.get("/simplify-bill/{url}")
