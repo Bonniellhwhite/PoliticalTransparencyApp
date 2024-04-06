@@ -12,6 +12,7 @@ async def isServerUp():
 
 @app.get("/summarize_article/{url}")
 async def summarize_article(url):
+    return {url}
     '''
     try:
         decoded_url = unquote(url)
@@ -23,7 +24,7 @@ async def summarize_article(url):
         print("Error")
         return {"Error"}
         '''
-    return {url}
+    
     
 @app.get("/simplify-bill/{url}")
 async def simplify_bill(url: str):
