@@ -1,6 +1,6 @@
 fastapi
 uvicorn
-BeautifulSoup
+beautifulsoup4
 requests
 httpx
 os
