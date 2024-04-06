@@ -10,9 +10,9 @@ app = FastAPI()
 async def isServerUp():
     return {"Server is up!"}
 
-@app.get("/summarize_article/{url}")
-async def summarize_article(url):
-    return {url}
+@app.get("/summarize_article/")
+async def summarize_article(url:str):
+    return{url}
     '''
     try:
         decoded_url = unquote(url)
@@ -23,7 +23,7 @@ async def summarize_article(url):
     except Exception as e:
         print("Error")
         return {"Error"}
-        '''
+    '''
     
     
 @app.get("/simplify-bill/{url}")
