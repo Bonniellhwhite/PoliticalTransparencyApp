@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 #python -m pip install fastapi
-import urllib.parse
+from urllib.parse import unquote
 
 import helper_scripts
 
@@ -13,7 +13,8 @@ async def isServerUp():
 @app.get("/summarize-article/{url}")
 async def summarize_article(url: str):
     try:
-        article_content = await helper_scripts.fetch_article_content(url)
+        decoded_url = unquote(url)
+        article_content = await helper_scripts.fetch_article_content(decoded_url)
         summary = await helper_scripts.summarize_text(article_content)
         print("Retuning results")
         return {"summary": summary}
