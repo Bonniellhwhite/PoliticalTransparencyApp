@@ -1,2 +1,7 @@
 fastapi
 uvicorn
+bs4
+requests
+httpx
+os
+openai
