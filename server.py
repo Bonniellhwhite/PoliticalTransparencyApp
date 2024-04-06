@@ -4,9 +4,9 @@ from fastapi import FastAPI
 
 app = FastAPI()
 
-@app.get("/")
-async def read_root():
-    return {"Hello": "World"}
+@app.get("/isup")
+async def isServerUp():
+    return {"Server is up!"}
 
 @app.get("/items/{item_id}")
 async def read_item(item_id: int, q: str = None):
