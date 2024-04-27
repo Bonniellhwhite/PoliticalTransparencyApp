@@ -132,15 +132,9 @@ fun ReplyEmailListItem(
             }
 
             Text(
-                text = email.subject,
+                text = "Political Update Title",
                 style = MaterialTheme.typography.bodyLarge,
                 modifier = Modifier.padding(top = 12.dp, bottom = 8.dp),
-            )
-            Text(
-                text = email.body,
-                style = MaterialTheme.typography.bodyMedium,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis
             )
         }
     }
