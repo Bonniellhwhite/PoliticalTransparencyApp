@@ -17,7 +17,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
 import com.example.politipal.data.Email
-import com.example.politipal.ui.components.ReplyDockedSearchBar
+import com.example.politipal.ui.components.BillSearchBar
 import com.example.politipal.ui.utils.PolitipalContentType
 import com.example.politipal.ui.utils.PolitipalNavigationType
 
@@ -56,11 +56,11 @@ fun BillSearch(
 fun BillSearchContent(
     homeUIState: homeUIState,
     modifier: Modifier = Modifier,
-    emails: List<Email>,
+    emails: List<Email>,  // Will be Bills Soon
     navigateToDetail: (Long, PolitipalContentType) -> Unit
 ) {
     Box(modifier = modifier.windowInsetsPadding(WindowInsets.statusBars)) {
-        ReplyDockedSearchBar(
+        BillSearchBar(
             emails = emails,
             onSearchItemSelected = { searchedEmail ->
                 navigateToDetail(searchedEmail.id, PolitipalContentType.SINGLE_PANE)
@@ -70,8 +70,6 @@ fun BillSearchContent(
                 .padding(horizontal = 16.dp, vertical = 16.dp)
         )
     }
-
-
     LazyColumn(
         modifier = modifier
             .fillMaxWidth()

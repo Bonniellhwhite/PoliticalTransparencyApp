@@ -17,7 +17,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
 import com.example.politipal.data.Email
-import com.example.politipal.ui.components.ReplyDockedSearchBar
+import com.example.politipal.ui.components.BillSearchBar
+import com.example.politipal.ui.components.RepSearchBar
 import com.example.politipal.ui.utils.PolitipalContentType
 import com.example.politipal.ui.utils.PolitipalNavigationType
 
@@ -29,7 +30,7 @@ fun RepSearch(
     navigationType: PolitipalNavigationType,
     displayFeatures: List<DisplayFeature>,
     closeDetailScreen: () -> Unit,
-    navigateToDetail: (Long, PolitipalContentType) -> Unit,
+    navigateToDetail: (Long, PolitipalContentType) -> Unit,     // Function to nav to detail page
     toggleSelectedEmail: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -39,7 +40,44 @@ fun RepSearch(
         }
     }
 
+    val emailLazyListState = rememberLazyListState()
     Box(modifier = modifier.fillMaxSize()) {
-        // Bonnie TODO
+
+        // Main Bill Search Screen - Bonnie
+        RepSearchContent(
+            homeUIState = homeUIState,
+            modifier = Modifier.fillMaxSize(),
+            emails = homeUIState.emails,     // Emails for now, bills later
+            navigateToDetail = navigateToDetail
+        )
     }
 }
+
+@Composable
+fun RepSearchContent(
+    homeUIState: homeUIState,
+    modifier: Modifier = Modifier,
+    emails: List<Email>,  // Will be Bills Soon
+    navigateToDetail: (Long, PolitipalContentType) -> Unit
+) {
+    Box(modifier = modifier.windowInsetsPadding(WindowInsets.statusBars)) {
+        RepSearchBar(
+            emails = emails,
+            onSearchItemSelected = { searchedEmail ->
+                navigateToDetail(searchedEmail.id, PolitipalContentType.SINGLE_PANE)
+            },
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 16.dp)
+        )
+    }
+    LazyColumn(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(top = 10.dp)
+    ){
+
+    }
+
+}
+
