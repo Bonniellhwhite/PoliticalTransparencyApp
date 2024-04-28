@@ -34,6 +34,7 @@ class MainActivity : ComponentActivity() {
                 val displayFeatures = calculateDisplayFeatures(this)
                 val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+                // Initializes App & passes in screen dimension calculations, UI state
                 PolitipalApp(
                     windowSize = windowSize,
                     displayFeatures = displayFeatures,
@@ -52,6 +53,7 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
+
 
 @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
 @Preview(showBackground = true)

@@ -24,7 +24,6 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
-import androidx.window.layout.FoldingFeature
 import com.example.politipal.ui.navigation.ModalNavigationDrawerContent
 import com.example.politipal.ui.navigation.PermanentNavigationDrawerContent
 import com.example.politipal.ui.navigation.ReplyBottomNavigationBar
@@ -32,10 +31,9 @@ import com.example.politipal.ui.navigation.ReplyNavigationActions
 import com.example.politipal.ui.navigation.ReplyNavigationRail
 import com.example.politipal.ui.navigation.PolitipalRoute
 import com.example.politipal.ui.navigation.ReplyTopLevelDestination
-import com.example.politipal.ui.utils.DevicePosture
-import com.example.politipal.ui.utils.ReplyContentType
-import com.example.politipal.ui.utils.ReplyNavigationContentPosition
-import com.example.politipal.ui.utils.ReplyNavigationType
+import com.example.politipal.ui.utils.PolitipalContentType
+import com.example.politipal.ui.utils.PolitipalNavigationContentPosition
+import com.example.politipal.ui.utils.PolitipalNavigationType
 import kotlinx.coroutines.launch
 
 @Composable
@@ -45,14 +43,12 @@ fun PolitipalApp(
     displayFeatures: List<DisplayFeature>,
     homeUIState: homeUIState,
     closeDetailScreen: () -> Unit = {},
-    navigateToDetail: (Long, ReplyContentType) -> Unit = { _, _ -> },
+    navigateToDetail: (Long, PolitipalContentType) -> Unit = { _, _ -> },
     toggleSelectedEmail: (Long) -> Unit = { }
 ) {
-    val navigationType: ReplyNavigationType = ReplyNavigationType.BOTTOM_NAVIGATION
-    val contentType: ReplyContentType = ReplyContentType.SINGLE_PANE
-    val foldingFeature = displayFeatures.filterIsInstance<FoldingFeature>().firstOrNull()
-    val foldingDevicePosture = DevicePosture.NormalPosture
-    val navigationContentPosition = ReplyNavigationContentPosition.TOP
+    val navigationType: PolitipalNavigationType = PolitipalNavigationType.BOTTOM_NAVIGATION
+    val contentType: PolitipalContentType = PolitipalContentType.SINGLE_PANE
+    val navigationContentPosition = PolitipalNavigationContentPosition.TOP
 
     ReplyNavigationWrapper(
         navigationType = navigationType,
@@ -68,13 +64,13 @@ fun PolitipalApp(
 
 @Composable
 private fun ReplyNavigationWrapper(
-    navigationType: ReplyNavigationType,
-    contentType: ReplyContentType,
+    navigationType: PolitipalNavigationType,
+    contentType: PolitipalContentType,
     displayFeatures: List<DisplayFeature>,
-    navigationContentPosition: ReplyNavigationContentPosition,
+    navigationContentPosition: PolitipalNavigationContentPosition,
     homeUIState: homeUIState,
     closeDetailScreen: () -> Unit,
-    navigateToDetail: (Long, ReplyContentType) -> Unit,
+    navigateToDetail: (Long, PolitipalContentType) -> Unit,
     toggleSelectedEmail: (Long) -> Unit
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -88,7 +84,7 @@ private fun ReplyNavigationWrapper(
     val selectedDestination =
         navBackStackEntry?.destination?.route ?: PolitipalRoute.SETTINGS
 
-    if (navigationType == ReplyNavigationType.PERMANENT_NAVIGATION_DRAWER) {
+    if (navigationType == PolitipalNavigationType.PERMANENT_NAVIGATION_DRAWER) {
         // TODO check on custom width of PermanentNavigationDrawer: b/232495216
         PermanentNavigationDrawer(drawerContent = {
             PermanentNavigationDrawerContent(
@@ -151,21 +147,21 @@ private fun ReplyNavigationWrapper(
 @Composable
 fun ReplyAppContent(
     modifier: Modifier = Modifier,
-    navigationType: ReplyNavigationType,
-    contentType: ReplyContentType,
+    navigationType: PolitipalNavigationType,
+    contentType: PolitipalContentType,
     displayFeatures: List<DisplayFeature>,
-    navigationContentPosition: ReplyNavigationContentPosition,
+    navigationContentPosition: PolitipalNavigationContentPosition,
     homeUIState: homeUIState,
     navController: NavHostController,
     selectedDestination: String,
     navigateToTopLevelDestination: (ReplyTopLevelDestination) -> Unit,
     closeDetailScreen: () -> Unit,
-    navigateToDetail: (Long, ReplyContentType) -> Unit,
+    navigateToDetail: (Long, PolitipalContentType) -> Unit,
     toggleSelectedEmail: (Long) -> Unit,
     onDrawerClicked: () -> Unit = {}
 ) {
     Row(modifier = modifier.fillMaxSize()) {
-        AnimatedVisibility(visible = navigationType == ReplyNavigationType.NAVIGATION_RAIL) {
+        AnimatedVisibility(visible = navigationType == PolitipalNavigationType.NAVIGATION_RAIL) {
             ReplyNavigationRail(
                 selectedDestination = selectedDestination,
                 navigationContentPosition = navigationContentPosition,
@@ -189,7 +185,7 @@ fun ReplyAppContent(
                 toggleSelectedEmail = toggleSelectedEmail,
                 modifier = Modifier.weight(1f),
             )
-            AnimatedVisibility(visible = navigationType == ReplyNavigationType.BOTTOM_NAVIGATION) {
+            AnimatedVisibility(visible = navigationType == PolitipalNavigationType.BOTTOM_NAVIGATION) {
                 ReplyBottomNavigationBar(
                     selectedDestination = selectedDestination,
                     navigateToTopLevelDestination = navigateToTopLevelDestination
@@ -202,12 +198,12 @@ fun ReplyAppContent(
 @Composable
 private fun ReplyNavHost(
     navController: NavHostController,
-    contentType: ReplyContentType,
+    contentType: PolitipalContentType,          //
     displayFeatures: List<DisplayFeature>,
-    homeUIState: homeUIState,
-    navigationType: ReplyNavigationType,
+    homeUIState: homeUIState,               // Set to recylce view, just a behavior spec
+    navigationType: PolitipalNavigationType,
     closeDetailScreen: () -> Unit,
-    navigateToDetail: (Long, ReplyContentType) -> Unit,
+    navigateToDetail: (Long, PolitipalContentType) -> Unit,
     toggleSelectedEmail: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -217,16 +213,50 @@ private fun ReplyNavHost(
         startDestination = PolitipalRoute.HOME,
     ) {
         composable(PolitipalRoute.SETTINGS) {
-            EmptyComingSoon()
+            SettingsPage(
+                contentType = contentType,
+                homeUIState = homeUIState,
+                navigationType = navigationType,
+                displayFeatures = displayFeatures,
+                closeDetailScreen = closeDetailScreen,
+                navigateToDetail = navigateToDetail,
+                toggleSelectedEmail = toggleSelectedEmail
+            )
         }
         composable(PolitipalRoute.PROFILE) {
-            EmptyComingSoon()
+            AboutMePage(
+                contentType = contentType,
+                homeUIState = homeUIState,
+                navigationType = navigationType,
+                displayFeatures = displayFeatures,
+                closeDetailScreen = closeDetailScreen,
+                navigateToDetail = navigateToDetail,
+                toggleSelectedEmail = toggleSelectedEmail
+            )
         }
         composable(PolitipalRoute.BILLS) {
-            EmptyComingSoon()
+            // Look into giving this tab memory, if on a bills remember the bills, remember if on blank search page etc...
+            BillSearch(
+                contentType = contentType,
+                homeUIState = homeUIState,
+                navigationType = navigationType,
+                displayFeatures = displayFeatures,
+                closeDetailScreen = closeDetailScreen,
+                navigateToDetail = navigateToDetail,
+                toggleSelectedEmail = toggleSelectedEmail
+            )
         }
         composable(PolitipalRoute.REPS) {
-            EmptyComingSoon()
+            // Look into giving this tab memory, if on a rep remember the rep, remember if on blank search page etc...
+            RepSearch(
+                contentType = contentType,
+                homeUIState = homeUIState,
+                navigationType = navigationType,
+                displayFeatures = displayFeatures,
+                closeDetailScreen = closeDetailScreen,
+                navigateToDetail = navigateToDetail,
+                toggleSelectedEmail = toggleSelectedEmail
+            )
         }
         composable(PolitipalRoute.HOME) {
             HomeScreen(
