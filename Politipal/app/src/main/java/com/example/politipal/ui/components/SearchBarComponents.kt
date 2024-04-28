@@ -43,7 +43,7 @@ import com.example.politipal.data.Email
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ReplyDockedSearchBar(
+fun BillSearchBar(
     emails: List<Email>,
     onSearchItemSelected: (Email) -> Unit,
     modifier: Modifier = Modifier
@@ -81,7 +81,7 @@ fun ReplyDockedSearchBar(
         onActiveChange = {
             active = it
         },
-        placeholder = { Text(text = stringResource(id = R.string.search_emails)) },
+        placeholder = { Text(text = "Search Bills") },
         leadingIcon = {
             if (active) {
                 Icon(
@@ -102,15 +102,7 @@ fun ReplyDockedSearchBar(
                 )
             }
         },
-        trailingIcon = {
-            ReplyProfileImage(
-                drawableResource = R.drawable.avatar_6,
-                description = stringResource(id = R.string.profile),
-                modifier = Modifier
-                    .padding(12.dp)
-                    .size(32.dp)
-            )
-        },
+
     ) {
         if (searchResults.isNotEmpty()) {
             LazyColumn(
@@ -140,7 +132,7 @@ fun ReplyDockedSearchBar(
             }
         } else if (query.isNotEmpty()) {
             Text(
-                text = stringResource(id = R.string.no_item_found),
+                text = "No Bills Found",
                 modifier = Modifier.padding(16.dp)
             )
         } else
