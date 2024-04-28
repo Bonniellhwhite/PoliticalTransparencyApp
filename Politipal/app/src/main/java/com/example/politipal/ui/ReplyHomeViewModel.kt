@@ -9,7 +9,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.politipal.data.Email
 import com.example.politipal.data.EmailsRepository
 import com.example.politipal.data.EmailsRepositoryImpl
-import com.example.politipal.ui.utils.ReplyContentType
+import com.example.politipal.ui.utils.PolitipalContentType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -44,14 +44,14 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
         }
     }
 
-    fun setOpenedEmail(emailId: Long, contentType: ReplyContentType) {
+    fun setOpenedEmail(emailId: Long, contentType: PolitipalContentType) {
         /**
          * We only set isDetailOnlyOpen to true when it's only single pane layout
          */
         val email = uiState.value.emails.find { it.id == emailId }
         _uiState.value = _uiState.value.copy(
             openedEmail = email,
-            isDetailOnlyOpen = contentType == ReplyContentType.SINGLE_PANE
+            isDetailOnlyOpen = contentType == PolitipalContentType.SINGLE_PANE
         )
     }
 

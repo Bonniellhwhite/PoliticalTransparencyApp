@@ -26,9 +26,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Article
 import androidx.compose.material.icons.filled.KeyboardDoubleArrowLeft
-import androidx.compose.material.icons.filled.KeyboardDoubleArrowRight
 import androidx.compose.material.icons.filled.People
-import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
@@ -46,18 +44,18 @@ import com.example.politipal.data.Email
 import com.example.politipal.ui.components.EmailDetailAppBar
 import com.example.politipal.ui.components.ReplyEmailListItem
 import com.example.politipal.ui.components.ReplyEmailThreadItem
-import com.example.politipal.ui.utils.ReplyContentType
-import com.example.politipal.ui.utils.ReplyNavigationType
+import com.example.politipal.ui.utils.PolitipalContentType
+import com.example.politipal.ui.utils.PolitipalNavigationType
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    contentType: ReplyContentType,
+    contentType: PolitipalContentType,
     homeUIState: homeUIState,
-    navigationType: ReplyNavigationType,
+    navigationType: PolitipalNavigationType,
     displayFeatures: List<DisplayFeature>,
     closeDetailScreen: () -> Unit,
-    navigateToDetail: (Long, ReplyContentType) -> Unit,
+    navigateToDetail: (Long, PolitipalContentType) -> Unit,
     toggleSelectedEmail: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -65,12 +63,12 @@ fun HomeScreen(
      * When moving from LIST_AND_DETAIL page to LIST page clear the selection and user should see LIST screen.
      */
     LaunchedEffect(key1 = contentType) {
-        if (contentType == ReplyContentType.SINGLE_PANE && !homeUIState.isDetailOnlyOpen) {
+        if (contentType == PolitipalContentType.SINGLE_PANE && !homeUIState.isDetailOnlyOpen) {
             closeDetailScreen()
         }
     }
 
-    val emailLazyListState = rememberLazyListState()
+        val emailLazyListState = rememberLazyListState()
         Box(modifier = modifier.fillMaxSize()) {
 
 
@@ -93,7 +91,7 @@ fun ReplySinglePaneContent(
     emailLazyListState: LazyListState,
     modifier: Modifier = Modifier,
     closeDetailScreen: () -> Unit,
-    navigateToDetail: (Long, ReplyContentType) -> Unit
+    navigateToDetail: (Long, PolitipalContentType) -> Unit
 ) {
     if (homeUIState.openedEmail != null && homeUIState.isDetailOnlyOpen) {
         BackHandler {
@@ -125,7 +123,7 @@ fun ReplyEmailList(
     toggleEmailSelection: (Long) -> Unit,
     emailLazyListState: LazyListState,
     modifier: Modifier = Modifier,
-    navigateToDetail: (Long, ReplyContentType) -> Unit
+    navigateToDetail: (Long, PolitipalContentType) -> Unit
 ) {
     Box(modifier = modifier.windowInsetsPadding(WindowInsets.statusBars)) {
        /* ReplyDockedSearchBar(
@@ -154,7 +152,7 @@ fun ReplyEmailList(
                 ReplyEmailListItem(
                     email = email,
                     navigateToDetail = { emailId ->
-                        navigateToDetail(emailId, ReplyContentType.SINGLE_PANE)
+                        navigateToDetail(emailId, PolitipalContentType.SINGLE_PANE)
                     },
                     toggleSelection = toggleEmailSelection,
                     isOpened = openedEmail?.id == email.id,

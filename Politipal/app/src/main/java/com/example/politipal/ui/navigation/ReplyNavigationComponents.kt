@@ -12,8 +12,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
@@ -36,8 +34,6 @@ import androidx.compose.material3.NavigationRail
 import androidx.compose.material3.NavigationRailItem
 import androidx.compose.material3.PermanentDrawerSheet
 import androidx.compose.material3.Text
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -49,16 +45,18 @@ import androidx.compose.ui.layout.MeasurePolicy
 import androidx.compose.ui.layout.layoutId
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.offset
 import com.example.politipal.R
-import com.example.politipal.ui.utils.ReplyNavigationContentPosition
+import com.example.politipal.ui.utils.PolitipalNavigationContentPosition
+
+
+
 
 @Composable
-fun ReplyNavigationRail(
+fun ReplyNavigationRail(   // The main navigation component at the bottom -Bonnie
     selectedDestination: String,
-    navigationContentPosition: ReplyNavigationContentPosition,
+    navigationContentPosition: PolitipalNavigationContentPosition,
     navigateToTopLevelDestination: (ReplyTopLevelDestination) -> Unit,
     onDrawerClicked: () -> Unit = {},
 ) {
@@ -147,16 +145,15 @@ fun ReplyBottomNavigationBar(
 }
 
 @Composable
-fun PermanentNavigationDrawerContent(
+fun PermanentNavigationDrawerContent(     // IF you swipe right on the screen, it is the menu on the left
     selectedDestination: String,
-    navigationContentPosition: ReplyNavigationContentPosition,
+    navigationContentPosition: PolitipalNavigationContentPosition,
     navigateToTopLevelDestination: (ReplyTopLevelDestination) -> Unit,
 ) {
     PermanentDrawerSheet(
         modifier = Modifier.sizeIn(minWidth = 200.dp, maxWidth = 300.dp),
         drawerContainerColor = MaterialTheme.colorScheme.surfaceContainerHigh,
     ) {
-        // TODO remove custom nav drawer content positioning when NavDrawer component supports it. ticket : b/232495216
         Layout(
             modifier = Modifier
                 .background(MaterialTheme.colorScheme.surfaceContainerHigh)
@@ -174,25 +171,7 @@ fun PermanentNavigationDrawerContent(
                         style = MaterialTheme.typography.titleMedium,
                         color = MaterialTheme.colorScheme.primary
                     )
-                    ExtendedFloatingActionButton(
-                        onClick = { /*TODO*/ },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(top = 8.dp, bottom = 40.dp),
-                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                        contentColor = MaterialTheme.colorScheme.onTertiaryContainer
-                    ) {
-                        Icon(
-                            imageVector = Icons.Default.Edit,
-                            contentDescription = stringResource(id = R.string.edit),
-                            modifier = Modifier.size(24.dp)
-                        )
-                        Text(
-                            text = stringResource(id = R.string.compose),
-                            modifier = Modifier.weight(1f),
-                            textAlign = TextAlign.Center
-                        )
-                    }
+
                 }
 
                 Column(
@@ -235,7 +214,7 @@ fun PermanentNavigationDrawerContent(
 @Composable
 fun ModalNavigationDrawerContent(
     selectedDestination: String,
-    navigationContentPosition: ReplyNavigationContentPosition,
+    navigationContentPosition: PolitipalNavigationContentPosition,
     navigateToTopLevelDestination: (ReplyTopLevelDestination) -> Unit,
     onDrawerClicked: () -> Unit = {}
 ) {
@@ -329,7 +308,7 @@ fun ModalNavigationDrawerContent(
 }
 
 fun navigationMeasurePolicy(
-    navigationContentPosition: ReplyNavigationContentPosition,
+    navigationContentPosition: PolitipalNavigationContentPosition,
 ): MeasurePolicy {
     return MeasurePolicy { measurables, constraints ->
         lateinit var headerMeasurable: Measurable
@@ -356,8 +335,8 @@ fun navigationMeasurePolicy(
             val contentPlaceableY = when (navigationContentPosition) {
                 // Figure out the place we want to place the content, with respect to the
                 // parent (ignoring the header for now)
-                ReplyNavigationContentPosition.TOP -> 0
-                ReplyNavigationContentPosition.CENTER -> nonContentVerticalSpace / 2
+                PolitipalNavigationContentPosition.TOP -> 0
+                PolitipalNavigationContentPosition.CENTER -> nonContentVerticalSpace / 2
             }
                 // And finally, make sure we don't overlap with the header.
                 .coerceAtLeast(headerPlaceable.height)
