@@ -76,7 +76,7 @@ fun RepSearchBar(
         onQueryChange = {
             query = it
         },
-        onSearch = { active = true },
+        onSearch = { active = false },
         active = active,
         onActiveChange = {
             active = it
@@ -176,9 +176,7 @@ fun BillSearchBar(
     DockedSearchBar(
         modifier = modifier,
         query = query,
-        onQueryChange = {
-            query = it
-        },
+        onQueryChange = {query = it },
         onSearch = { active = false },
         active = active,
         onActiveChange = {
