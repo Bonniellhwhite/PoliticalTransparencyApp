@@ -3,9 +3,11 @@ package com.example.politipal.ui
 
 import android.view.WindowInsets
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,14 +21,21 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.DockedSearchBar
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SearchBar
+import androidx.compose.material3.Shapes
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -35,6 +44,11 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Shadow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
 import com.example.politipal.data.Email
@@ -68,9 +82,18 @@ fun RepSearch(
             modifier = modifier
                 .fillMaxWidth()
                 .padding(top = 10.dp),
-        ) {
-            stickyHeader { RepSearchBar(modifier = modifier) }
 
+        ) {
+            stickyHeader {
+
+                Surface(Modifier.fillParentMaxWidth().padding(bottom = 20.dp)
+                    ){
+                        RepSearchBar(modifier = modifier)
+
+
+
+
+                }}
             val reps = homeUIState.reps
             items(items = reps, key = { it.id }) { rep ->
                 RepResultListView(
@@ -83,7 +106,6 @@ fun RepSearch(
                     //emailLazyListState = emailLazyListState,
                     //navigateToDetail = navigateToDetail
                 )
-                Spacer(Modifier.windowInsetsBottomHeight(androidx.compose.foundation.layout.WindowInsets.systemBars))
             }
         }
     }
@@ -102,9 +124,12 @@ fun RepSearchBar(
     // Inner Component layout for just search bar
     Box(modifier = modifier
         .fillMaxSize()
-        .padding(all = 10.dp)) {
+        .background(Color(0xFFF9F1F9))
+        .padding(bottom = 5.dp, top= 50.dp, start = 10.dp, end = 10.dp)
+        ) {
 
         // Helpful Tutorial: https://www.composables.com/material3/dockedsearchbar/video
+        // Wanted to make it look nice and have a fade when scrolling up, for later
         DockedSearchBar(
             modifier = Modifier.fillMaxWidth(),
             query = text,
@@ -141,19 +166,25 @@ fun RepResultListView(
     reps: Rep,
     toggleRepSelection: (String) -> Unit,
     ){
-        Card(
+        ElevatedCard(
             onClick = { /* Do something */ },
+            colors = CardDefaults.cardColors(containerColor = Color.White),
+            elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
             modifier = Modifier
-                .padding(horizontal = 16.dp, vertical = 4.dp)
-                .height(100.dp),
+                .padding(horizontal = 30.dp, vertical = 4.dp)
+                .height(150.dp),
+
             ){
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
+
                     .padding(20.dp),
             ) {
 
                 Text(text = reps.name)
             }
         }
+        Spacer(Modifier.height(20.dp))
+
     }
