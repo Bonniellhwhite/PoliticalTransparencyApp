@@ -1,13 +1,11 @@
 
 package com.example.politipal.data
 
-import java.nio.channels.Channels
-
 /**
  * A simple data class to represent a Rep.
  */
 
-data class Reps(
+data class Rep(
     val id: String,
     val channels: String,  // Will probably need parsing for socal icons display
     val division: String,

@@ -307,3 +307,118 @@ fun EmailDetailAppBar(
         }
     )
 }
+
+
+
+// Old Template Code for reference
+
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ReplyDockedSearchBar(
+    emails: List<Email>,
+    onSearchItemSelected: (Email) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    var query by remember { mutableStateOf("") }
+    var active by remember { mutableStateOf(false) }
+    val searchResults = remember { mutableStateListOf<Email>() }
+
+    LaunchedEffect(query) {
+        searchResults.clear()
+        if (query.isNotEmpty()) {
+            searchResults.addAll(
+                emails.filter {
+                    it.subject.startsWith(
+                        prefix = query,
+                        ignoreCase = true
+                    ) || it.sender.fullName.startsWith(
+                        prefix =
+                        query,
+                        ignoreCase = true
+                    )
+                }
+            )
+        }
+    }
+
+    DockedSearchBar(
+        modifier = modifier,
+        query = query,
+        onQueryChange = {
+            query = it
+        },
+        onSearch = { active = false },
+        active = active,
+        onActiveChange = {
+            active = it
+        },
+        placeholder = { Text(text = stringResource(id = R.string.search_emails)) },
+        leadingIcon = {
+            if (active) {
+                Icon(
+                    imageVector = Icons.Default.ArrowBack,
+                    contentDescription = stringResource(id = R.string.back_button),
+                    modifier = Modifier
+                        .padding(start = 16.dp)
+                        .clickable {
+                            active = false
+                            query = ""
+                        },
+                )
+            } else {
+                Icon(
+                    imageVector = Icons.Default.Search,
+                    contentDescription = stringResource(id = R.string.search),
+                    modifier = Modifier.padding(start = 16.dp),
+                )
+            }
+        },
+        trailingIcon = {
+            ReplyProfileImage(
+                drawableResource = R.drawable.avatar_6,
+                description = stringResource(id = R.string.profile),
+                modifier = Modifier
+                    .padding(12.dp)
+                    .size(32.dp)
+            )
+        },
+    ) {
+        if (searchResults.isNotEmpty()) {
+            LazyColumn(
+                modifier = Modifier.fillMaxWidth(),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                items(items = searchResults, key = { it.id }) { email ->
+                    ListItem(
+                        headlineContent = { Text(email.subject) },
+                        supportingContent = { Text(email.sender.fullName) },
+                        leadingContent = {
+                            ReplyProfileImage(
+                                drawableResource = email.sender.avatar,
+                                description = stringResource(id = R.string.profile),
+                                modifier = Modifier
+                                    .size(32.dp)
+                            )
+                        },
+                        modifier = Modifier.clickable {
+                            onSearchItemSelected.invoke(email)
+                            query = ""
+                            active = false
+                        }
+                    )
+                }
+            }
+        } else if (query.isNotEmpty()) {
+            Text(
+                text = stringResource(id = R.string.no_item_found),
+                modifier = Modifier.padding(16.dp)
+            )
+        } else
+            Text(
+                text = stringResource(id = R.string.no_search_history),
+                modifier = Modifier.padding(16.dp)
+            )
+    }
+}

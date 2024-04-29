@@ -13,6 +13,8 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
@@ -33,6 +35,7 @@ fun BillSearch(
     toggleSelectedEmail: (Long) -> Unit,
     modifier: Modifier = Modifier
 ) {
+
     LaunchedEffect(key1 = contentType) {
         if (contentType == PolitipalContentType.SINGLE_PANE && !homeUIState.isDetailOnlyOpen) {
             closeDetailScreen()
@@ -46,7 +49,7 @@ fun BillSearch(
         BillSearchContent(
             homeUIState = homeUIState,
             modifier = Modifier.fillMaxSize(),
-            emails = homeUIState.emails,     // Emails for now, bills later
+            emails =  homeUIState.emails,     // Emails for now, bills later
             navigateToDetail = navigateToDetail
         )
     }

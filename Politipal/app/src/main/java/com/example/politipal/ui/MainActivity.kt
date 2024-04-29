@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.politipal.data.local.LocalEmailsDataProvider
+import com.example.politipal.data.firebaseData.LocalEmailsDataProvider
 import com.example.politipal.ui.theme.AppTheme
 import com.google.accompanist.adaptive.calculateDisplayFeatures
 
@@ -47,6 +47,9 @@ class MainActivity : ComponentActivity() {
                     },
                     toggleSelectedEmail = { emailId ->
                         viewModel.toggleSelectedEmail(emailId)
+                    },
+                    toggleSelectedRep = { repId ->
+                        viewModel.toggleSelectedRep(repId)
                     }
                 )
             }

@@ -9,11 +9,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.politipal.data.Email
 import com.example.politipal.data.EmailsRepository
 import com.example.politipal.data.EmailsRepositoryImpl
+import com.example.politipal.data.Rep
+import com.example.politipal.data.firebaseData.FBRepDataProvider
 import com.example.politipal.ui.utils.PolitipalContentType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+
+// Handles view page changes
 
 class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = EmailsRepositoryImpl()) :
     ViewModel() {
@@ -70,11 +74,21 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
                 openedEmail = _uiState.value.emails.first()
             )
     }
+
+    fun toggleSelectedRep(repId: String) {
+        val currentSelection = uiState.value.selectedReps
+        _uiState.value = _uiState.value.copy(
+            selectedReps = if (currentSelection.contains(repId))
+                currentSelection.minus(repId) else currentSelection.plus(repId)
+        )
+    }
 }
 
 data class homeUIState(
     val emails: List<Email> = emptyList(),
+    val reps: List<Rep> = FBRepDataProvider.staticTestRepData,
     val selectedEmails: Set<Long> = emptySet(),
+    val selectedReps: Set<String> = emptySet(),
     val openedEmail: Email? = null,
     val isDetailOnlyOpen: Boolean = false,
     val loading: Boolean = false,
