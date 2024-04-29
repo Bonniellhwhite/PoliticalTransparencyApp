@@ -36,6 +36,46 @@ object FBRepDataProvider {
             party= "String",
             phones= "String",
             roles= "String"
+        ),
+        Rep(
+            id = "ID4",
+            channels = "String",
+            division = "String",
+            emails= "String",
+            name= "Rep 4",
+            party= "String",
+            phones= "String",
+            roles= "String"
+        ),
+        Rep(
+            id = "ID5",
+            channels = "String",
+            division = "String",
+            emails= "String",
+            name= "Rep 5",
+            party= "String",
+            phones= "String",
+            roles= "String"
+        ),
+        Rep(
+            id = "ID6",
+            channels = "String",
+            division = "String",
+            emails= "String",
+            name= "Rep 6",
+            party= "String",
+            phones= "String",
+            roles= "String"
+        ),
+        Rep(
+            id = "ID7",
+            channels = "String",
+            division = "String",
+            emails= "String",
+            name= "Rep 7",
+            party= "String",
+            phones= "String",
+            roles= "String"
         )
     )
 

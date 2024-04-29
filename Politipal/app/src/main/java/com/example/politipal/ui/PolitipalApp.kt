@@ -12,18 +12,23 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.PermanentNavigationDrawer
 import androidx.compose.material3.rememberDrawerState
+import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.DpSize
+import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
+import com.example.politipal.data.firebaseData.LocalEmailsDataProvider
 import com.example.politipal.ui.navigation.ModalNavigationDrawerContent
 import com.example.politipal.ui.navigation.PermanentNavigationDrawerContent
 import com.example.politipal.ui.navigation.ReplyBottomNavigationBar
@@ -31,6 +36,7 @@ import com.example.politipal.ui.navigation.ReplyNavigationActions
 import com.example.politipal.ui.navigation.ReplyNavigationRail
 import com.example.politipal.ui.navigation.PolitipalRoute
 import com.example.politipal.ui.navigation.ReplyTopLevelDestination
+import com.example.politipal.ui.theme.AppTheme
 import com.example.politipal.ui.utils.PolitipalContentType
 import com.example.politipal.ui.utils.PolitipalNavigationContentPosition
 import com.example.politipal.ui.utils.PolitipalNavigationType
@@ -281,5 +287,18 @@ private fun ReplyNavHost(
                 toggleSelectedEmail = toggleSelectedEmail
             )
         }
+    }
+}
+
+@OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
+@Preview(showBackground = true)
+@Composable
+fun PagePreview() {
+    AppTheme {
+        PolitipalApp(
+            homeUIState = homeUIState(emails = LocalEmailsDataProvider.allEmails),
+            windowSize = WindowSizeClass.calculateFromSize(DpSize(400.dp, 900.dp)),
+            displayFeatures = emptyList(),
+        )
     }
 }

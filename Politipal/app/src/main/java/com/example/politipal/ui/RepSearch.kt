@@ -2,6 +2,7 @@
 package com.example.politipal.ui
 
 import android.view.WindowInsets
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,7 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -20,6 +23,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Card
+import androidx.compose.material3.DockedSearchBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.SearchBar
@@ -40,7 +44,8 @@ import com.example.politipal.ui.components.ReplyEmailListItem
 import com.example.politipal.ui.utils.PolitipalContentType
 import com.example.politipal.ui.utils.PolitipalNavigationType
 
-@OptIn(ExperimentalMaterial3Api::class)
+
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun RepSearch(
     contentType: PolitipalContentType,
@@ -58,30 +63,31 @@ fun RepSearch(
             closeDetailScreen()
         }
     }
-    LazyColumn (
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(top = 10.dp),
-    ) {
-        item {
-            RepSearchBar(modifier = modifier)
-        }
-        val reps = homeUIState.reps
-        items(items = reps, key = { it.id }) { rep ->
-            RepResultListView(
-                modifier = modifier,
-                reps = rep,
-                //email = homeUIState.emails,
-                //openedEmail = replyHomeUIState.openedEmail,
-                //selectedEmailIds = replyHomeUIState.selectedEmails,
-                toggleRepSelection = toggleSelectedRep,
-                //emailLazyListState = emailLazyListState,
-                //navigateToDetail = navigateToDetail
-            )
-            Spacer(Modifier.windowInsetsBottomHeight(androidx.compose.foundation.layout.WindowInsets.systemBars))
+
+        LazyColumn (
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp),
+        ) {
+            stickyHeader { RepSearchBar(modifier = modifier) }
+
+            val reps = homeUIState.reps
+            items(items = reps, key = { it.id }) { rep ->
+                RepResultListView(
+                    modifier = modifier,
+                    reps = rep,
+                    //email = homeUIState.emails,
+                    //openedEmail = replyHomeUIState.openedEmail,
+                    //selectedEmailIds = replyHomeUIState.selectedEmails,
+                    toggleRepSelection = toggleSelectedRep,
+                    //emailLazyListState = emailLazyListState,
+                    //navigateToDetail = navigateToDetail
+                )
+                Spacer(Modifier.windowInsetsBottomHeight(androidx.compose.foundation.layout.WindowInsets.systemBars))
+            }
         }
     }
-}
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -93,14 +99,13 @@ fun RepSearchBar(
     var text by remember { mutableStateOf("") }
     var active by remember { mutableStateOf((false)) }
 
-
     // Inner Component layout for just search bar
     Box(modifier = modifier
         .fillMaxSize()
         .padding(all = 10.dp)) {
 
         // Helpful Tutorial: https://www.composables.com/material3/dockedsearchbar/video
-        SearchBar(
+        DockedSearchBar(
             modifier = Modifier.fillMaxWidth(),
             query = text,
             onQueryChange = {text = it }, // refers to actual text in search bar
@@ -139,11 +144,15 @@ fun RepResultListView(
         Card(
             onClick = { /* Do something */ },
             modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-                .padding(all = 20.dp),
+                .padding(horizontal = 16.dp, vertical = 4.dp)
+                .height(100.dp),
             ){
-            Box(Modifier.fillMaxSize()) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(20.dp),
+            ) {
+
                 Text(text = reps.name)
             }
         }
