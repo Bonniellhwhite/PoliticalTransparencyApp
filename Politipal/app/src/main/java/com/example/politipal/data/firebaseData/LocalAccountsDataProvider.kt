@@ -1,5 +1,5 @@
 
-package com.example.politipal.data.local
+package com.example.politipal.data.firebaseData
 
 import com.example.politipal.R
 import com.example.politipal.data.Account

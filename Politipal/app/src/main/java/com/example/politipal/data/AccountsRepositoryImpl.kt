@@ -1,7 +1,7 @@
 
 package com.example.politipal.data
 
-import com.example.politipal.data.local.LocalAccountsDataProvider
+import com.example.politipal.data.firebaseData.LocalAccountsDataProvider
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
