@@ -2,10 +2,7 @@
 <project version="4">
   <component name="deploymentTargetDropDown">
     <value>
-      <entry key="AppPreview">
-        <State />
-      </entry>
-      <entry key="Politipal">
+      <entry key="PolitipalEmulator">
         <State />
       </entry>
     </value>
