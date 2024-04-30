@@ -21,9 +21,10 @@ import com.example.politipal.data.firebaseData.FBRepDataProvider
 import com.example.politipal.data.firebaseData.LocalEmailsDataProvider
 import com.example.politipal.ui.theme.AppTheme
 import com.google.accompanist.adaptive.calculateDisplayFeatures
-import com.google.firebase.Firebase
-import com.google.firebase.FirebaseApp
-import com.google.firebase.firestore.firestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+
+
 
 class MainActivity : ComponentActivity() {
 
@@ -33,9 +34,9 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        val db = Firebase.firestore
 
-        db.collection("users")
+        val fireStore = Firebase.firestore
+        fireStore.collection("reps")
             .get()
             .addOnSuccessListener { result ->
                 for (document in result) {
