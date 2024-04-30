@@ -1,8 +1,14 @@
 
 package com.example.politipal.data.firebaseData
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import com.example.politipal.R
 import com.example.politipal.data.Rep
+import com.google.firebase.FirebaseApp
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+
 object FBRepDataProvider {
 
     // Static test entries
@@ -83,6 +89,9 @@ object FBRepDataProvider {
     // Actual DB Pulling Functions
     // Helpful Tutorial: https://firebase.google.com/codelabs/build-android-app-with-firebase-compose#1
     //TODO
+    fun getFirebaseReps(fbAPP: FirebaseApp){
+
+    }
 
     // List Interaction Functions
     /**
