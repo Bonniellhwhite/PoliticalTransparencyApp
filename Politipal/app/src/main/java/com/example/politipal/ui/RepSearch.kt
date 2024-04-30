@@ -68,10 +68,12 @@ import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
 import com.example.politipal.data.Email
 import com.example.politipal.data.Rep
+import com.example.politipal.data.firebaseData.FBRepDataProvider
 import com.example.politipal.ui.components.RepListItem
 import com.example.politipal.ui.components.ReplyEmailListItem
 import com.example.politipal.ui.utils.PolitipalContentType
 import com.example.politipal.ui.utils.PolitipalNavigationType
+
 import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
@@ -130,6 +132,7 @@ fun RepSearch(
 
 
                 }}
+            //item{ FloatingActionButton(onClick = {  }) {} }
             val reps = homeUIState.reps
             items(items = reps, key = { it.id }) { rep ->
                 RepResultListView(
