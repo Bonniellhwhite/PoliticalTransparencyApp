@@ -35,6 +35,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
+        /* TODO: WIP
         val fireStore = Firebase.firestore
         fireStore.collection("reps")
             .get()
@@ -46,7 +47,7 @@ class MainActivity : ComponentActivity() {
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Error getting documents.", exception)
             }
-
+        */
 
         setContent {
             AppTheme {

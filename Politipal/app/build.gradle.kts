@@ -78,6 +78,8 @@ android {
 
 dependencies {
     // Import the BoM for the Firebase platform
+    // Things I tried that didnt work: Different implementations of dependencies, deleting gradle files, Moving Around the google-services.json file
+    // TODO: Follow this https://firebase.google.com/codelabs/firestore-android#2
     implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
     implementation("com.google.firebase:firebase-firestore")
 
