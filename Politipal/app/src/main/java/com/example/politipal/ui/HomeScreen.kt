@@ -7,6 +7,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -23,12 +24,17 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Article
 import androidx.compose.material.icons.filled.KeyboardDoubleArrowLeft
 import androidx.compose.material.icons.filled.People
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -36,7 +42,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
 import com.example.politipal.R
@@ -46,6 +58,7 @@ import com.example.politipal.ui.components.ReplyEmailListItem
 import com.example.politipal.ui.components.ReplyEmailThreadItem
 import com.example.politipal.ui.utils.PolitipalContentType
 import com.example.politipal.ui.utils.PolitipalNavigationType
+import com.example.politipal.ui.theme.*
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -93,25 +106,28 @@ fun ReplySinglePaneContent(
     closeDetailScreen: () -> Unit,
     navigateToDetail: (Long, PolitipalContentType) -> Unit
 ) {
-    if (homeUIState.openedEmail != null && homeUIState.isDetailOnlyOpen) {
-        BackHandler {
-            closeDetailScreen()
-        }
-        ReplyEmailDetail(email = homeUIState.openedEmail) {
-            closeDetailScreen()
-        }
-    } else {
+    Box(modifier = Modifier.background(Color(0xFF0D0F3E))){
+        if (homeUIState.openedEmail != null && homeUIState.isDetailOnlyOpen) {
+            BackHandler {
+                closeDetailScreen()
+            }
+            ReplyEmailDetail(email = homeUIState.openedEmail) {
+                closeDetailScreen()
+            }
+        } else {
 
-        ReplyEmailList(
-            emails = homeUIState.emails,
-            openedEmail = homeUIState.openedEmail,
-            selectedEmailIds = homeUIState.selectedEmails,
-            toggleEmailSelection = toggleEmailSelection,
-            emailLazyListState = emailLazyListState,
-            modifier = modifier,
-            navigateToDetail = navigateToDetail
-        )
+            ReplyEmailList(
+                emails = homeUIState.emails,
+                openedEmail = homeUIState.openedEmail,
+                selectedEmailIds = homeUIState.selectedEmails,
+                toggleEmailSelection = toggleEmailSelection,
+                emailLazyListState = emailLazyListState,
+                modifier = modifier,
+                navigateToDetail = navigateToDetail
+            )
+        }
     }
+
 }
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -137,16 +153,52 @@ fun ReplyEmailList(
         )*/
         LazyColumn(
             modifier = modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp),
+                .fillMaxWidth(),
             state = emailLazyListState
         ) {
 
             item {
-                Spacer(modifier = Modifier.height(100.dp))
                 WelcomeSection()
+                Spacer(modifier = Modifier.height(40.dp))
 
             }
+            item{
+                Text(text = "April, 30th",
+                    style = MaterialTheme.typography.titleSmall,
+                    color = Color.White,
+                    fontWeight = FontWeight.Light,
+                    fontFamily = FontFamily.Default
+                )
+                Spacer(modifier = Modifier.height(5.dp))
+            }
+            item{
+                Text(text = "Today's Updates!",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = Color.White,
+                    fontWeight = FontWeight.Bold,
+                    fontFamily = FontFamily.Serif
+                )
+                Spacer(modifier = Modifier.height(10.dp))
+            }
+            item {
+                Row{
+                    ModernCard(title = "Test 1", subtitle = "Test Subtitle", description = "Test")
+                    //ModernCard(title = "Test 1", subtitle = "Test Subtitle", description = "Test")
+                }
+            }
+            item{
+                ModernCard(title = "Test 1", subtitle = "Test Subtitle", description = "Test")
+            }
+            item{
+                ModernCard(title = "Test 1", subtitle = "Test Subtitle", description = "Test")
+            }
+            item{
+                ModernCard(title = "Test 1", subtitle = "Test Subtitle", description = "Test")
+            }
+            item{
+                ModernCard(title = "Test 1", subtitle = "Test Subtitle", description = "Test")
+            }
+            /*
             items(items = emails, key = { it.id }) { email ->
 
                 ReplyEmailListItem(
@@ -158,7 +210,7 @@ fun ReplyEmailList(
                     isOpened = openedEmail?.id == email.id,
                     isSelected = selectedEmailIds.contains(email.id)
                 )
-            }
+            } */
             // Add extra spacing at the bottom if
             item {
                 Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.systemBars))
@@ -171,20 +223,25 @@ fun ReplyEmailList(
 fun WelcomeSection(){
     Box(
         modifier = Modifier
-            .fillMaxHeight()
-            .padding(16.dp),
-        contentAlignment = Alignment.Center
+            .fillMaxWidth()
+            .paint(painterResource(id = R.drawable.sunset), contentScale = ContentScale.FillWidth)
     ) {
-        Column(modifier = Modifier.fillMaxSize(), // Add this line to make Column fill the Box
-            horizontalAlignment = Alignment.CenterHorizontally ){
+        Column(modifier = Modifier
+            .fillMaxWidth()
+            .padding(all = 15.dp), // Add this line to make Column fill the Box
+            horizontalAlignment = Alignment.Start
+                ){
 
-            Text(text = "Welcome!", style = MaterialTheme.typography.displayLarge)
-            Image(
-                painter = painterResource(id = R.drawable.avatar_express),
-                contentDescription = "Home Icon",
-                modifier = Modifier.size(200.dp)
+            Spacer(modifier = Modifier.height(60.dp))
+            Text(text = "Welcome!",
+                style = MaterialTheme.typography.displayLarge,
+                color = Color.White,
+                fontWeight = FontWeight.Bold,
+                fontFamily = FontFamily.Cursive
             )
-            Spacer(modifier = Modifier.height(50.dp))
+
+            /*
+            Spacer(modifier = Modifier.height(200.dp))
             ExtendedFloatingActionButton(
                 text = { Text("Find Representatives") },
                 onClick = { /* TODO: Add your click handling logic here */ },
@@ -205,9 +262,9 @@ fun WelcomeSection(){
                 }
             )
 
-            Spacer(modifier = Modifier.height(24.dp))
 
 
+            */
         }
     }
 }
@@ -233,6 +290,41 @@ fun ReplyEmailDetail(
         }
         item {
             Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.systemBars))
+        }
+    }
+}
+
+@Composable
+fun ModernCard(title: String, subtitle: String, description: String) {
+    Card(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(8.dp),
+        shape = RoundedCornerShape(12.dp), // Rounded corners for a modern look
+        colors = CardDefaults.cardColors(containerColor = Color(0xFFEEEEEE)) // Light background
+    ) {
+        Column(
+            modifier = Modifier.padding(16.dp) // Padding inside the card
+        ) {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.headlineSmall, // Title styling
+                color = Color.Black
+            )
+
+            Text(
+                text = subtitle,
+                style = MaterialTheme.typography.titleMedium, // Subtitle styling
+                color = Color.DarkGray,
+                modifier = Modifier.padding(top = 4.dp) // Space between title and subtitle
+            )
+
+            Text(
+                text = description,
+                style = MaterialTheme.typography.bodyMedium, // Description styling
+                color = Color.Gray,
+                modifier = Modifier.padding(top = 8.dp) // Space between subtitle and description
+            )
         }
     }
 }
