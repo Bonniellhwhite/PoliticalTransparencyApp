@@ -230,12 +230,12 @@ fun getReps(){
 
     Log.d(TAG,"Button Test Click")
     val db = Firebase.firestore
-    db.collection("users")
+    db.collection("reps")
         .get()
         .addOnSuccessListener { result ->
-            for (document in result) {
-                Log.d(TAG, "${document.id} => ${document.data}")
-            }
+            Log.d(TAG,"Got Data")
+            val firstDocument = result.documents.first() // Get the first document
+            Log.d(TAG, "First document ID: ${firstDocument.id}")
         }
         .addOnFailureListener { exception ->
             Log.w(TAG, "Error getting documents.", exception)
