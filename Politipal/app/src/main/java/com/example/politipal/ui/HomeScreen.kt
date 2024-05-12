@@ -1,6 +1,8 @@
 
 package com.example.politipal.ui
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -29,6 +31,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Article
 import androidx.compose.material.icons.filled.KeyboardDoubleArrowLeft
 import androidx.compose.material.icons.filled.People
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -59,6 +62,8 @@ import com.example.politipal.ui.components.ReplyEmailThreadItem
 import com.example.politipal.ui.utils.PolitipalContentType
 import com.example.politipal.ui.utils.PolitipalNavigationType
 import com.example.politipal.ui.theme.*
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -169,6 +174,9 @@ fun ReplyEmailList(
                     fontWeight = FontWeight.Light,
                     fontFamily = FontFamily.Default
                 )
+                Button(onClick = {getReps()}) {
+                    Text("test")
+                }
                 Spacer(modifier = Modifier.height(5.dp))
             }
             item{
@@ -218,7 +226,21 @@ fun ReplyEmailList(
         }
     }
 }
+fun getReps(){
 
+    Log.d(TAG,"Button Test Click")
+    val db = Firebase.firestore
+    db.collection("reps")
+        .get()
+        .addOnSuccessListener { result ->
+            Log.d(TAG,"Got Data")
+            val firstDocument = result.documents.first() // Get the first document
+            Log.d(TAG, "First document ID: ${firstDocument.id}")
+        }
+        .addOnFailureListener { exception ->
+            Log.w(TAG, "Error getting documents.", exception)
+        }
+}
 @Composable
 fun WelcomeSection(){
     Box(
