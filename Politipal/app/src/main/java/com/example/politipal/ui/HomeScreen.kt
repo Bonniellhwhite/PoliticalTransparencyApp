@@ -62,6 +62,8 @@ import com.example.politipal.ui.components.ReplyEmailThreadItem
 import com.example.politipal.ui.utils.PolitipalContentType
 import com.example.politipal.ui.utils.PolitipalNavigationType
 import com.example.politipal.ui.theme.*
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -225,7 +227,19 @@ fun ReplyEmailList(
     }
 }
 fun getReps(){
+
     Log.d(TAG,"Button Test Click")
+    val db = Firebase.firestore
+    db.collection("users")
+        .get()
+        .addOnSuccessListener { result ->
+            for (document in result) {
+                Log.d(TAG, "${document.id} => ${document.data}")
+            }
+        }
+        .addOnFailureListener { exception ->
+            Log.w(TAG, "Error getting documents.", exception)
+        }
 }
 @Composable
 fun WelcomeSection(){
