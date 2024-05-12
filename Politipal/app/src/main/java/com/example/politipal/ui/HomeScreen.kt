@@ -1,6 +1,8 @@
 
 package com.example.politipal.ui
 
+import android.content.ContentValues.TAG
+import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -29,6 +31,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Article
 import androidx.compose.material.icons.filled.KeyboardDoubleArrowLeft
 import androidx.compose.material.icons.filled.People
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -169,6 +172,9 @@ fun ReplyEmailList(
                     fontWeight = FontWeight.Light,
                     fontFamily = FontFamily.Default
                 )
+                Button(onClick = {getReps()}) {
+                    Text("test")
+                }
                 Spacer(modifier = Modifier.height(5.dp))
             }
             item{
@@ -218,7 +224,9 @@ fun ReplyEmailList(
         }
     }
 }
-
+fun getReps(){
+    Log.d(TAG,"Button Test Click")
+}
 @Composable
 fun WelcomeSection(){
     Box(
