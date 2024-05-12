@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Primary -->
+    <color name="primaryLight">#FF724D9A</color>
+    <color name="onPrimaryLight">#FFFFFFFF</color>
+    <color name="primaryContainerLight">#FFDAB5FF</color>
+    <color name="onPrimaryContainerLight">#FF46216C</color>
+
+    <!-- Secondary -->
+    <color name="secondaryLight">#FF685878</color>
+    <color name="onSecondaryLight">#FFFFFFFF</color>
+    <color name="secondaryContainerLight">#FFF0DDFF</color>
+    <color name="onSecondaryContainerLight">#FF524261</color>
+
+    <!-- Tertiary -->
+    <color name="tertiaryLight">#FF924465</color>
+    <color name="onTertiaryLight">#FFFFFFFF</color>
+    <color name="tertiaryContainerLight">#FFFFACCA</color>
+    <color name="onTertiaryContainerLight">#FF5F1A3A</color>
+
+    <!-- Error -->
+    <color name="errorLight">#FFBA1A1A</color>
+    <color name="onErrorLight">#FFFFFFFF</color>
+    <color name="errorContainerLight">#FFFFDAD6</color>
+    <color name="onErrorContainerLight">#FF410002</color>
+
+    <!-- Background -->
+    <color name="backgroundLight">#FFFFF7FF</color>
+    <color name="onBackgroundLight">#FF1D1A20</color>
+
+    <!-- Surface -->
+    <color name="surfaceLight">#FFFFF7FF</color>
+    <color name="onSurfaceLight">#FF1D1A20</color>
+    <color name="surfaceVariantLight">#FFEADFED</color>
+    <color name="onSurfaceVariantLight">#FF4B444F</color>
+    <color name="surfaceDimLight">#FFDFD8DF</color>
+    <color name="surfaceBrightLight">#FFFFF7FF</color>
+
+    <!-- Outline -->
+    <color name="outlineLight">#FF7C7481</color>
+    <color name="outlineVariantLight">#FFCDC3D1</color>
+
+    <!-- Scrim -->
+    <color name="scrimLight">#FF000000</color>
+
+    <!-- Inverse -->
+    <color name="inverseSurfaceLight">#FF332F35</color>
+    <color name="inverseOnSurfaceLight">#FFF6EEF6</color>
+    <color name="inversePrimaryLight">#FFDCB8FF</color>
+
+    <!-- Surface Container -->
+    <color name="surfaceContainerLowestLight">#FFFFFFFF</color>
+    <color name="surfaceContainerLowLight">#FFF9F1F9</color>
+    <color name="surfaceContainerLight">#FFF3EBF3</color>
+    <color name="surfaceContainerHighLight">#FFEDE6ED</color>
+    <color name="surfaceContainerHighestLight">#FFE8E0E8</color>
+</resources>
+
+

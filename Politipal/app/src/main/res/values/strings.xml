@@ -28,4 +28,17 @@
     <string name="search_emails">Search emails</string>
     <string name="no_item_found">No item found</string>
     <string name="no_search_history">No search history</string>
+    <string name="hello">Hello</string>
+    <string name="hey_there">Hey There,</string>
+    <string name="create_account">Create an Account</string>
+    <string name="welcome_back">Welcome Back!</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+
+    <string name="login">Login</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="have_account">Already Have an Account? Login</string>
+    <string name="no_account">Do Not Have an Account? Sign Up</string>
 </resources>
