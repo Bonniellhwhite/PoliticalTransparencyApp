@@ -2,6 +2,7 @@
 package com.example.politipal.data
 
 import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 
 /**
  * An object which represents an account which can belong to a user. A single user can have
@@ -14,6 +15,7 @@ data class Account(
     val lastName: String,
     val email: String,
     val altEmail: String,
+    val notify: Boolean,
     @DrawableRes val avatar: Int,
     var isCurrentAccount: Boolean = false
 ) {
