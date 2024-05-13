@@ -24,6 +24,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kotlin.math.log
 
 
 // Handles view page changes
@@ -37,6 +38,12 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
     private val _uiState = MutableStateFlow(homeUIState(loading = true))
     val uiState: StateFlow<homeUIState> = _uiState
     private val firebaseDataRetriever = FirebaseDataRetriever()
+
+    // Search query state
+    var searchQuery = mutableStateOf("")
+
+    // Filter options state
+   // var selectedFilters = mutableStateOf(SetOf<FilterOptions>())
 
 
     init {
@@ -52,6 +59,7 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
                 }
                 .collect { reps ->
                     Log.d(TAG,reps.size.toString())
+
                     _uiState.value = homeUIState(
                         reps = reps,
                     )
@@ -97,11 +105,7 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
     }
 
     fun closeDetailScreen() {
-        _uiState.value = _uiState
-            .value.copy(
-                isDetailOnlyOpen = false,
-                openedEmail = _uiState.value.emails.first()
-            )
+
     }
 
     fun toggleSelectedRep(repId: String) {
@@ -112,10 +116,60 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
         )
     }
 
+    private fun filterAndSearchReps(reps: List<Rep>): List<Rep> {
+        // Apply filters and search
+        return reps.filter {
+            Log.d(TAG,"Searching..")
+            // Match search query against first name or full name
+            (it.firstName.contains(searchQuery.value, ignoreCase = true) ||
+                    it.fullName.contains(searchQuery.value, ignoreCase = true))
+                    //&&
+                    // Apply any selected filters
+                   // selectedFilters.value.all { filter -> filter.matches(it) }
+        }
+    }
+
+    fun updateSearchQuery(query: String) {
+        searchQuery.value = query
+        // Optionally trigger a re-filtering of the reps
+        _uiState.value = _uiState.value.copy(
+            reps = filterAndSearchReps(_uiState.value.reps)
+        )
+    }
+
+    /*
+    fun toggleFilter(filter: FilterOptions) {
+        if (selectedFilters.value.contains(filter)) {
+            selectedFilters.value = selectedFilters.value.minus(filter)
+        } else {
+            selectedFilters.value = selectedFilters.value.plus(filter)
+        }
+        // Re-filter the reps list whenever filters change
+        _uiState.value = _uiState.value.copy(
+            reps = filterAndSearchReps(_uiState.value.reps)
+        )
+    }*/
+
 
 
 
 }
+
+enum class FilterOptions {
+    MALE, FEMALE, DEMOCRAT, REPUBLICAN,OTHER, SENATE, HOUSE;
+    fun matches(rep: Rep): Boolean {
+        return when (this) {
+            MALE -> rep.gender == "M"
+            FEMALE -> rep.gender == "F"
+            DEMOCRAT -> rep.party == "Democrat"
+            REPUBLICAN -> rep.party == "Republican"
+            SENATE -> rep.type == "Senate"
+            HOUSE -> rep.type == "House"
+            OTHER -> TODO()
+        }
+    }
+}
+
 
 data class homeUIState(
 

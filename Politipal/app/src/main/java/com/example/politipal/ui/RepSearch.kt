@@ -70,6 +70,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -81,7 +82,6 @@ import com.example.politipal.data.firebaseData.FirebaseDataRetriever
 import com.example.politipal.ui.theme.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
-
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -96,6 +96,7 @@ fun RepSearch(
     modifier: Modifier = Modifier
 ) {
     val emailLazyListState = rememberLazyListState()
+    val viewModel = ReplyHomeViewModel()
     LaunchedEffect(key1 = contentType) {
 
     }
@@ -111,7 +112,7 @@ fun RepSearch(
                         .fillParentMaxWidth()
                         .padding(top = 10.dp, bottom = 10.dp)
                     ){
-                        RepSearchBar(modifier = modifier)
+                        RepSearchBar(modifier = modifier, viewModel = viewModel)
                 }}
 
 
@@ -138,8 +139,8 @@ fun RepSearch(
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Composable
 fun RepSearchBar(
-    modifier: Modifier
-
+    modifier: Modifier,
+    viewModel: ReplyHomeViewModel
 ){
     // Variables for component
     var text by remember { mutableStateOf("") }
@@ -147,6 +148,9 @@ fun RepSearchBar(
     var boxVisible by remember {
         mutableStateOf(false)
     }
+
+
+
 
 
     // Inner Component layout for just search bar
@@ -161,14 +165,20 @@ fun RepSearchBar(
 
                         // Helpful Tutorial: https://www.composables.com/material3/dockedsearchbar/video
                         // Wanted to make it look nice and have a fade when scrolling up, for later
-
+                        val keyboardController = LocalSoftwareKeyboardController.current
                         DockedSearchBar(
                             modifier = Modifier
                                 .wrapContentWidth()
                                 .width(330.dp),
                             query = text,
-                            onQueryChange = { text = it }, // refers to actual text in search bar
-                            onSearch = { active = false },
+                            onQueryChange = {
+                                text = it
+                                },
+                            onSearch = {
+                                keyboardController?.hide()
+                                text = ""
+                                viewModel.updateSearchQuery(text)}
+                                ,
                             active = false,
                             onActiveChange = { active = it },
                             placeholder = { Text(text = "Search Representatives") },
@@ -182,11 +192,8 @@ fun RepSearchBar(
                                 if (active) {
                                     Icon(
                                         modifier = Modifier.clickable {
-                                            if (text.isNotEmpty()) {
-                                                text = ""
-                                            } else {
-                                                active = false
-                                            }
+                                            keyboardController?.hide()
+                                            text = ""
                                         },
                                         imageVector = Icons.Default.Close,
                                         contentDescription = "Close Icon"
@@ -236,18 +243,21 @@ fun RepSearchBar(
                                             RepFilterChip(modifier = modifier, label = "House")
                                         }
 
-                                        Text(
-                                            text = "Regions",
-                                            fontSize = 16.sp, // Set font size
-                                            fontWeight = FontWeight.Bold, // Set font weight for header
-                                            modifier = Modifier.padding(5.dp) // Optionally, add padding around the text
-                                        )
-                                        HorizontalDivider(thickness = 1.dp, color = Color.Gray)
-                                        Row {
-                                            RepFilterChip(modifier = modifier, label = "Long Beach")
-                                            RepFilterChip(modifier = modifier, label = "Los Angeles")
-                                    }
-                                        Button(onClick = { /*TODO*/ }, modifier = Modifier.align(
+                                       // Text(
+                                       //     text = "Regions",
+                                       //     fontSize = 16.sp, // Set font size
+                                        //    fontWeight = FontWeight.Bold, // Set font weight for header
+                                        //    modifier = Modifier.padding(5.dp) // Optionally, add padding around the text
+                                      //  )
+                                       // HorizontalDivider(thickness = 1.dp, color = Color.Gray)
+                                       // Row {
+                                         //   RepFilterChip(modifier = modifier, label = "Long Beach")
+                                        //    RepFilterChip(modifier = modifier, label = "Los Angeles")
+                                    //}
+                                        Button(onClick = {
+                                           // var filterStatus = FilterOptions.
+                                           // viewModel.toggleFilter(filterStatus)
+                                        }, modifier = Modifier.align(
                                             Alignment.End)) {
                                             Text(text = "Apply")
                                         }
@@ -256,12 +266,6 @@ fun RepSearchBar(
                     }
                     }
                 }
-
-        
-
-
-
-
     }}
 
 
@@ -270,6 +274,8 @@ fun RepResultListView(
     modifier: Modifier,
     rep: Rep,
     toggleRepSelection: (String) -> Unit,
+
+
     ){
         ElevatedCard(
             onClick = { Log.d(TAG,rep.firstName)},

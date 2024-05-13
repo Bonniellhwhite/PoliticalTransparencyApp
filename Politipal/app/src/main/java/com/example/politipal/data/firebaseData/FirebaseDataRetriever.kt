@@ -20,13 +20,9 @@ class FirebaseDataRetriever {
     var fullReplist = mutableListOf<Rep>()
 
 
-    fun getRepsList(): List<Rep>{
-        Log.d(TAG,fullReplist.size.toString())
-        return fullReplist;
-    }
-
     fun fetchFirebaseReps(): Flow<List<Rep>> = flow{
         try {
+            fullReplist = mutableListOf<Rep>()
             val db = Firebase.firestore
             val result = db.collection("allLegislators").get().await()
             Log.d(ContentValues.TAG,"Recieved Rep Data")
@@ -71,6 +67,7 @@ class FirebaseDataRetriever {
                     votesmartID, wikipediaID, youtube, youtubeID
                 )
                 fullReplist.add(rep)}
+
                 emit(fullReplist)  // Emit the fetched emails
         }catch (exception: Exception) {
             // Handle any errors, possibly emitting an error state or logging
