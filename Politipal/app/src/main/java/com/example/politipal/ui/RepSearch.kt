@@ -1,6 +1,7 @@
 
 package com.example.politipal.ui
 
+import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
@@ -64,6 +65,8 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LiveData
 import com.example.politipal.data.firebaseData.FirebaseDataRetriever
 import com.example.politipal.ui.theme.*
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -83,10 +86,7 @@ fun RepSearch(
         if (contentType == PolitipalContentType.SINGLE_PANE && !homeUIState.isDetailOnlyOpen) {
             closeDetailScreen()
         }
-
     }
-        // Getting Current rep list
-
 
         LazyColumn (
             modifier = modifier
@@ -99,15 +99,10 @@ fun RepSearch(
                         .fillParentMaxWidth()
                         .padding(top = 10.dp, bottom = 10.dp)
                     ){
-
-
                         RepSearchBar(modifier = modifier)
-
-
                 }}
 
-            //val firebaseDataRetriever = FirebaseDataRetriever()
-            //val reps = firebaseDataRetriever.getReps()
+
             val reps = homeUIState.reps
             Log.d(TAG,reps.size.toString())
             items(items = reps, key = { it.id }) { rep ->
@@ -122,6 +117,7 @@ fun RepSearch(
                     //navigateToDetail = navigateToDetail
                 )
             }
+
         }
     }
 
@@ -323,6 +319,7 @@ fun StateDropdownMenu(){
         }
     }
 }
+
 
 @Composable
 

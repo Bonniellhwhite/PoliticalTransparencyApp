@@ -15,11 +15,14 @@ import com.example.politipal.data.EmailsRepositoryImpl
 import com.example.politipal.data.Rep
 import com.example.politipal.data.firebaseData.FirebaseDataRetriever
 import com.example.politipal.ui.utils.PolitipalContentType
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 
 // Handles view page changes
@@ -37,7 +40,24 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
 
     init {
         observeEmails()
-        updateReps()
+        fetchFirebaseReps()
+    }
+
+    fun fetchFirebaseReps(){
+        viewModelScope.launch {
+            firebaseDataRetriever.fetchFirebaseReps()
+                .catch { ex ->
+                    _uiState.value = homeUIState(error = ex.message)
+                }
+                .collect { reps ->
+                    /**
+                     * We set first email selected by default for first App launch in large-screens
+                     */
+                    _uiState.value = homeUIState(
+                        reps = reps,
+                    )
+                }
+        }
     }
 
     private fun observeEmails() {
@@ -93,22 +113,7 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
         )
     }
 
-    private fun updateReps() {
-        viewModelScope.launch {
-            val reps = firebaseDataRetriever.getReps()
-            _uiState.value = _uiState.value.copy(reps = reps, loading = false)
-            Log.d(ContentValues.TAG, "Size of fullReplist: ${_uiState.value.reps.size}")
-        }
 
-        viewModelScope.launch {
-            try {
-                val repsList = firebaseDataRetriever.getReps().await() // Assuming getReps() returns a Deferred<List<Rep>>
-                _reps.value = repsList
-            } catch (e: Exception) {
-                // Handle error
-            }
-        }
-    }
 
 
 }
