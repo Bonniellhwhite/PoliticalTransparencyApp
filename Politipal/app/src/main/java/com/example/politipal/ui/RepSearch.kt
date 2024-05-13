@@ -3,9 +3,11 @@ package com.example.politipal.ui
 
 import android.content.ContentValues
 import android.content.ContentValues.TAG
+import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -53,6 +55,8 @@ import com.example.politipal.ui.utils.PolitipalNavigationType
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.Edit
+import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
@@ -60,9 +64,13 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.TextField
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.LiveData
+import com.example.politipal.R
 import com.example.politipal.data.firebaseData.FirebaseDataRetriever
 import com.example.politipal.ui.theme.*
 import com.google.firebase.firestore.ktx.firestore
@@ -259,17 +267,31 @@ fun RepResultListView(
             elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
             modifier = Modifier
                 .padding(horizontal = 30.dp, vertical = 4.dp)
-                .height(150.dp),
+                .height(150.dp)
+                ,
 
             ){
-            Column(
-                modifier = Modifier
+            Row(
+                Modifier
                     .fillMaxWidth()
-                    .padding(20.dp),
-            ) {
+                    .padding(all = 10.dp)){
+                if (rep.gender == "M"){
+                    Image(imageVector =  ImageVector.vectorResource(R.drawable.rep_m), contentDescription = "Rep PicM" )
+                }
+                if (rep.gender == "F"){
+                    Image(imageVector =  ImageVector.vectorResource(R.drawable.rep_f), contentDescription = "Rep PicF" )
+                }
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(20.dp),
+                ) {
 
-                Text(text = rep.id)
-                Text(text = rep.fullName)
+                    Text(text = rep.ballotpediaID)
+                    Text(text = rep.state)
+                    Text(text = rep.district)
+                    Text(text = rep.party)
+                }
             }
         }
         Spacer(Modifier.height(20.dp))
