@@ -21,6 +21,7 @@ import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
@@ -40,6 +41,14 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
     private val _uiState = MutableStateFlow(homeUIState(loading = true))
     val uiState: StateFlow<homeUIState> = _uiState
     private val firebaseDataRetriever = FirebaseDataRetriever()
+    private val _searchText = MutableStateFlow("")
+    val searchText = _searchText.asStateFlow()
+
+    private val _isSearching = MutableStateFlow(false)
+    val isSearching = _isSearching.asStateFlow()
+
+    private val _reps = MutableStateFlow(listOf<Rep>())
+
 
     // Search query state
     var searchQuery = mutableStateOf("")

@@ -84,6 +84,8 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 // Search Tutorial: https://www.youtube.com/watch?v=CfL6Dl2_dAE
+// Helpful Searchbar basics Tutorial: https://www.composables.com/material3/dockedsearchbar/video
+// Wanted to make it look nice and have a fade when scrolling up, for later
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
@@ -99,184 +101,199 @@ fun RepSearch(
 ) {
     val emailLazyListState = rememberLazyListState()
     val viewModel = ReplyHomeViewModel()
-    LaunchedEffect(key1 = contentType) {
+    var searchQuery by remember { mutableStateOf("") }
 
+    LaunchedEffect(key1 = contentType) {}
+        RepSearchBar(modifier = modifier,
+            viewModel = viewModel,
+            homeUIState = homeUIState)
     }
 
-        LazyColumn (
-            modifier = modifier
-                .fillMaxWidth(),
-
-        ) {
-            stickyHeader {
-                Surface(
-                    Modifier
-                        .fillParentMaxWidth()
-                        .padding(top = 10.dp, bottom = 10.dp)
-                    ){
-                        RepSearchBar(modifier = modifier, viewModel = viewModel)
-                }}
-
-            val state by viewModel.homeUIState.collectAsState()
-            val reps = homeUIState.reps
-            Log.d(TAG,reps.size.toString())
-            items(items = reps, key = { it.id }) { rep ->
-                RepResultListView(
-                    modifier = modifier,
-                    rep = rep,
-                    //email = homeUIState.emails,
-                    //openedEmail = replyHomeUIState.openedEmail,
-                    //selectedEmailIds = replyHomeUIState.selectedEmails,
-                    toggleRepSelection = toggleSelectedRep,
-                    //emailLazyListState = emailLazyListState,
-                    //navigateToDetail = navigateToDetail
-                )
-            }
-
-        }
-    }
-
-
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
+    ExperimentalFoundationApi::class
+)
 @Composable
 fun RepSearchBar(
     modifier: Modifier,
-    viewModel: ReplyHomeViewModel
+    viewModel: ReplyHomeViewModel,
+    homeUIState: homeUIState
 ){
     // Variables for component
     var text by remember { mutableStateOf("") }
     var active by remember { mutableStateOf(false) }
+    val keyboardController = LocalSoftwareKeyboardController.current
     var boxVisible by remember {
         mutableStateOf(false)
     }
-
-
-
-
-
     // Inner Component layout for just search bar
-
         Box(modifier = modifier
             .fillMaxWidth()
             .background(Color(0xFFF9F1F8))
             .padding(bottom = 5.dp, top = 40.dp, start = 10.dp, end = 10.dp)
             ) {
-                Column {
-                    Row (modifier.padding(bottom = 10.dp)){
+                LazyColumn {
+                    stickyHeader {
+                        Surface(
+                            Modifier
+                                .fillParentMaxWidth()
+                                .padding(top = 10.dp, bottom = 10.dp)
+                        ) {
+                            Row(modifier.padding(bottom = 10.dp)) {
+                                DockedSearchBar(
+                                    modifier = Modifier
+                                        .wrapContentWidth()
+                                        .width(330.dp),
+                                    query = text,
+                                    onQueryChange = {
+                                        text = it
+                                    },
+                                    onSearch = {
+                                        keyboardController?.hide()
+                                        text = ""
+                                    },
+                                    active = false,
+                                    onActiveChange = { active = it },
+                                    placeholder = { Text(text = "Search Representatives") },
+                                    leadingIcon = {
+                                        Icon(
+                                            imageVector = Icons.Default.Search,
+                                            contentDescription = "Search Icon"
+                                        )
+                                    },
+                                    trailingIcon = {
+                                        if (active) {
+                                            Icon(
+                                                modifier = Modifier.clickable {
+                                                    keyboardController?.hide()
+                                                    text = ""
+                                                },
+                                                imageVector = Icons.Default.Close,
+                                                contentDescription = "Close Icon"
+                                            )
+                                        }
+                                    }
 
-                        // Helpful Tutorial: https://www.composables.com/material3/dockedsearchbar/video
-                        // Wanted to make it look nice and have a fade when scrolling up, for later
-                        val keyboardController = LocalSoftwareKeyboardController.current
-                        DockedSearchBar(
-                            modifier = Modifier
-                                .wrapContentWidth()
-                                .width(330.dp),
-                            query = text,
-                            onQueryChange = {
-                                text = it
-                                },
-                            onSearch = {
-                                keyboardController?.hide()
-                                text = ""
-                                viewModel.updateSearchQuery(text)}
-                                ,
-                            active = false,
-                            onActiveChange = { active = it },
-                            placeholder = { Text(text = "Search Representatives") },
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = Icons.Default.Search,
-                                    contentDescription = "Search Icon"
-                                )
-                            },
-                            trailingIcon = {
-                                if (active) {
+                                ) {}
+
+
+                                // Filter Button
+                                FloatingActionButton(
+                                    onClick = { boxVisible = !boxVisible },
+                                    modifier = Modifier
+                                        .padding(start = 5.dp),
+                                ) {
                                     Icon(
-                                        modifier = Modifier.clickable {
-                                            keyboardController?.hide()
-                                            text = ""
-                                        },
-                                        imageVector = Icons.Default.Close,
-                                        contentDescription = "Close Icon"
+                                        imageVector = Icons.Default.FilterList,
+                                        contentDescription = "Favorite",
+                                        tint = MaterialTheme.colorScheme.outline
                                     )
                                 }
-                            }
+                                // Filters Sections
+                                AnimatedVisibility(visible = boxVisible) {
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .background(
+                                                Color(0xFFF0E5F4),
+                                                RoundedCornerShape(15.dp)
+                                            ) // Box styling
 
-                        ) {}
-                        // Filter Button
-                        FloatingActionButton(
-                            onClick = { boxVisible = !boxVisible},
-                            modifier = Modifier
-                                .padding(start = 5.dp),
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.FilterList,
-                                contentDescription = "Favorite",
-                                tint = MaterialTheme.colorScheme.outline
-                            )
-                        }
-                    }
-                        AnimatedVisibility(visible = boxVisible) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .background(Color(0xFFF0E5F4), RoundedCornerShape(15.dp)) // Box styling
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(all = 10.dp)
+                                        ) {
+                                            Column {
+                                                Text(
+                                                    text = "Demograhics",
+                                                    fontSize = 16.sp, // Set font size
+                                                    fontWeight = FontWeight.Bold, // Set font weight for header
+                                                    modifier = Modifier.padding(5.dp) // Optionally, add padding around the text
+                                                )
+                                                HorizontalDivider(
+                                                    thickness = 1.dp,
+                                                    color = Color.Gray
+                                                )
+                                                FlowRow(
+                                                    modifier.fillMaxWidth(),
+                                                    horizontalArrangement = Arrangement.Start
+                                                ) {
 
-                            ) {
-                                Box(modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(all = 10.dp)){
-                                    Column {
-                                        Text(
-                                            text = "Demograhics",
-                                            fontSize = 16.sp, // Set font size
-                                            fontWeight = FontWeight.Bold, // Set font weight for header
-                                            modifier = Modifier.padding(5.dp) // Optionally, add padding around the text
-                                        )
-                                        HorizontalDivider(thickness = 1.dp, color = Color.Gray)
-                                        FlowRow (modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start){
+                                                    RepFilterChip(
+                                                        modifier = modifier,
+                                                        label = "Female"
+                                                    )
+                                                    RepFilterChip(
+                                                        modifier = modifier,
+                                                        label = "Male"
+                                                    )
+                                                    RepFilterChip(
+                                                        modifier = modifier,
+                                                        label = "Democrat"
+                                                    )
+                                                    RepFilterChip(
+                                                        modifier = modifier,
+                                                        label = "Republican"
+                                                    )
+                                                    RepFilterChip(
+                                                        modifier = modifier,
+                                                        label = "Senate"
+                                                    )
+                                                    RepFilterChip(
+                                                        modifier = modifier,
+                                                        label = "House"
+                                                    )
+                                                }
 
-                                            RepFilterChip(modifier = modifier, label = "Female")
-                                            RepFilterChip(modifier = modifier, label = "Male")
-                                            RepFilterChip(modifier = modifier, label = "Democrat")
-                                            RepFilterChip(modifier = modifier, label = "Republican")
-                                            RepFilterChip(modifier = modifier, label = "Senate")
-                                            RepFilterChip(modifier = modifier, label = "House")
+                                                // Text(
+                                                //     text = "Regions",
+                                                //     fontSize = 16.sp, // Set font size
+                                                //    fontWeight = FontWeight.Bold, // Set font weight for header
+                                                //    modifier = Modifier.padding(5.dp) // Optionally, add padding around the text
+                                                //  )
+                                                // HorizontalDivider(thickness = 1.dp, color = Color.Gray)
+                                                // Row {
+                                                //   RepFilterChip(modifier = modifier, label = "Long Beach")
+                                                //    RepFilterChip(modifier = modifier, label = "Los Angeles")
+                                                //}
+                                                Button(
+                                                    onClick = {
+                                                        // var filterStatus = FilterOptions.
+                                                        // viewModel.toggleFilter(filterStatus)
+                                                        boxVisible = false
+                                                    }, modifier = Modifier.align(
+                                                        Alignment.End
+                                                    )
+                                                ) {
+                                                    Text(text = "Apply")
+                                                }
+                                            }
                                         }
-
-                                       // Text(
-                                       //     text = "Regions",
-                                       //     fontSize = 16.sp, // Set font size
-                                        //    fontWeight = FontWeight.Bold, // Set font weight for header
-                                        //    modifier = Modifier.padding(5.dp) // Optionally, add padding around the text
-                                      //  )
-                                       // HorizontalDivider(thickness = 1.dp, color = Color.Gray)
-                                       // Row {
-                                         //   RepFilterChip(modifier = modifier, label = "Long Beach")
-                                        //    RepFilterChip(modifier = modifier, label = "Los Angeles")
-                                    //}
-                                        Button(onClick = {
-                                           // var filterStatus = FilterOptions.
-                                           // viewModel.toggleFilter(filterStatus)
-                                            boxVisible = false
-                                        }, modifier = Modifier.align(
-                                            Alignment.End)) {
-                                            Text(text = "Apply")
-                                        }
+                                    }
                                 }
                             }
+                        }
                     }
-                    }
+                        //val state by viewModel.homeUIState.collectAsState()
+                        val reps = homeUIState.reps
+                        Log.d(TAG,reps.size.toString())
+                        items(items = reps.filter{it.contains(text)}) { rep ->
+                            RepResultListView(
+                                modifier = modifier,
+                                rep = rep,
+                                //toggleRepSelection = toggleSelectedRep,
+                            )
+                        }
                 }
-    }}
-
+                }
+    }
 
 @Composable
 fun RepResultListView(
     modifier: Modifier,
     rep: Rep,
-    toggleRepSelection: (String) -> Unit,
+    //toggleRepSelection: (String) -> Unit,
 
 
     ){
