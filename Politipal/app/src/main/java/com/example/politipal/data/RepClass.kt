@@ -1,15 +1,10 @@
-
 package com.example.politipal.data
 
-/**
- * A simple data class to represent a Rep.
- */
-
-data class Rep(
-    val id: String,
+data class RepClass (
+    val id: Long,
     val address: String,
     val ballotpediaID: String,
-    val bioguideID: String?,
+    val bioguideID: String,
     val birthday: Int,
     val cspanID: Int,
     val district: String,
@@ -20,20 +15,25 @@ data class Rep(
     val gender: String,
     val govtrackID: Int,
     val icpsrID: Int,
+    val lisID: String,
     val middleName: String,
+    val nickanem: String,
     val opensecretsID: String,
     val party: String,
     val phone: Int,
     val rssURL: String,
+    val senateClass: Int,
     val state: String,
+    val suffix: String,
     val surname: String,
     val thomasID: String,
     val twitter: String,
-    val twitterID: Long,
+    val twitterID: Int,
     val type: String,
     val url: String,
     val votesmartID: Int,
     val wikipediaID: String,
     val youtube: String,
-    val youtubeID: String
+    val youtubeID: String,
+    var isStarred: Boolean = false
 )

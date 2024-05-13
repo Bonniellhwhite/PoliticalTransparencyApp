@@ -10,7 +10,6 @@ import com.example.politipal.data.Email
 import com.example.politipal.data.EmailsRepository
 import com.example.politipal.data.EmailsRepositoryImpl
 import com.example.politipal.data.Rep
-import com.example.politipal.data.firebaseData.FBRepDataProvider
 import com.example.politipal.ui.utils.PolitipalContentType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -89,7 +88,7 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
 
 data class homeUIState(
     val emails: List<Email> = emptyList(),
-    val reps: List<Rep> = FBRepDataProvider.staticTestRepData,
+    val reps: List<Rep> = emptyList(),
     val selectedEmails: Set<Long> = emptySet(),
     val selectedReps: Set<String> = emptySet(),
     val openedEmail: Email? = null,

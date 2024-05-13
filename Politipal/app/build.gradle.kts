@@ -84,6 +84,8 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
 
 
+    implementation("androidx.compose.material3:material3:1.1.0")
+
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
     androidTestImplementation(composeBom)
