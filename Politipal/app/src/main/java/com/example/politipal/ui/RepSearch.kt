@@ -83,9 +83,7 @@ fun RepSearch(
 ) {
     val emailLazyListState = rememberLazyListState()
     LaunchedEffect(key1 = contentType) {
-        if (contentType == PolitipalContentType.SINGLE_PANE && !homeUIState.isDetailOnlyOpen) {
-            closeDetailScreen()
-        }
+
     }
 
         LazyColumn (

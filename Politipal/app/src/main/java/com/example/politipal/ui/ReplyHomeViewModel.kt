@@ -3,6 +3,7 @@
 package com.example.politipal.ui
 
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
@@ -50,9 +51,7 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
                     _uiState.value = homeUIState(error = ex.message)
                 }
                 .collect { reps ->
-                    /**
-                     * We set first email selected by default for first App launch in large-screens
-                     */
+                    Log.d(TAG,reps.size.toString())
                     _uiState.value = homeUIState(
                         reps = reps,
                     )
