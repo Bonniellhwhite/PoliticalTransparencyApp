@@ -1,9 +1,7 @@
 
 package com.example.politipal.ui
 
-import android.content.ContentValues
 import android.content.ContentValues.TAG
-import android.graphics.drawable.Drawable
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.ExperimentalFoundationApi
@@ -54,11 +52,8 @@ import com.example.politipal.ui.utils.PolitipalNavigationType
 
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.filled.Done
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExposedDropdownMenuBox
@@ -67,21 +62,16 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.TextField
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.LiveData
 import com.example.politipal.R
-import com.example.politipal.data.firebaseData.FirebaseDataRetriever
-import com.example.politipal.ui.theme.*
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
+import com.example.politipal.data.RepFilterOptions
+import com.example.politipal.ui.utils.isSeparating
 
 // Search Tutorial: https://www.youtube.com/watch?v=CfL6Dl2_dAE
 // Helpful Searchbar basics Tutorial: https://www.composables.com/material3/dockedsearchbar/video
@@ -122,27 +112,30 @@ fun RepSearchBar(
     var text by remember { mutableStateOf("") }
     var active by remember { mutableStateOf(false) }
     val keyboardController = LocalSoftwareKeyboardController.current
+    val selectedFilters = remember { mutableStateOf(setOf<RepFilterOptions>())}
     var boxVisible by remember {
         mutableStateOf(false)
     }
+
+
     // Inner Component layout for just search bar
         Box(modifier = modifier
             .fillMaxWidth()
             .background(Color(0xFFF9F1F8))
             .padding(bottom = 5.dp, top = 40.dp, start = 10.dp, end = 10.dp)
             ) {
-                LazyColumn {
+                LazyColumn (){
                     stickyHeader {
                         Surface(
                             Modifier
                                 .fillParentMaxWidth()
-                                .padding(top = 10.dp, bottom = 10.dp)
                         ) {
-                            Row(modifier.padding(bottom = 10.dp)) {
+                            Row(modifier.background(Color(0xFFF9F1F8))) {
                                 DockedSearchBar(
                                     modifier = Modifier
                                         .wrapContentWidth()
-                                        .width(330.dp),
+                                        .width(330.dp)
+                                        .padding(top = 10.dp,bottom = 10.dp),
                                     query = text,
                                     onQueryChange = {
                                         text = it
@@ -175,12 +168,11 @@ fun RepSearchBar(
 
                                 ) {}
 
-
                                 // Filter Button
                                 FloatingActionButton(
                                     onClick = { boxVisible = !boxVisible },
                                     modifier = Modifier
-                                        .padding(start = 5.dp),
+                                        .padding(top = 10.dp,bottom = 10.dp, start = 5.dp),
                                 ) {
                                     Icon(
                                         imageVector = Icons.Default.FilterList,
@@ -188,97 +180,105 @@ fun RepSearchBar(
                                         tint = MaterialTheme.colorScheme.outline
                                     )
                                 }
-                                // Filters Sections
-                                AnimatedVisibility(visible = boxVisible) {
-                                    Box(
-                                        modifier = Modifier
-                                            .fillMaxWidth()
-                                            .background(
-                                                Color(0xFFF0E5F4),
-                                                RoundedCornerShape(15.dp)
-                                            ) // Box styling
 
-                                    ) {
-                                        Box(
-                                            modifier = Modifier
-                                                .fillMaxWidth()
-                                                .padding(all = 10.dp)
+                            }
+
+                        }
+                        // Filters Sections
+                        AnimatedVisibility(visible = boxVisible) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .background(
+                                        Color(0xFFF0E5F4),
+                                        RoundedCornerShape(15.dp)
+                                    ) // Box styling
+
+                            ) {
+                                Box(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(all = 10.dp)
+                                ) {
+                                    Column {
+                                        Text(
+                                            text = "Demograhics",
+                                            fontSize = 16.sp, // Set font size
+                                            fontWeight = FontWeight.Bold, // Set font weight for header
+                                            modifier = Modifier.padding(5.dp) // Optionally, add padding around the text
+                                        )
+                                        HorizontalDivider(
+                                            thickness = 1.dp,
+                                            color = Color.Gray
+                                        )
+
+                                        // Chips Here
+                                        FlowRow(
+                                            modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.Start
                                         ) {
-                                            Column {
-                                                Text(
-                                                    text = "Demograhics",
-                                                    fontSize = 16.sp, // Set font size
-                                                    fontWeight = FontWeight.Bold, // Set font weight for header
-                                                    modifier = Modifier.padding(5.dp) // Optionally, add padding around the text
-                                                )
-                                                HorizontalDivider(
-                                                    thickness = 1.dp,
-                                                    color = Color.Gray
-                                                )
-                                                FlowRow(
-                                                    modifier.fillMaxWidth(),
-                                                    horizontalArrangement = Arrangement.Start
-                                                ) {
+                                            // Chips
+                                            RepFilterChip(
+                                                modifier = modifier,
+                                                label = "Female",
+                                                selectedFilters = selectedFilters,
+                                                repFilterOption = RepFilterOptions.FEMALE
+                                            )
+                                            RepFilterChip(
+                                                modifier = modifier,
+                                                label = "Male",
+                                                selectedFilters = selectedFilters,
+                                                repFilterOption = RepFilterOptions.MALE
+                                            )
+                                            RepFilterChip(
+                                                modifier = modifier,
+                                                label = "Democrat",
+                                                selectedFilters = selectedFilters,
+                                                repFilterOption = RepFilterOptions.DEMOCRAT
+                                            )
+                                            RepFilterChip(
+                                                modifier = modifier,
+                                                label = "Republican",
+                                                selectedFilters = selectedFilters,
+                                                repFilterOption = RepFilterOptions.REPUBLICAN
+                                            )
+                                            RepFilterChip(
+                                                modifier = modifier,
+                                                label = "Senate",
+                                                selectedFilters = selectedFilters,
+                                                repFilterOption = RepFilterOptions.SENATE
+                                            )
 
-                                                    RepFilterChip(
-                                                        modifier = modifier,
-                                                        label = "Female"
-                                                    )
-                                                    RepFilterChip(
-                                                        modifier = modifier,
-                                                        label = "Male"
-                                                    )
-                                                    RepFilterChip(
-                                                        modifier = modifier,
-                                                        label = "Democrat"
-                                                    )
-                                                    RepFilterChip(
-                                                        modifier = modifier,
-                                                        label = "Republican"
-                                                    )
-                                                    RepFilterChip(
-                                                        modifier = modifier,
-                                                        label = "Senate"
-                                                    )
-                                                    RepFilterChip(
-                                                        modifier = modifier,
-                                                        label = "House"
-                                                    )
-                                                }
+                                            RepFilterChip(
+                                                modifier = modifier,
+                                                label = "House",
+                                                selectedFilters = selectedFilters,
+                                                repFilterOption = RepFilterOptions.HOUSE
+                                            )
 
-                                                // Text(
-                                                //     text = "Regions",
-                                                //     fontSize = 16.sp, // Set font size
-                                                //    fontWeight = FontWeight.Bold, // Set font weight for header
-                                                //    modifier = Modifier.padding(5.dp) // Optionally, add padding around the text
-                                                //  )
-                                                // HorizontalDivider(thickness = 1.dp, color = Color.Gray)
-                                                // Row {
-                                                //   RepFilterChip(modifier = modifier, label = "Long Beach")
-                                                //    RepFilterChip(modifier = modifier, label = "Los Angeles")
-                                                //}
-                                                Button(
-                                                    onClick = {
-                                                        // var filterStatus = FilterOptions.
-                                                        // viewModel.toggleFilter(filterStatus)
-                                                        boxVisible = false
-                                                    }, modifier = Modifier.align(
-                                                        Alignment.End
-                                                    )
-                                                ) {
-                                                    Text(text = "Apply")
-                                                }
-                                            }
                                         }
+
+                                        /* No reply Button Needed
+                                        Button(
+                                            onClick = {
+                                                // var filterStatus = FilterOptions.
+                                                // viewModel.toggleFilter(filterStatus)
+                                                boxVisible = false
+                                            }, modifier = Modifier.align(
+                                                Alignment.End
+                                            )
+                                        ) {
+                                            Text(text = "Apply")
+                                        }*/
                                     }
                                 }
                             }
                         }
                     }
                         //val state by viewModel.homeUIState.collectAsState()
+
                         val reps = homeUIState.reps
-                        Log.d(TAG,reps.size.toString())
-                        items(items = reps.filter{it.contains(text)}) { rep ->
+                        items(items = reps.filter{it.contains(text,selectedFilters)}) { rep ->
                             RepResultListView(
                                 modifier = modifier,
                                 rep = rep,
@@ -294,8 +294,6 @@ fun RepResultListView(
     modifier: Modifier,
     rep: Rep,
     //toggleRepSelection: (String) -> Unit,
-
-
     ){
         ElevatedCard(
             onClick = { Log.d(TAG,rep.firstName)},
@@ -397,18 +395,34 @@ fun StateDropdownMenu(){
 
 @Composable
 fun RepFilterChip(
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     label: String,
+    repFilterOption: RepFilterOptions,
+    selectedFilters: MutableState<Set<RepFilterOptions>>
 ){
-    var selected by remember { mutableStateOf(false) }
+    //val isSelected = remember { mutableStateOf(false) }
+    //var selected by remember { mutableStateOf(false) }
+    val isSelected = remember { mutableStateOf(repFilterOption in selectedFilters.value) }
     FilterChip(
         modifier = Modifier.padding( end = 5.dp),
-        onClick = { selected = !selected },
+        onClick =
+        {
+            //selected = !selected
+
+            val currentlySelected = isSelected.value
+            isSelected.value = !currentlySelected
+            if (isSelected.value) {
+                selectedFilters.value += repFilterOption
+            } else {
+                selectedFilters.value -= repFilterOption
+            }
+        },
+
         label = {
             Text(label)
         },
-        selected = selected,
-        leadingIcon = if (selected) {
+        selected = isSelected.value,
+        leadingIcon = if (isSelected.value) {
             {
                 Icon(
                     imageVector = Icons.Filled.Done,

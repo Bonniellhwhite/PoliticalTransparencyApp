@@ -1,5 +1,8 @@
 package com.example.politipal.data;
 
+import androidx.compose.runtime.MutableState
+import kotlinx.coroutines.flow.MutableStateFlow
+
 data class Rep(
         val id: String,
         val address: String,
@@ -32,15 +35,36 @@ data class Rep(
         val youtube: String,
         val youtubeID: String
     ){
-        fun contains(query: String):Boolean {
+        fun contains(query: String, filters: MutableState<Set<RepFilterOptions>>):Boolean {
+                // Decides if a single Rep
                 val matchingCombinations = listOf(
                         "$firstName $fullName",
                         "${firstName.first()} ${fullName.first()}",
                 )
-                return matchingCombinations.any{
-                        it.contains(query,ignoreCase = true)
-                };
+                val matchesName = matchingCombinations.any { it.contains(query, ignoreCase = true) }
+
+                return if(filters.value.isNotEmpty()){
+                        val matchesFilters = filters.value.all { it.matches(this) }
+                        matchesName && matchesFilters
+                }else{
+                        matchesName
+                }
+
         }
 }
 
+enum class RepFilterOptions {
+        MALE, FEMALE, DEMOCRAT, REPUBLICAN, SENATE, HOUSE;
+        fun matches(rep: Rep): Boolean {
+                return when (this) {
+                        MALE -> rep.gender == "M"
+                        FEMALE -> rep.gender == "F"
+                        DEMOCRAT -> rep.party == "Democrat"
+                        REPUBLICAN -> rep.party == "Republican"
+                        SENATE -> "senate" in rep.url.lowercase()
+                        HOUSE -> "house" in rep.url.lowercase()
+                        //OTHER -> rep.party != "Democrat" || rep.party != "Republican"
+                }
+        }
+}
 

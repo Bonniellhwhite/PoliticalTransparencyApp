@@ -6,6 +6,7 @@ import android.content.ContentValues
 import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModel
@@ -14,6 +15,7 @@ import com.example.politipal.data.Email
 import com.example.politipal.data.EmailsRepository
 import com.example.politipal.data.EmailsRepositoryImpl
 import com.example.politipal.data.Rep
+import com.example.politipal.data.RepFilterOptions
 import com.example.politipal.data.firebaseData.FirebaseDataRetriever
 import com.example.politipal.ui.utils.PolitipalContentType
 import com.google.firebase.firestore.ktx.firestore
@@ -127,28 +129,21 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
         )
     }
 
-    private fun filterAndSearchReps(reps: List<Rep>): List<Rep> {
+    private fun filterAndSearchReps(reps: List<Rep>, filters: MutableState<Set<RepFilterOptions>>): List<Rep> {
         // Apply filters and search
         return reps.filter {
             Log.d(TAG,"Searching..")
             // Match search query against first name or full name
             (it.firstName.contains(searchQuery.value, ignoreCase = true) ||
                     it.fullName.contains(searchQuery.value, ignoreCase = true))
-                    //&&
-                    // Apply any selected filters
-                   // selectedFilters.value.all { filter -> filter.matches(it) }
+                    &&
+                    //Apply any selected filters
+
+                    filters.value.all { filter -> filter.matches(it) }
         }
 
     }
 
-    fun updateSearchQuery(query: String) {
-        searchQuery.value = query
-        // Optionally trigger a re-filtering of the reps
-        _uiState.value = _uiState.value.copy(
-            reps = filterAndSearchReps(_uiState.value.reps)
-        )
-        Log.d(TAG,"search done")
-    }
 
     /*
     fun toggleFilter(filter: FilterOptions) {
@@ -168,20 +163,7 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
 
 }
 
-enum class FilterOptions {
-    MALE, FEMALE, DEMOCRAT, REPUBLICAN,OTHER, SENATE, HOUSE;
-    fun matches(rep: Rep): Boolean {
-        return when (this) {
-            MALE -> rep.gender == "M"
-            FEMALE -> rep.gender == "F"
-            DEMOCRAT -> rep.party == "Democrat"
-            REPUBLICAN -> rep.party == "Republican"
-            SENATE -> rep.type == "Senate"
-            HOUSE -> rep.type == "House"
-            OTHER -> TODO()
-        }
-    }
-}
+
 
 
 data class homeUIState(
