@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.tasks.await
 
+//https://medium.com/@ruby.lich/elegantly-handling-asynchronous-results-in-jetpack-compose-f8b245ee606b
 
 class FirebaseDataRetriever {
 

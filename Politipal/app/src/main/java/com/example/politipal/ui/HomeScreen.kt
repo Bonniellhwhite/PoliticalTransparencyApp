@@ -48,6 +48,10 @@ import com.example.politipal.ui.utils.PolitipalContentType
 import com.example.politipal.ui.utils.PolitipalNavigationType
 import java.util.Calendar
 
+
+// Animation: https://developer.android.com/quick-guides/content/video/animation-in-compose?hl=en
+
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(

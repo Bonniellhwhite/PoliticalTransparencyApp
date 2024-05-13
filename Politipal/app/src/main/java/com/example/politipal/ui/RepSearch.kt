@@ -54,9 +54,12 @@ import com.example.politipal.ui.utils.PolitipalNavigationType
 
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Button
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
@@ -64,7 +67,10 @@ import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.TextField
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.font.FontWeight
@@ -241,6 +247,10 @@ fun RepSearchBar(
                                             RepFilterChip(modifier = modifier, label = "Long Beach")
                                             RepFilterChip(modifier = modifier, label = "Los Angeles")
                                     }
+                                        Button(onClick = { /*TODO*/ }, modifier = Modifier.align(
+                                            Alignment.End)) {
+                                            Text(text = "Apply")
+                                        }
                                 }
                             }
                     }
@@ -268,29 +278,47 @@ fun RepResultListView(
             modifier = Modifier
                 .padding(horizontal = 30.dp, vertical = 4.dp)
                 .height(150.dp)
+                .wrapContentSize(Alignment.Center)
                 ,
 
             ){
             Row(
                 Modifier
                     .fillMaxWidth()
-                    .padding(all = 10.dp)){
-                if (rep.gender == "M"){
-                    Image(imageVector =  ImageVector.vectorResource(R.drawable.rep_m), contentDescription = "Rep PicM" )
+                    .padding(20.dp),
+                ){
+
+             if (rep.gender == "M"){
+                        Image(painter = painterResource(id = R.drawable.rep_m),
+                            contentDescription = "rep m",
+                            modifier = Modifier
+                                .width(100.dp)
+                                .height(100.dp)
+                                .clip(RoundedCornerShape(10.dp))
+                        )
+                    }
+                    if (rep.gender == "F"){
+                        Image(painter = painterResource(id = R.drawable.rep_f),
+                            contentDescription = "rep m",
+                            modifier = Modifier
+                                .width(100.dp)
+                                .height(100.dp)
+                                .clip(RoundedCornerShape(10.dp))
+                        )
+
                 }
-                if (rep.gender == "F"){
-                    Image(imageVector =  ImageVector.vectorResource(R.drawable.rep_f), contentDescription = "Rep PicF" )
-                }
+
                 Column(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(20.dp),
+                        .padding(start = 10.dp),
                 ) {
 
-                    Text(text = rep.ballotpediaID)
-                    Text(text = rep.state)
-                    Text(text = rep.district)
-                    Text(text = rep.party)
+                    Text(text = "${rep.firstName} ${rep.fullName}", style = MaterialTheme.typography.headlineSmall,)
+                    Text(text = "Party: ${rep.party}")
+                    Text(text = "State: ${rep.state}")
+                    Text(text = "District: ${rep.district}")
+
                 }
             }
         }
@@ -342,7 +370,6 @@ fun StateDropdownMenu(){
 
 
 @Composable
-
 fun RepFilterChip(
     modifier: Modifier,
     label: String,
