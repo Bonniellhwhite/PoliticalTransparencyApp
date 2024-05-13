@@ -254,7 +254,7 @@ fun RepResultListView(
     toggleRepSelection: (String) -> Unit,
     ){
         ElevatedCard(
-            onClick = { /* Do something */ },
+            onClick = { Log.d(TAG,rep.firstName)},
             colors = CardDefaults.cardColors(containerColor = Color.White),
             elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
             modifier = Modifier
@@ -265,11 +265,11 @@ fun RepResultListView(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-
                     .padding(20.dp),
             ) {
 
-                Text(text = "${rep.firstName} ${rep.surname}")
+                Text(text = rep.id)
+                Text(text = rep.fullName)
             }
         }
         Spacer(Modifier.height(20.dp))
@@ -344,7 +344,5 @@ fun RepFilterChip(
         } else {
             null
         }
-
-
     )
 }

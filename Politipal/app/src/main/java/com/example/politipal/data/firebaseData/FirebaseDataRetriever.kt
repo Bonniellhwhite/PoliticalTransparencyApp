@@ -27,7 +27,7 @@ class FirebaseDataRetriever {
     fun fetchFirebaseReps(): Flow<List<Rep>> = flow{
         try {
             val db = Firebase.firestore
-            val result = db.collection("reps").get().await()
+            val result = db.collection("allLegislators").get().await()
             Log.d(ContentValues.TAG,"Recieved Rep Data")
             for (document in result.documents) {
                 val id = document.id.toString()
