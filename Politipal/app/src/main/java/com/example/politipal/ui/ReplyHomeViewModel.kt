@@ -11,6 +11,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.politipal.data.Bill
+import com.example.politipal.data.BillFilterOptions
 import com.example.politipal.data.Email
 import com.example.politipal.data.EmailsRepository
 import com.example.politipal.data.EmailsRepositoryImpl
@@ -43,17 +45,10 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
     private val _uiState = MutableStateFlow(homeUIState(loading = true))
     val uiState: StateFlow<homeUIState> = _uiState
     private val firebaseDataRetriever = FirebaseDataRetriever()
-    private val _searchText = MutableStateFlow("")
-    val searchText = _searchText.asStateFlow()
-
-    private val _isSearching = MutableStateFlow(false)
-    val isSearching = _isSearching.asStateFlow()
-
-    private val _reps = MutableStateFlow(listOf<Rep>())
-
 
     // Search query state
     var searchQuery = mutableStateOf("")
+    var billSearchQuery = mutableStateOf("")
 
     // Filter options state
    // var selectedFilters = mutableStateOf(SetOf<FilterOptions>())
@@ -62,6 +57,7 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
     init {
         observeEmails()
         fetchFirebaseReps()
+        fetchFirebaseBills()
     }
 
     fun fetchFirebaseReps(){
@@ -71,7 +67,7 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
                     _uiState.value = homeUIState(error = ex.message)
                 }
                 .collect { reps ->
-                    Log.d(TAG,reps.size.toString())
+                    //Log.d(TAG,reps.size.toString())
 
                     _uiState.value = homeUIState(
                         reps = reps,
@@ -79,6 +75,23 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
                 }
         }
     }
+
+    fun fetchFirebaseBills(){
+        viewModelScope.launch {
+            firebaseDataRetriever.fetchFirebaseBills()
+                .catch { ex ->
+                    _uiState.value = homeUIState(error = ex.message)
+                }
+                .collect { bills ->
+                    Log.d(TAG,bills.size.toString())
+
+                    _uiState.value = homeUIState(
+                        bills = bills,
+                    )
+                }
+        }
+    }
+
 
     private fun observeEmails() {
         viewModelScope.launch {
@@ -144,6 +157,19 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
 
     }
 
+    private fun filterAndSearchBills(bills: List<Bill>, filters: MutableState<Set<BillFilterOptions>>): List<Bill> {
+        // Apply filters and search
+        return bills.filter {
+            Log.d(TAG,"Searching Bills...")
+            // Match search query against first name or full name
+            (it.title.contains(searchQuery.value, ignoreCase = true) ||
+                    it.number.toString().contains(searchQuery.value, ignoreCase = true))
+                    &&
+                    //Apply any selected filters
+                    filters.value.all { filter -> filter.matches(it) }
+        }
+
+    }
 
     /*
     fun toggleFilter(filter: FilterOptions) {
@@ -177,7 +203,8 @@ data class homeUIState(
     val isDetailOnlyOpen: Boolean = false,
     val loading: Boolean = false,
     val error: String? = null,
-    val reps: List<Rep> = emptyList()
+    val reps: List<Rep> = emptyList(),
+    val bills: List<Bill> = emptyList()
 
 )
 

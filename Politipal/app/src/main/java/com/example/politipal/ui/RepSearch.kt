@@ -89,9 +89,7 @@ fun RepSearch(
     toggleSelectedRep: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val emailLazyListState = rememberLazyListState()
     val viewModel = ReplyHomeViewModel()
-    var searchQuery by remember { mutableStateOf("") }
 
     LaunchedEffect(key1 = contentType) {}
         RepSearchBar(modifier = modifier,
@@ -349,48 +347,6 @@ fun RepResultListView(
         Spacer(Modifier.height(20.dp))
 
     }
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun StateDropdownMenu(){
-    val options = listOf("Cupcake", "Donut", "Eclair", "Froyo", "Gingerbread")
-    var expanded by remember { mutableStateOf(false) }
-    var text by remember { mutableStateOf(options[0]) }
-
-    ExposedDropdownMenuBox(
-        expanded = expanded,
-        onExpandedChange = { expanded = it },
-    ) {
-        TextField(
-            // The `menuAnchor` modifier must be passed to the text field to handle
-            // expanding/collapsing the menu on click. A read-only text field has
-            // the anchor type `PrimaryNotEditable`.
-            modifier = Modifier.menuAnchor(),
-            value = text,
-            onValueChange = {},
-            readOnly = true,
-            singleLine = true,
-            label = { Text("Label") },
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-            colors = ExposedDropdownMenuDefaults.textFieldColors(),
-        )
-        ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-        ) {
-            options.forEach { option ->
-                DropdownMenuItem(
-                    text = { Text(option, style = MaterialTheme.typography.bodyLarge) },
-                    onClick = {
-                        text = option
-                        expanded = false
-                    },
-                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
-                )
-            }
-        }
-    }
-}
 
 
 @Composable

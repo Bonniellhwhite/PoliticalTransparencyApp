@@ -5,6 +5,7 @@ import android.content.ContentValues.TAG
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.politipal.data.Bill
 import com.example.politipal.data.Rep
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -72,6 +73,43 @@ class FirebaseDataRetriever {
         }catch (exception: Exception) {
             // Handle any errors, possibly emitting an error state or logging
             Log.e("FirestoreError", "Error fetching emails from Firestore", exception)
+        }
+    }
+    fun fetchFirebaseBills(): Flow<List<Bill>> = flow {
+        try {
+            val billList = mutableListOf<Bill>()
+            val db = Firebase.firestore
+            val result = db.collection("allBills").get().await() // Assumes the collection is named "allBills"
+            Log.d(ContentValues.TAG, "Received Bill Data")
+
+            for (document in result.documents) {
+                val number = document.getLong("number")?.toInt() ?: 0
+                val originChamber = document.getString("originChamber") ?: ""
+                val originChamberCode = document.getString("originChamberCode") ?: ""
+                val title = document.getString("title") ?: ""
+                val type = document.getString("type") ?: ""
+                val updateDate = document.getString("updateDate") ?: ""
+                val updateDateIncludingText = document.getString("updateDateIncludingText") ?: ""
+                val url = document.getString("url") ?: ""
+
+                // Create Bill object
+                val bill = Bill(
+                    number,
+                    originChamber,
+                    originChamberCode,
+                    title,
+                    type,
+                    updateDate,
+                    updateDateIncludingText,
+                    url
+                )
+                billList.add(bill)
+            }
+
+            emit(billList)  // Emit the fetched bills
+        } catch (exception: Exception) {
+            // Handle any errors, possibly emitting an error state or logging
+            Log.e("FirestoreError", "Error fetching bills from Firestore", exception)
         }
     }
 }
