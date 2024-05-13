@@ -9,14 +9,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
 import com.example.politipal.ui.utils.PolitipalContentType
 import com.example.politipal.ui.utils.PolitipalNavigationType
 
 @OptIn(ExperimentalMaterial3Api::class)
-
 @Composable
 fun RepPage(
     contentType: PolitipalContentType,

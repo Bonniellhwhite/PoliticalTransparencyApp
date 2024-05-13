@@ -3,7 +3,6 @@
 package com.example.politipal.ui
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -54,7 +53,6 @@ fun PolitipalApp(
     toggleSelectedEmail: (Long) -> Unit = { },
     toggleSelectedRep: (String) -> Unit = { }
 ) {
-
     val navigationType: PolitipalNavigationType = PolitipalNavigationType.BOTTOM_NAVIGATION
     val contentType: PolitipalContentType = PolitipalContentType.SINGLE_PANE
     val navigationContentPosition = PolitipalNavigationContentPosition.TOP

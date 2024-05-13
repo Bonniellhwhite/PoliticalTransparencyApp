@@ -22,11 +22,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
-import androidx.navigation.NavController
 import com.example.politipal.R
-import com.example.politipal.data.LoginView
-import com.example.politipal.data.UIEvent
 import com.example.politipal.ui.components.ButtonComp
 import com.example.politipal.ui.components.ClickableLogin
 import com.example.politipal.ui.components.NormalText
@@ -34,13 +30,10 @@ import com.example.politipal.ui.components.PasswordTextField
 import com.example.politipal.ui.components.TextField
 import com.example.politipal.ui.components.headingSU
 
-sealed class Screen(val route: String) {
-    object LoginScreen : Screen("login_screen")
-    // Define other screens here
-}
+
 
 @Composable
-fun SignUpScreen(navController: NavController, loginView: LoginView= viewModel()) {
+fun SignUpScreen() {
     Surface(
         color = Color.White,
         modifier = Modifier
@@ -69,43 +62,27 @@ fun SignUpScreen(navController: NavController, loginView: LoginView= viewModel()
                 )
             )
             Spacer(modifier = Modifier.height(60.dp))
-            TextField(labelValue = stringResource(id = R.string.first_name),
-                onTextSelected = {
-                    loginView.onEvent(UIEvent.FirstNameChange(it))
-
-                })
+            TextField(labelValue = stringResource(id = R.string.first_name))
             Spacer(modifier = Modifier.height(10.dp))
-            TextField(labelValue = stringResource(id = R.string.last_name),
-                onTextSelected = {
-                    loginView.onEvent(UIEvent.LastNameChange(it))
-
-
-                })
+            TextField(labelValue = stringResource(id = R.string.last_name))
             Spacer(modifier = Modifier.height(10.dp))
-            TextField(labelValue = stringResource(id = R.string.email),
-                onTextSelected = {
-                    loginView.onEvent(UIEvent.EmailChange(it))
-
-
-                })
+            TextField(labelValue = stringResource(id = R.string.email))
             Spacer(modifier = Modifier.height(10.dp))
-            PasswordTextField(labelValue = stringResource(id = R.string.password),
-                onTextSelected = {
-                    loginView.onEvent(UIEvent.PasswordChange(it))
-
-
-                })
+            PasswordTextField(labelValue = stringResource(id = R.string.password))
             Spacer(modifier = Modifier.height(40.dp))
-            ButtonComp(value = stringResource(id = R.string.sign_up),
-                onButtonClick = {
-                    loginView.onEvent(UIEvent.LoginButton)
-                })
+            ButtonComp(value = stringResource(id = R.string.sign_up))
             Spacer(modifier = Modifier.height(20.dp))
-            ClickableLogin(tryingToLogin = false, onTextSelected = {
-                navController.navigate("LoginScreen")
-
+            ClickableLogin(onTextSelected = {
             })
         }
     }
+
+}
+
+
+@Preview
+@Composable
+fun DefaultPreviewOfSignUpScreen(){
+    SignUpScreen()
 
 }
