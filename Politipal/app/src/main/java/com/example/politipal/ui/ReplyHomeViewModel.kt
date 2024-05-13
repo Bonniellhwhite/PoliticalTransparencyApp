@@ -99,6 +99,15 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
             _uiState.value = _uiState.value.copy(reps = reps, loading = false)
             Log.d(ContentValues.TAG, "Size of fullReplist: ${_uiState.value.reps.size}")
         }
+
+        viewModelScope.launch {
+            try {
+                val repsList = firebaseDataRetriever.getReps().await() // Assuming getReps() returns a Deferred<List<Rep>>
+                _reps.value = repsList
+            } catch (e: Exception) {
+                // Handle error
+            }
+        }
     }
 
 
