@@ -31,6 +31,8 @@ import kotlin.math.log
 
 // Possibly Helpful Post: https://www.reddit.com/r/Kotlin/comments/l36co7/displayinghiding_elements_in_jetpack_compose_for/
 // https://www.youtube.com/watch?v=NhoV78E6yWo&pp=ygUoamV0cGFjayBjb21wb3NlIGJ1dHRvbiBjbGljayBldmVudCBvcGVuIA%3D%3D
+// Tutorial: https://developer.android.com/codelabs/basic-android-kotlin-compose-viewmodel-and-state#6
+
 class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = EmailsRepositoryImpl()) :
     ViewModel() {
 
@@ -127,6 +129,7 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
                     // Apply any selected filters
                    // selectedFilters.value.all { filter -> filter.matches(it) }
         }
+
     }
 
     fun updateSearchQuery(query: String) {
@@ -135,6 +138,7 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
         _uiState.value = _uiState.value.copy(
             reps = filterAndSearchReps(_uiState.value.reps)
         )
+        Log.d(TAG,"search done")
     }
 
     /*

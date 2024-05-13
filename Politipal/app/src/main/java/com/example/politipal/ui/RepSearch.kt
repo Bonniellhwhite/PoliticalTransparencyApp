@@ -83,6 +83,8 @@ import com.example.politipal.ui.theme.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
+// Search Tutorial: https://www.youtube.com/watch?v=CfL6Dl2_dAE
+
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
 fun RepSearch(
@@ -115,7 +117,7 @@ fun RepSearch(
                         RepSearchBar(modifier = modifier, viewModel = viewModel)
                 }}
 
-
+            val state by viewModel.homeUIState.collectAsState()
             val reps = homeUIState.reps
             Log.d(TAG,reps.size.toString())
             items(items = reps, key = { it.id }) { rep ->
@@ -257,6 +259,7 @@ fun RepSearchBar(
                                         Button(onClick = {
                                            // var filterStatus = FilterOptions.
                                            // viewModel.toggleFilter(filterStatus)
+                                            boxVisible = false
                                         }, modifier = Modifier.align(
                                             Alignment.End)) {
                                             Text(text = "Apply")
