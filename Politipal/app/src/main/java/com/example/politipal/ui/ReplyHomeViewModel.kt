@@ -2,7 +2,10 @@
 
 package com.example.politipal.ui
 
+import android.content.ContentValues
+import android.util.Log
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,8 +13,9 @@ import com.example.politipal.data.Email
 import com.example.politipal.data.EmailsRepository
 import com.example.politipal.data.EmailsRepositoryImpl
 import com.example.politipal.data.Rep
-import com.example.politipal.data.firebaseData.FBRepDataProvider
+import com.example.politipal.data.firebaseData.FirebaseDataRetriever
 import com.example.politipal.ui.utils.PolitipalContentType
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.catch
@@ -28,9 +32,12 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
     // UI state exposed to the UI
     private val _uiState = MutableStateFlow(homeUIState(loading = true))
     val uiState: StateFlow<homeUIState> = _uiState
+    private val firebaseDataRetriever = FirebaseDataRetriever()
+
 
     init {
         observeEmails()
+        updateReps()
     }
 
     private fun observeEmails() {
@@ -85,18 +92,33 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
                 currentSelection.minus(repId) else currentSelection.plus(repId)
         )
     }
+
+    private fun updateReps() {
+        viewModelScope.launch {
+            val reps = firebaseDataRetriever.getReps()
+            _uiState.value = _uiState.value.copy(reps = reps, loading = false)
+            Log.d(ContentValues.TAG, "Size of fullReplist: ${_uiState.value.reps.size}")
+        }
+    }
+
+
 }
 
 data class homeUIState(
+
+
     val emails: List<Email> = emptyList(),
-    val reps: List<Rep> = FBRepDataProvider.staticTestRepData,
+
     val selectedEmails: Set<Long> = emptySet(),
     val selectedReps: Set<String> = emptySet(),
     val openedEmail: Email? = null,
     val isDetailOnlyOpen: Boolean = false,
     val loading: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val reps: List<Rep> = emptyList()
+
 )
+
 
 @Preview
 @Composable
