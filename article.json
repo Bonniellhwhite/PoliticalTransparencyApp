@@ -1,0 +1,163 @@
+{
+    "bills": [
+      {
+        "congress": 118,
+        "latestAction": {
+          "actionDate": "2024-05-10",
+          "text": "Presented to President."
+        },
+        "number": "8289",
+        "originChamber": "House",
+        "originChamberCode": "H",
+        "title": "To extend authorizations for the airport improvement program, to extend the funding and expenditure authority of the Airport and Airway Trust Fund, and for other purposes.",
+        "type": "HR",
+        "updateDate": "2024-05-12",
+        "updateDateIncludingText": "2024-05-12T04:05:17Z",
+        "url": "https://api.congress.gov/v3/bill/118/hr/8289?format=json"
+      },
+      {
+        "congress": 118,
+        "latestAction": {
+          "actionDate": "2024-05-10",
+          "text": "Presented to President."
+        },
+        "number": "593",
+        "originChamber": "House",
+        "originChamberCode": "H",
+        "title": "To rename the Department of Veterans Affairs community-based outpatient clinic in Hinesville, Georgia, as the \"John Gibson, Dan James, William Sapp, and Frankie Smiley VA Clinic\".",
+        "type": "HR",
+        "updateDate": "2024-05-12",
+        "updateDateIncludingText": "2024-05-12T04:05:31Z",
+        "url": "https://api.congress.gov/v3/bill/118/hr/593?format=json"
+      },
+      {
+        "congress": 118,
+        "latestAction": {
+          "actionDate": "2024-05-10",
+          "text": "Placed on the Union Calendar, Calendar No. 417."
+        },
+        "number": "6572",
+        "originChamber": "House",
+        "originChamberCode": "H",
+        "title": "Deploying American Blockchains Act of 2023",
+        "type": "HR",
+        "updateDate": "2024-05-12",
+        "updateDateIncludingText": "2024-05-12T04:05:21Z",
+        "url": "https://api.congress.gov/v3/bill/118/hr/6572?format=json"
+      },
+      {
+        "congress": 118,
+        "latestAction": {
+          "actionDate": "2024-05-10",
+          "text": "Placed on the Union Calendar, Calendar No. 416."
+        },
+        "number": "6543",
+        "originChamber": "House",
+        "originChamberCode": "H",
+        "title": "No Hidden FEES Act of 2023",
+        "type": "HR",
+        "updateDate": "2024-05-12",
+        "updateDateIncludingText": "2024-05-12T04:05:32Z",
+        "url": "https://api.congress.gov/v3/bill/118/hr/6543?format=json"
+      },
+      {
+        "congress": 118,
+        "latestAction": {
+          "actionDate": "2024-05-10",
+          "text": "Placed on the Union Calendar, Calendar No. 415."
+        },
+        "number": "5390",
+        "originChamber": "House",
+        "originChamberCode": "H",
+        "title": "Critical Infrastructure Manufacturing Feasibility Act",
+        "type": "HR",
+        "updateDate": "2024-05-12",
+        "updateDateIncludingText": "2024-05-12T04:05:21Z",
+        "url": "https://api.congress.gov/v3/bill/118/hr/5390?format=json"
+      },
+      {
+        "congress": 118,
+        "latestAction": {
+          "actionDate": "2024-05-10",
+          "text": "Placed on the Union Calendar, Calendar No. 414."
+        },
+        "number": "4814",
+        "originChamber": "House",
+        "originChamberCode": "H",
+        "title": "Consumer Safety Technology Act",
+        "type": "HR",
+        "updateDate": "2024-05-12",
+        "updateDateIncludingText": "2024-05-12T04:05:30Z",
+        "url": "https://api.congress.gov/v3/bill/118/hr/4814?format=json"
+      },
+      {
+        "congress": 118,
+        "latestAction": {
+          "actionDate": "2024-05-10",
+          "text": "Placed on the Union Calendar, Calendar No. 413."
+        },
+        "number": "4310",
+        "originChamber": "House",
+        "originChamberCode": "H",
+        "title": "Youth Poisoning Protection Act",
+        "type": "HR",
+        "updateDate": "2024-05-12",
+        "updateDateIncludingText": "2024-05-12T04:05:24Z",
+        "url": "https://api.congress.gov/v3/bill/118/hr/4310?format=json"
+      },
+      {
+        "congress": 118,
+        "latestAction": {
+          "actionDate": "2024-05-10",
+          "text": "Placed on the Union Calendar, Calendar No. 412."
+        },
+        "number": "3950",
+        "originChamber": "House",
+        "originChamberCode": "H",
+        "title": "TICKET Act",
+        "type": "HR",
+        "updateDate": "2024-05-12",
+        "updateDateIncludingText": "2024-05-12T04:05:16Z",
+        "url": "https://api.congress.gov/v3/bill/118/hr/3950?format=json"
+      },
+      {
+        "congress": 118,
+        "latestAction": {
+          "actionDate": "2024-05-10",
+          "text": "Referred to the House Committee on Ways and Means."
+        },
+        "number": "8355",
+        "originChamber": "House",
+        "originChamberCode": "H",
+        "title": "To amend the Internal Revenue Code of 1986 to recognize Indian tribal governments for purposes of determining under the adoption credit whether a child has special needs.",
+        "type": "HR",
+        "updateDate": "2024-05-12",
+        "updateDateIncludingText": "2024-05-12T04:05:27Z",
+        "url": "https://api.congress.gov/v3/bill/118/hr/8355?format=json"
+      },
+      {
+        "congress": 118,
+        "latestAction": {
+          "actionDate": "2024-05-10",
+          "text": "Referred to the House Committee on Financial Services."
+        },
+        "number": "8340",
+        "originChamber": "House",
+        "originChamberCode": "H",
+        "title": "To amend section 3(b)(4) of the United States Housing Act of 1937 to exclude certain disability benefits from income for the purposes of determining eligibility for the supported housing program under section 8(o)(19), and for other purposes.",
+        "type": "HR",
+        "updateDate": "2024-05-12",
+        "updateDateIncludingText": "2024-05-12T04:05:22Z",
+        "url": "https://api.congress.gov/v3/bill/118/hr/8340?format=json"
+      }
+    ],
+    "pagination": {
+      "count": 14943,
+      "next": "https://api.congress.gov/v3/bill/118?offset=10&limit=10&format=json"
+    },
+    "request": {
+      "congress": "118",
+      "contentType": "application/json",
+      "format": "json"
+    }
+  }
