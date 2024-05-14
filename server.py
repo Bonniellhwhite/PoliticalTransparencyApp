@@ -1,7 +1,6 @@
 from fastapi import FastAPI, HTTPException
 #python -m pip install fastapi
 from urllib.parse import unquote
-import pandas as pd
 import helper_scripts
 
 import firebase_admin
@@ -9,8 +8,10 @@ from firebase_admin import credentials
 from firebase_admin import firestore
 
 # Initialize Firebase Admin
-cred = credentials.Certificate('path/to/serviceAccountKey.json')
+cred = credentials.Certificate('G:/Bonnie White/Documents/School/Fall 2023/491A - Senior Project/my-project-1684959286164-95638a341fed.json')
+
 firebase_admin.initialize_app(cred)
+print(cred)
 
 # Get Firestore database
 db = firestore.client()
@@ -53,9 +54,7 @@ async def simplify_bill(url: str):
     except Exception as e:
         return {"Error"}
     
-@app.get("/write_to_DB/{test}")
-async def write_to_DB(test):
-    return {test}
+
 
 
 @app.get("/get-bills/")
