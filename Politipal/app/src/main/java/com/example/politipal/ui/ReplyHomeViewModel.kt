@@ -96,7 +96,9 @@ data class homeUIState(
     val isDetailOnlyOpen: Boolean = false,
     val loading: Boolean = false,
     val error: String? = null
-)
+) {
+    val currentMailbox: Set<Long> = emptySet()
+}
 
 @Preview
 @Composable
