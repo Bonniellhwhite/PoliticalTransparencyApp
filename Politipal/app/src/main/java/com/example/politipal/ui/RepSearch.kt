@@ -49,14 +49,21 @@ import com.example.politipal.ui.utils.PolitipalNavigationType
 
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.filled.Done
+import androidx.compose.material.icons.filled.StarBorder
+import androidx.compose.material3.Divider
 import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExposedDropdownMenuBox
 import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TextField
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import com.example.politipal.ui.theme.*
@@ -73,272 +80,182 @@ fun RepSearch(
     toggleSelectedRep: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val emailLazyListState = rememberLazyListState()
+    val favoriteReps = remember { mutableStateOf(setOf<String>()) }
     LaunchedEffect(key1 = contentType) {
         if (contentType == PolitipalContentType.SINGLE_PANE && !homeUIState.isDetailOnlyOpen) {
             closeDetailScreen()
         }
     }
 
-    LazyColumn (
-        modifier = modifier
-            .fillMaxWidth(),
-
-        ) {
-        stickyHeader {
-            Surface(
-                Modifier
-                    .fillParentMaxWidth()
-                    .padding(top = 10.dp, bottom = 10.dp)
-            ){
-
-
-                RepSearchBar(modifier = modifier)
-
-
-            }}
-        //item{ FloatingActionButton(onClick = {  }) {} }
-        val reps = homeUIState.reps
-        items(items = reps, key = { it.id }) { rep ->
-            RepResultListView(
-                modifier = modifier,
-                reps = rep,
-                //email = homeUIState.emails,
-                //openedEmail = replyHomeUIState.openedEmail,
-                //selectedEmailIds = replyHomeUIState.selectedEmails,
-                toggleRepSelection = toggleSelectedRep,
-                //emailLazyListState = emailLazyListState,
-                //navigateToDetail = navigateToDetail
-            )
-        }
-    }
-}
-
-
-
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
-@Composable
-fun RepSearchBar(
-    modifier: Modifier
-
-){
-    // Variables for component
-    var text by remember { mutableStateOf("") }
-    var active by remember { mutableStateOf(false) }
-    var boxVisible by remember {
-        mutableStateOf(false)
-    }
-
-
-    // Inner Component layout for just search bar
-
-    Box(modifier = modifier
-        .fillMaxWidth()
-        .background(Color(0xFFF9F1F8))
-        .padding(bottom = 5.dp, top = 40.dp, start = 10.dp, end = 10.dp)
-    ) {
-        Column {
-            Row (modifier.padding(bottom = 10.dp)){
-
-                // Helpful Tutorial: https://www.composables.com/material3/dockedsearchbar/video
-                // Wanted to make it look nice and have a fade when scrolling up, for later
-
-                DockedSearchBar(
-                    modifier = Modifier
-                        .wrapContentWidth()
-                        .width(330.dp),
-                    query = text,
-                    onQueryChange = { text = it }, // refers to actual text in search bar
-                    onSearch = { active = false },
-                    active = false,
-                    onActiveChange = { active = it },
-                    placeholder = { Text(text = "Search Representative") },
-                    leadingIcon = {
-                        Icon(
-                            imageVector = Icons.Default.Search,
-                            contentDescription = "Search Icon"
-                        )
-                    },
-                    trailingIcon = {
-                        if (active) {
-                            Icon(
-                                modifier = Modifier.clickable {
-                                    if (text.isNotEmpty()) {
-                                        text = ""
-                                    } else {
-                                        active = false
-                                    }
-                                },
-                                imageVector = Icons.Default.Close,
-                                contentDescription = "Close Icon"
-                            )
-                        }
-                    }
-
-                ) {}
-                // Filter Button
-                FloatingActionButton(
-                    onClick = { boxVisible = !boxVisible},
-                    modifier = Modifier
-                        .padding(start = 5.dp),
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.FilterList,
-                        contentDescription = "Favorite",
-                        tint = MaterialTheme.colorScheme.outline
-                    )
-                }
-            }
-            AnimatedVisibility(visible = boxVisible) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .background(Color(0xFFF0E5F4), RoundedCornerShape(15.dp)) // Box styling
-
-                ) {
-                    Box(modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(all = 10.dp)){
-                        Column {
-                            Text(
-                                text = "Demograhics",
-                                fontSize = 16.sp, // Set font size
-                                fontWeight = FontWeight.Bold, // Set font weight for header
-                                modifier = Modifier.padding(5.dp) // Optionally, add padding around the text
-                            )
-                            HorizontalDivider(thickness = 1.dp, color = Color.Gray)
-                            FlowRow (modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start){
-
-                                RepFilterChip(modifier = modifier, label = "Female")
-                                RepFilterChip(modifier = modifier, label = "Male")
-                                RepFilterChip(modifier = modifier, label = "Democrat")
-                                RepFilterChip(modifier = modifier, label = "Republican")
-                                RepFilterChip(modifier = modifier, label = "Senate")
-                                RepFilterChip(modifier = modifier, label = "House")
-                            }
-
-                            Text(
-                                text = "Regions",
-                                fontSize = 16.sp, // Set font size
-                                fontWeight = FontWeight.Bold, // Set font weight for header
-                                modifier = Modifier.padding(5.dp) // Optionally, add padding around the text
-                            )
-                            HorizontalDivider(thickness = 1.dp, color = Color.Gray)
-                            Row {
-                                RepFilterChip(modifier = modifier, label = "Long Beach")
-                                RepFilterChip(modifier = modifier, label = "Los Angeles")
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-
-
-
-
-
-    }}
-
-
-@Composable
-fun RepResultListView(
-    modifier: Modifier,
-    reps: Rep,
-    toggleRepSelection: (String) -> Unit,
-){
-    ElevatedCard(
-        onClick = { /* Do something */ },
-        colors = CardDefaults.cardColors(containerColor = Color.White),
-        elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
-        modifier = Modifier
-            .padding(horizontal = 30.dp, vertical = 4.dp)
-            .height(150.dp),
-
-        ){
+    Scaffold(
+        modifier = Modifier.semantics {
+            var testTagsAsResourceId = true
+        },
+        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+        contentColor = MaterialTheme.colorScheme.secondaryContainer,
+    ) { padding ->
         Column(
             modifier = Modifier
-                .fillMaxWidth()
-
-                .padding(20.dp),
+                .verticalScroll(rememberScrollState())
+                .padding(padding)
         )
         {
-            Text(text = "birthday")
-        }
-    }
-    Spacer(Modifier.height(20.dp))
+            val repId = "senator_james_charles"  // Example representative ID
+            val isFavorite = favoriteReps.value.contains(repId)
+            Surface(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+                shape = RoundedCornerShape(8),
+            ) {
+                Column(
+                    modifier = modifier
+                        .padding(10.dp)
+                )  {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(vertical = 15.dp),
+                            horizontalArrangement = Arrangement.Start
+                        ) {
+                            Text(
+                                text = "Senator James Charles",
+                                style = MaterialTheme.typography.titleLarge,
+                                color = MaterialTheme.colorScheme.scrim
+                            )
 
-}
+                        }
+                        //NEED TO ADD FAVORITES BUTTON FUNCTIONALITY
+                        IconButton(
+                            onClick = {
+                                favoriteReps.value = if (isFavorite) {
+                                    favoriteReps.value - repId
+                                } else {
+                                    favoriteReps.value + repId
+                                }
+                            },
+                            modifier = Modifier
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.StarBorder,
+                                contentDescription = "Favorite",
+                                tint = if (isFavorite) Color.Yellow else MaterialTheme.colorScheme.outline
+                            )
+                        }
+                    }
+                    // New Row added here
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        // Add your components here
+                        Text(
+                            text = "M, 1995, R, California",
+                            style = MaterialTheme.typography.bodyMedium,
+                        )
 
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun StateDropdownMenu(){
-    val options = listOf("Cupcake", "Donut", "Eclair", "Froyo", "Gingerbread")
-    var expanded by remember { mutableStateOf(false) }
-    var text by remember { mutableStateOf(options[0]) }
+                    }
 
-    ExposedDropdownMenuBox(
-        expanded = expanded,
-        onExpandedChange = { expanded = it },
-    ) {
-        TextField(
-            // The `menuAnchor` modifier must be passed to the text field to handle
-            // expanding/collapsing the menu on click. A read-only text field has
-            // the anchor type `PrimaryNotEditable`.
-            modifier = Modifier.menuAnchor(),
-            value = text,
-            onValueChange = {},
-            readOnly = true,
-            singleLine = true,
-            label = { Text("Label") },
-            trailingIcon = { ExposedDropdownMenuDefaults.TrailingIcon(expanded = expanded) },
-            colors = ExposedDropdownMenuDefaults.textFieldColors(),
-        )
-        ExposedDropdownMenu(
-            expanded = expanded,
-            onDismissRequest = { expanded = false },
-        ) {
-            options.forEach { option ->
-                DropdownMenuItem(
-                    text = { Text(option, style = MaterialTheme.typography.bodyLarge) },
-                    onClick = {
-                        text = option
-                        expanded = false
-                    },
-                    contentPadding = ExposedDropdownMenuDefaults.ItemContentPadding,
-                )
+                    // New Row added here
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        // Add your components here
+                        Text(
+                            text = "6005 Obispo Ave, Long Beach, CA 90805",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(top = 12.dp, bottom = 8.dp),
+                        )
+
+                    }
+                    // New Row added here
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        // Add your components here
+                        Text(
+                            text = "Website: https://jamescharles.senate.gov",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(top = 12.dp, bottom = 8.dp),
+                            color = Color.Blue
+                        )
+
+                    }
+                    Divider(modifier = Modifier.padding(vertical = 20.dp))
+
+                    // New Row added here
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        // Add your components here
+                        Text(
+                            text = "Ballotpedia ID: James Charles",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(top = 12.dp, bottom = 8.dp),
+                        )
+
+                    }
+
+                    // New Row added here
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            text = "OpenSecrets ID: N00007833",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(top = 12.dp, bottom = 8.dp),
+                        )
+
+                    }
+
+                    // New Row added here
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        // Add your components here
+                        Text(
+                            text = "Facebook: SenJamesCharles",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(top = 12.dp, bottom = 8.dp),
+                        )
+
+                    }
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            text = "Twitter: SenJamesCharles",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(top = 12.dp, bottom = 8.dp),
+                        )
+
+                    }
+
+                    // New Row added here
+                    /*Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 25.dp)
+                            .padding(horizontal = 75.dp)
+                    ) {
+                        ExtendedFloatingActionButton(
+                            text = { Text("Contact Form") },
+                            onClick = { /* TODO: Add your click handling logic here */ },
+                            icon = { Icon(Icons.Default.People, contentDescription = "Left Arrow") }
+                        )
+                    }*/
+                }
             }
         }
     }
-}
-
-@Composable
-
-fun RepFilterChip(
-    modifier: Modifier,
-    label: String,
-){
-    var selected by remember { mutableStateOf(false) }
-    FilterChip(
-        modifier = Modifier.padding( end = 5.dp),
-        onClick = { selected = !selected },
-        label = {
-            Text(label)
-        },
-        selected = selected,
-        leadingIcon = if (selected) {
-            {
-                Icon(
-                    imageVector = Icons.Filled.Done,
-                    contentDescription = "Done icon",
-                    modifier = Modifier.size(FilterChipDefaults.IconSize)
-                )
-            }
-        } else {
-            null
-        }
-
-
-    )
 }
