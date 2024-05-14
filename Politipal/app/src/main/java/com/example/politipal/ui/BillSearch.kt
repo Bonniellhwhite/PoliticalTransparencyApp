@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -37,7 +36,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -46,7 +44,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
-import com.example.politipal.data.Rep
 import com.example.politipal.ui.utils.PolitipalContentType
 import com.example.politipal.ui.utils.PolitipalNavigationType
 
@@ -54,13 +51,9 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.filled.Done
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
@@ -71,8 +64,6 @@ import androidx.compose.ui.unit.sp
 import com.example.politipal.R
 import com.example.politipal.data.Bill
 import com.example.politipal.data.BillFilterOptions
-import com.example.politipal.data.RepFilterOptions
-import com.example.politipal.ui.theme.*
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -87,15 +78,42 @@ fun BillSearch(
     toggleSelectedRep: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val viewModel = ReplyHomeViewModel()
+    val dummyBill = Bill(
+        number = 101,
+        originChamber = "Senate",
+        originChamberCode = "SEN",
+        title = "Climate Change Act 2024",
+        type = "Bill",
+        updateDate = "2024-05-14",
+        updateDateIncludingText = "Last updated on May 14, 2024",
+        url = "https://www.legislation.gov/senate/bill/101"
+    )
+    val viewModel = HomeViewModel()
+    var selectedBill by remember { mutableStateOf(dummyBill) }
 
-    LaunchedEffect(key1 = contentType) {}
-
-    BillSearchBar(modifier = modifier,
-        viewModel = viewModel,
-        homeUIState = homeUIState)
+    val updateSelectedBill = { newBill: Bill ->
+        selectedBill = newBill
     }
 
+    var showBill by remember { mutableStateOf(false) }
+    val updateShowBill = { newShow: Boolean ->
+        showBill = newShow
+    }
+
+    Surface(modifier = Modifier.fillMaxWidth()) {
+        if (showBill) { // Where does this come from?
+            BillPage(contentType = contentType, homeUIState = homeUIState, bill = selectedBill)
+        } else {
+            BillSearchBar(
+                modifier = modifier,
+                viewModel = viewModel,
+                homeUIState = homeUIState,
+                updateShowBill = updateShowBill,
+                updateSelectedBill = updateSelectedBill
+            )
+        }
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
     ExperimentalFoundationApi::class
@@ -103,8 +121,10 @@ fun BillSearch(
 @Composable
 fun BillSearchBar(
     modifier: Modifier,
-    viewModel: ReplyHomeViewModel,
-    homeUIState: homeUIState
+    viewModel: HomeViewModel,
+    homeUIState: homeUIState,
+    updateShowBill: (Boolean) -> Unit,
+    updateSelectedBill: (Bill) -> Unit
 ){
     // Variables for component
     var text by remember { mutableStateOf("") }
@@ -255,6 +275,8 @@ fun BillSearchBar(
                 BillResultListView(
                     modifier = modifier,
                     bill = bill,
+                    updateShowBill = updateShowBill,
+                    updateSelectedBill = updateSelectedBill
                     //toggleRepSelection = toggleSelectedRep,
                 )
             }
@@ -267,9 +289,13 @@ fun BillResultListView(
     modifier: Modifier,
     bill: Bill,
     //toggleRepSelection: (String) -> Unit,
+    updateShowBill: (Boolean) -> Unit,
+    updateSelectedBill: (Bill) -> Unit
 ){
     ElevatedCard(
-        onClick = { Log.d(ContentValues.TAG,bill.number.toString())},
+        onClick = { Log.d(ContentValues.TAG,bill.number.toString())
+            updateShowBill(true)
+            updateSelectedBill(bill)},
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
         modifier = Modifier
