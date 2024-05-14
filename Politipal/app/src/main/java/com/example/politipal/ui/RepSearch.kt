@@ -116,23 +116,29 @@ fun RepSearch(
         youtubeID = "UC1234567"
     )
     val viewModel = HomeViewModel()
-    var repView by remember { mutableStateOf(false) }
     var selectedRep by remember { mutableStateOf(dummyRep) }
-    var repID by remember { mutableStateOf("") }
-    val isVisible = homeUIState.repView
+    // Function to update text
+
+    val updateSelectedRep = { newRep: Rep ->
+        selectedRep = newRep
+    }
+
+    var showRep by remember { mutableStateOf(false) }
+    val updateShowRep = { newShow: Boolean ->
+        showRep = newShow
+    }
 
 
-    var showRep by remember { mutableStateOf(true) }
-
-        Surface(modifier = Modifier.fillMaxWidth()) {
-            if (!showRep) { // Where does this come from?
+    Surface(modifier = Modifier.fillMaxWidth()) {
+            if (showRep) { // Where does this come from?
                 RepPage(contentType = contentType, homeUIState = homeUIState, rep = selectedRep)
             } else {
                 RepSearchBar(
                     modifier = modifier,
                     viewModel = viewModel,
                     homeUIState = homeUIState,
-                    showRep = {showRep = false}
+                    updateShowRep = updateShowRep,
+                    updateSelectedRep = updateSelectedRep
                 )
             }
         }
@@ -146,7 +152,8 @@ fun RepSearch(
             modifier: Modifier,
             viewModel: HomeViewModel,
             homeUIState: homeUIState,
-            showRep: () -> Unit
+            updateShowRep: (Boolean) -> Unit,
+            updateSelectedRep: (Rep) -> Unit
         ){
             // Variables for component
             var text by remember { mutableStateOf("") }
@@ -322,74 +329,80 @@ fun RepSearch(
                                     RepResultListView(
                                         modifier = modifier,
                                         rep = rep,
-                                        showRep = showRep,
-                                        //toggleRepSelection = toggleSelectedRep,
+                                        updateShowRep = updateShowRep,
+                                        updateSelectedRep = updateSelectedRep
                                     )
                                 }
                         }
-                        }
-            }
+                    }
+        }
 
-    @Composable
+
+@Composable
 fun RepResultListView(
     modifier: Modifier,
     rep: Rep,
-    showRep: () -> Unit
-    ){
-        ElevatedCard(
-            onClick = showRep,
-            colors = CardDefaults.cardColors(containerColor = Color.White),
-            elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
-            modifier = Modifier
-                .padding(horizontal = 30.dp, vertical = 4.dp)
-                .height(150.dp)
-                .wrapContentSize(Alignment.Center)
-                ,
+    updateShowRep: (Boolean) -> Unit,
+    updateSelectedRep: (Rep) -> Unit)
+    {
+    ElevatedCard(
+        onClick = {
+            updateShowRep(true)
+            updateSelectedRep(rep)
+         },
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
+        modifier = Modifier
+            .padding(horizontal = 30.dp, vertical = 4.dp)
+            .height(150.dp)
+            .wrapContentSize(Alignment.Center),
 
-            ){
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(20.dp),
-                ){
+        ){
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .padding(20.dp),
+        ){
 
-             if (rep.gender == "M"){
-                        Image(painter = painterResource(id = R.drawable.rep_m),
-                            contentDescription = "rep m",
-                            modifier = Modifier
-                                .width(100.dp)
-                                .height(100.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                        )
-                    }
-                    if (rep.gender == "F"){
-                        Image(painter = painterResource(id = R.drawable.rep_f),
-                            contentDescription = "rep m",
-                            modifier = Modifier
-                                .width(100.dp)
-                                .height(100.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                        )
-
-                }
-
-                Column(
+            if (rep.gender == "M"){
+                Image(painter = painterResource(id = R.drawable.rep_m),
+                    contentDescription = "rep m",
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(start = 10.dp),
-                ) {
+                        .width(100.dp)
+                        .height(100.dp)
+                        .clip(RoundedCornerShape(10.dp))
+                )
+            }
+            if (rep.gender == "F"){
+                Image(painter = painterResource(id = R.drawable.rep_f),
+                    contentDescription = "rep m",
+                    modifier = Modifier
+                        .width(100.dp)
+                        .height(100.dp)
+                        .clip(RoundedCornerShape(10.dp))
+                )
 
-                    Text(text = "${rep.firstName} ${rep.fullName}", style = MaterialTheme.typography.headlineSmall,)
-                    Text(text = "Party: ${rep.party}")
-                    Text(text = "State: ${rep.state}")
-                    Text(text = "District: ${rep.district}")
+            }
 
-                }
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(start = 10.dp),
+            ) {
+
+                Text(text = "${rep.firstName} ${rep.fullName}", style = MaterialTheme.typography.headlineSmall,)
+                Text(text = "Party: ${rep.party}")
+                Text(text = "State: ${rep.state}")
+                Text(text = "District: ${rep.district}")
+
             }
         }
-        Spacer(Modifier.height(20.dp))
+    }
+    Spacer(Modifier.height(20.dp))
 
     }
+
+
 
 
 @Composable
