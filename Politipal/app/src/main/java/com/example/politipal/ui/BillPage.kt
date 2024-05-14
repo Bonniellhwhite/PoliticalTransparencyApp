@@ -19,26 +19,35 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Article
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.KeyboardDoubleArrowLeft
 import androidx.compose.material.icons.filled.People
 import androidx.compose.material.icons.filled.StarBorder
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
 import com.example.politipal.R
@@ -54,117 +63,139 @@ fun BillPage(
     homeUIState: homeUIState,
     modifier: Modifier = Modifier,
     bill: Bill,
+    isOpened: Boolean = false,
+    isSelected: Boolean = false
 ) {
-
-    Box(modifier = modifier.fillMaxSize()) {
-        // Crystal TODO?
-        Box(
-            modifier = modifier
-                .fillMaxSize()
-                .padding(all = 50.dp)
-        ) {
-            Row(
+    val favoriteBills= remember { mutableStateOf(setOf<String>()) }
+    LaunchedEffect(key1 = contentType) {
+        if (contentType == PolitipalContentType.SINGLE_PANE && !homeUIState.isDetailOnlyOpen) {
+            closeDetailScreen()
+        }
+    }
+    Scaffold(
+        modifier = Modifier.semantics {
+            var testTagsAsResourceId = true
+        },
+        containerColor = MaterialTheme.colorScheme.secondaryContainer,
+        contentColor = MaterialTheme.colorScheme.secondaryContainer,
+    ) { padding ->
+        Column(
+            modifier = Modifier
+                .verticalScroll(rememberScrollState())
+                .padding(padding)
+        )
+        {
+            val billId = "s_36"  // Example representative ID
+            val isFavorite = favoriteBills.value.contains(billId)
+            Surface(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(20.dp)
+                    .padding(12.dp),
+                shape = RoundedCornerShape(8),
             ) {
-                Row(
-                    modifier = Modifier
-                        //.weight(1f)
-                        .padding(vertical = 15.dp),
-                    horizontalArrangement = Arrangement.Start
+                Column(
+                    modifier = modifier
+                        .padding(10.dp)
                 ) {
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Row(
+                            modifier = Modifier
+                                .weight(1f)
+                                .padding(vertical = 15.dp),
+                            horizontalArrangement = Arrangement.Start
+                        ) {
+                            Text(
+                                text = "${bill.type} ${bill.number}",
+                                style = MaterialTheme.typography.displaySmall,
+                                color = MaterialTheme.colorScheme.scrim
+                            )
+                        }
+                        IconButton(
+                            onClick = {
+                                favoriteBills.value = if (isFavorite) {
+                                    favoriteBills.value - billId
+                                } else {
+                                    favoriteBills.value + billId
+                                } },
+                            modifier = Modifier
+                        ) {
+                            Icon(
+                                imageVector = Icons.Default.StarBorder,
+                                contentDescription = "Favorite",
+                                tint = if (isFavorite) Color.Yellow else MaterialTheme.colorScheme.outline
+                            )
+                        }
+                    }
+
                     Text(
-                        text = "${bill.type} ${bill.number}",
-                        style = MaterialTheme.typography.bodyLarge,
+                        modifier = Modifier,
+                        text = "Bill Title:",
+                        style = MaterialTheme.typography.titleLarge,
                     )
+                    Divider(modifier = Modifier.padding(vertical = 10.dp))
 
-                }
-                //NEED TO ADD FAVORITES BUTTON FUNCTIONALITY
-                IconButton(
-                    onClick = { /*TODO*/ },
-                    modifier = Modifier
-                        .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.StarBorder,
-                        contentDescription = "Favorite",
-                        tint = MaterialTheme.colorScheme.outline
-                    )
-                }
-            }
-
-            // New Row added here
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 45.dp)
-                    .padding(20.dp)
-            ) {
-                // Add your components here
-                Text(
-                    text = "${bill.originChamber}",
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(top = 12.dp, bottom = 8.dp),
-                )
-
-            }
-            // New Row added here
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 65.dp)
-                    .padding(20.dp)
-            ) {
-                // Add your components here
-                Text(
-                    text = "${bill.updateDate}",
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(top = 12.dp, bottom = 8.dp),
-                )
-
-            }
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 85.dp)
-                    .padding(20.dp)
-            ) {
-                // Add your components here
-                Text(
-                    text = "Official link",
-                    style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(top = 12.dp, bottom = 8.dp),
-                )
-
-            }
-            // New Row added here
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 145.dp)
-            ) {
-                // Add your components here
-                Box(
-                    modifier = Modifier.weight(1f),
-                    content = {
-                        LazyColumn(
-                            modifier = Modifier.fillMaxHeight(),
-                            content = {
-                                item {
-                                    Text(
-                                        text = "Summary: Providing for consideration of the bill (H.R. 6192) to amend the Energy Policy and Conservation Act to prohibit the Secretary of Energy from prescribing any new or amended energy conservation standard for a product that is not technologically feasible and economically justified, and for other purposes; providing for consideration of the bill (H.R. 7109) to require a citizenship question on the decennial census, to require reporting on certain census statistics, and to modify apportionment of Representatives to be based on United States citizens instead of all persons; providing for consideration of the joint resolution (H.J. Res. 109) providing for congressional disapproval under chapter 8 of title 5, United States Code, of the rule submitted by the Securities and Exchange Commission relating to \"Staff Accounting Bulletin No. 121\"; and providing for consideration of the bill (H.R. 2925) to amend the Omnibus Budget Reconciliation Act of 1993 to provide for security of tenure for use of mining claims for ancillary activities, and for other purposes.",
-                                        style = MaterialTheme.typography.bodyLarge,
-                                        modifier = Modifier.padding(top = 12.dp, bottom = 8.dp),
-                                    )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .weight(1f)
+                                .height(100.dp)  // Adjust height to fit approximately 5 lines
+                        ) {
+                            LazyColumn(
+                                modifier = Modifier.fillMaxHeight(),
+                                state = rememberLazyListState(),
+                                content = {
+                                    item {
+                                        Text(
+                                            text = "${bill.title}",
+                                            style = MaterialTheme.typography.bodyLarge,
+                                            modifier = Modifier.padding(top = 12.dp, bottom = 8.dp),
+                                        )
+                                    }
                                 }
-                            }
+                            )
+                        }
+                    }
+                    Divider(modifier = Modifier.padding(vertical = 20.dp))
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            text = "Chamber of Origin: ${bill.originChamber}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(top = 12.dp, bottom = 8.dp),
                         )
                     }
-                )
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            text = "Last Updated: ${bill.updateDate}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(top = 12.dp, bottom = 8.dp),
+                        )
+                    }
+
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                    ) {
+                        Text(
+                            text = "Official link: ${bill.url}",
+                            style = MaterialTheme.typography.bodyMedium,
+                            modifier = Modifier.padding(top = 12.dp, bottom = 8.dp),
+                        )
+                    }
+                }
             }
         }
-
     }
 }
