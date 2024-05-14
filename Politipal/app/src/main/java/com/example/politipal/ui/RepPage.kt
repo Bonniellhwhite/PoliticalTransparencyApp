@@ -47,18 +47,14 @@ import com.example.politipal.ui.utils.PolitipalNavigationType
 fun RepPage(
     contentType: PolitipalContentType,
     homeUIState: homeUIState,
-    navigationType: PolitipalNavigationType,
-    displayFeatures: List<DisplayFeature>,
-    closeDetailScreen: () -> Unit,
-    navigateToDetail: (Long, PolitipalContentType) -> Unit,
-    toggleSelectedEmail: (Long) -> Unit,
     modifier: Modifier = Modifier,
     rep: Rep
 
 ) {
+    val viewModel = HomeViewModel()
     LaunchedEffect(key1 = contentType) {
         if (contentType == PolitipalContentType.SINGLE_PANE && !homeUIState.isDetailOnlyOpen) {
-            closeDetailScreen()
+            //closeDetailScreen()
         }
     }
 

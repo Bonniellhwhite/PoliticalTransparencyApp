@@ -21,7 +21,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
@@ -46,7 +45,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
-import com.example.politipal.data.Rep
 import com.example.politipal.ui.utils.PolitipalContentType
 import com.example.politipal.ui.utils.PolitipalNavigationType
 
@@ -54,13 +52,9 @@ import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.material.icons.filled.Done
-import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.ExposedDropdownMenuBox
-import androidx.compose.material3.ExposedDropdownMenuDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.draw.clip
@@ -71,8 +65,6 @@ import androidx.compose.ui.unit.sp
 import com.example.politipal.R
 import com.example.politipal.data.Bill
 import com.example.politipal.data.BillFilterOptions
-import com.example.politipal.data.RepFilterOptions
-import com.example.politipal.ui.theme.*
 
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
@@ -87,7 +79,7 @@ fun BillSearch(
     toggleSelectedRep: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val viewModel = ReplyHomeViewModel()
+    val viewModel = HomeViewModel()
 
     LaunchedEffect(key1 = contentType) {}
 
@@ -103,7 +95,7 @@ fun BillSearch(
 @Composable
 fun BillSearchBar(
     modifier: Modifier,
-    viewModel: ReplyHomeViewModel,
+    viewModel: HomeViewModel,
     homeUIState: homeUIState
 ){
     // Variables for component
