@@ -67,11 +67,7 @@ fun BillPage(
     isSelected: Boolean = false
 ) {
     val favoriteBills= remember { mutableStateOf(setOf<String>()) }
-    LaunchedEffect(key1 = contentType) {
-        if (contentType == PolitipalContentType.SINGLE_PANE && !homeUIState.isDetailOnlyOpen) {
-            closeDetailScreen()
-        }
-    }
+
     Scaffold(
         modifier = Modifier.semantics {
             var testTagsAsResourceId = true
