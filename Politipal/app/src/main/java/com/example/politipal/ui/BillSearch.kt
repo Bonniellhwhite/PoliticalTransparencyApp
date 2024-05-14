@@ -36,7 +36,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -79,15 +78,42 @@ fun BillSearch(
     toggleSelectedRep: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val dummyBill = Bill(
+        number = 101,
+        originChamber = "Senate",
+        originChamberCode = "SEN",
+        title = "Climate Change Act 2024",
+        type = "Bill",
+        updateDate = "2024-05-14",
+        updateDateIncludingText = "Last updated on May 14, 2024",
+        url = "https://www.legislation.gov/senate/bill/101"
+    )
     val viewModel = HomeViewModel()
+    var selectedBill by remember { mutableStateOf(dummyBill) }
 
-    LaunchedEffect(key1 = contentType) {}
-
-    BillSearchBar(modifier = modifier,
-        viewModel = viewModel,
-        homeUIState = homeUIState)
+    val updateSelectedBill = { newBill: Bill ->
+        selectedBill = newBill
     }
 
+    var showBill by remember { mutableStateOf(false) }
+    val updateShowBill = { newShow: Boolean ->
+        showBill = newShow
+    }
+
+    Surface(modifier = Modifier.fillMaxWidth()) {
+        if (showBill) { // Where does this come from?
+            BillPage(contentType = contentType, homeUIState = homeUIState, bill = selectedBill)
+        } else {
+            BillSearchBar(
+                modifier = modifier,
+                viewModel = viewModel,
+                homeUIState = homeUIState,
+                updateShowBill = updateShowBill,
+                updateSelectedBill = updateSelectedBill
+            )
+        }
+    }
+}
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
     ExperimentalFoundationApi::class
@@ -96,7 +122,9 @@ fun BillSearch(
 fun BillSearchBar(
     modifier: Modifier,
     viewModel: HomeViewModel,
-    homeUIState: homeUIState
+    homeUIState: homeUIState,
+    updateShowBill: (Boolean) -> Unit,
+    updateSelectedBill: (Bill) -> Unit
 ){
     // Variables for component
     var text by remember { mutableStateOf("") }
@@ -247,6 +275,8 @@ fun BillSearchBar(
                 BillResultListView(
                     modifier = modifier,
                     bill = bill,
+                    updateShowBill = updateShowBill,
+                    updateSelectedBill = updateSelectedBill
                     //toggleRepSelection = toggleSelectedRep,
                 )
             }
@@ -259,9 +289,13 @@ fun BillResultListView(
     modifier: Modifier,
     bill: Bill,
     //toggleRepSelection: (String) -> Unit,
+    updateShowBill: (Boolean) -> Unit,
+    updateSelectedBill: (Bill) -> Unit
 ){
     ElevatedCard(
-        onClick = { Log.d(ContentValues.TAG,bill.number.toString())},
+        onClick = { Log.d(ContentValues.TAG,bill.number.toString())
+            updateShowBill(true)
+            updateSelectedBill(bill)},
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
         modifier = Modifier

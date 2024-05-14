@@ -47,28 +47,14 @@ import com.example.politipal.ui.utils.PolitipalContentType
 import com.example.politipal.ui.utils.PolitipalNavigationType
 import com.example.politipal.data.Bill
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun BillPage(
     contentType: PolitipalContentType,
     homeUIState: homeUIState,
-    navigationType: PolitipalNavigationType,
-    displayFeatures: List<DisplayFeature>,
-    closeDetailScreen: () -> Unit,
-    navigateToDetail: (Long, PolitipalContentType) -> Unit,
-    toggleSelectedEmail: (Long) -> Unit,
     modifier: Modifier = Modifier,
     bill: Bill,
-    isOpened: Boolean = false,
-    isSelected: Boolean = false
 ) {
-    LaunchedEffect(key1 = contentType) {
-        if (contentType == PolitipalContentType.SINGLE_PANE && !homeUIState.isDetailOnlyOpen) {
-            closeDetailScreen()
-        }
-    }
-
 
     Box(modifier = modifier.fillMaxSize()) {
         // Crystal TODO?

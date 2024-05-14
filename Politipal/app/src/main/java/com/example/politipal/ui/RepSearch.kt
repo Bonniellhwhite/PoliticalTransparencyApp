@@ -117,7 +117,6 @@ fun RepSearch(
     )
     val viewModel = HomeViewModel()
     var selectedRep by remember { mutableStateOf(dummyRep) }
-    // Function to update text
 
     val updateSelectedRep = { newRep: Rep ->
         selectedRep = newRep
@@ -127,7 +126,6 @@ fun RepSearch(
     val updateShowRep = { newShow: Boolean ->
         showRep = newShow
     }
-
 
     Surface(modifier = Modifier.fillMaxWidth()) {
             if (showRep) { // Where does this come from?
