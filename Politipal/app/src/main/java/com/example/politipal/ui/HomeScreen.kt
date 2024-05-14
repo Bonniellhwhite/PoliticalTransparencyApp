@@ -159,7 +159,8 @@ fun ReplyEmailList(
                     style = MaterialTheme.typography.titleLarge,
                     color = Color.White,
                     fontWeight = FontWeight.Bold,
-                    fontFamily = FontFamily.Serif
+                    fontFamily = FontFamily.Serif,
+                    modifier = Modifier.padding(start = 15.dp)
                 )
                 Spacer(modifier = Modifier.height(10.dp))
             }
@@ -177,7 +178,8 @@ fun ReplyEmailList(
                     style = MaterialTheme.typography.titleSmall,
                     color = Color.White,
                     fontWeight = FontWeight.Light,
-                    fontFamily = FontFamily.Default
+                    fontFamily = FontFamily.Default,
+                    modifier = Modifier.padding(start = 25.dp)
                 )
 
                 Spacer(modifier = Modifier.height(5.dp))
@@ -185,12 +187,12 @@ fun ReplyEmailList(
 
             item {
                 Row{
-                    ModernCard(title = "Test 1", subtitle = "Test Subtitle", description = "Test")
+                    ModernCard(title = "Your Contributions", subtitle = "Test Subtitle", description = "Test")
                     //ModernCard(title = "Test 1", subtitle = "Test Subtitle", description = "Test")
                 }
             }
             item{
-                ModernCard(title = "Test 1", subtitle = "Test Subtitle", description = "Test")
+                ModernCard(title = "Total Contributions to Date", subtitle = "Test Subtitle", description = "Test")
             }
             item{
                 ModernCard(title = "Test 1", subtitle = "Test Subtitle", description = "Test")
