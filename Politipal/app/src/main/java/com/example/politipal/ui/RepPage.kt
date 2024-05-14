@@ -49,9 +49,9 @@ fun RepPage(
     homeUIState: homeUIState,
     modifier: Modifier = Modifier,
     rep: Rep
-
 ) {
     val viewModel = HomeViewModel()
+    //var rep = homeUIState.selectedRep
     LaunchedEffect(key1 = contentType) {
         if (contentType == PolitipalContentType.SINGLE_PANE && !homeUIState.isDetailOnlyOpen) {
             //closeDetailScreen()

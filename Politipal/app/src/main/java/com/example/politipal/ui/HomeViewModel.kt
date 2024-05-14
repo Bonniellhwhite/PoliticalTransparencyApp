@@ -97,10 +97,7 @@ class HomeViewModel(private val emailsRepository: EmailsRepository = EmailsRepos
                     /**
                      * We set first email selected by default for first App launch in large-screens
                      */
-                    _uiState.value = homeUIState(
-                        emails = emails,
-                        openedEmail = emails.first()
-                    )
+
                 }
         }
     }
@@ -135,13 +132,7 @@ class HomeViewModel(private val emailsRepository: EmailsRepository = EmailsRepos
 
         }
 
-        fun toggleSelectedRep(repId: String) {
-            val currentSelection = uiState.value.selectedReps
-            _uiState.value = _uiState.value.copy(
-                selectedReps = if (currentSelection.contains(repId))
-                    currentSelection.minus(repId) else currentSelection.plus(repId)
-            )
-        }
+
 
         private fun filterAndSearchReps(
             reps: List<Rep>,
@@ -203,7 +194,7 @@ data class homeUIState(
     val emails: List<Email> = emptyList(),
 
     val selectedEmails: Set<Long> = emptySet(),
-    val selectedReps: Set<String> = emptySet(),
+    //val selectedRep: Rep,
     val openedEmail: Email? = null,
     val isDetailOnlyOpen: Boolean = false,
     val loading: Boolean = false,

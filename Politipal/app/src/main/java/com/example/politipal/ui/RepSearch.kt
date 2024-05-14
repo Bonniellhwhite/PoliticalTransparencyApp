@@ -82,30 +82,62 @@ fun RepSearch(
     toggleSelectedRep: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+
+    val dummyRep = Rep(
+        id = "rep123",
+        address = "123 Capitol Hill Rd, Washington D.C.",
+        ballotpediaID = "ballotpedia_john_doe",
+        bioguideID = "B001234",
+        birthday = 1970,
+        cspanID = 101234,
+        district = "3rd Congressional District",
+        facebook = "johnDoeForCongress",
+        fecIDS = "C00345678",
+        firstName = "John",
+        fullName = "John A. Doe",
+        gender = "M",
+        govtrackID = 412345,
+        icpsrID = 203456,
+        middleName = "A",
+        opensecretsID = "N00001234",
+        party = "Democratic",
+        phone = 2025551234,
+        rssURL = "http://www.johndoe.com/rss",
+        state = "CA",
+        surname = "Doe",
+        thomasID = "T000123",
+        twitter = "johnDoe",
+        twitterID = 987654321,
+        type = "Representative",
+        url = "http://www.johndoe.com",
+        votesmartID = 456789,
+        wikipediaID = "John_Doe_(politician)",
+        youtube = "johnDoeChannel",
+        youtubeID = "UC1234567"
+    )
     val viewModel = HomeViewModel()
     var repView by remember { mutableStateOf(false) }
+    var selectedRep by remember { mutableStateOf(dummyRep) }
     var repID by remember { mutableStateOf("") }
-
     val isVisible = homeUIState.repView
 
-    if(!isVisible){
-        Log.d(TAG,"Search Page")
-        RepSearchBar(
-            modifier = modifier,
-            viewModel = viewModel,
-            homeUIState = homeUIState,
-            repView = repView
-        )
-    }else {
-        Log.d(TAG,"Nothing")
-        Text(
-            text = "Nothing",
-            fontSize = 16.sp, // Set font size
-            fontWeight = FontWeight.Bold, // Set font weight for header
-            modifier = Modifier.padding(5.dp) // Optionally, add padding around the text
-        )
+
+    var showRep by remember { mutableStateOf(true) }
+
+        Surface(modifier = Modifier.fillMaxWidth()) {
+            if (!showRep) { // Where does this come from?
+                RepPage(contentType = contentType, homeUIState = homeUIState, rep = selectedRep)
+            } else {
+                RepSearchBar(
+                    modifier = modifier,
+                    viewModel = viewModel,
+                    homeUIState = homeUIState,
+                    showRep = {showRep = false}
+                )
+            }
+        }
     }
-}
+
         @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class,
             ExperimentalFoundationApi::class
         )
@@ -114,7 +146,7 @@ fun RepSearch(
             modifier: Modifier,
             viewModel: HomeViewModel,
             homeUIState: homeUIState,
-            repView: Boolean
+            showRep: () -> Unit
         ){
             // Variables for component
             var text by remember { mutableStateOf("") }
@@ -290,8 +322,7 @@ fun RepSearch(
                                     RepResultListView(
                                         modifier = modifier,
                                         rep = rep,
-                                        repView = repView,
-                                        viewModel = viewModel
+                                        showRep = showRep,
                                         //toggleRepSelection = toggleSelectedRep,
                                     )
                                 }
@@ -303,12 +334,10 @@ fun RepSearch(
 fun RepResultListView(
     modifier: Modifier,
     rep: Rep,
-    repView: Boolean,
-    viewModel: HomeViewModel
+    showRep: () -> Unit
     ){
         ElevatedCard(
-            onClick = { Log.d(TAG,rep.firstName)
-                viewModel.repViewUpdate(isVisible = true)},
+            onClick = showRep,
             colors = CardDefaults.cardColors(containerColor = Color.White),
             elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
             modifier = Modifier

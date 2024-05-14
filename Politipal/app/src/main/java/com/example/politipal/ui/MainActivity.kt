@@ -53,7 +53,7 @@ class MainActivity : ComponentActivity() {
                         viewModel.toggleSelectedEmail(emailId)
                     },
                     toggleSelectedRep = { repId ->
-                        viewModel.toggleSelectedRep(repId)
+                       // viewModel.toggleSelectedRep(repId)
                     }
                 )
             }
