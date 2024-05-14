@@ -1,5 +1,6 @@
-package com.example.politipal.ui
+package com.example.politipal.ui.Login
 
+import LoginView
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,18 +18,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
 import com.example.politipal.R
+import com.example.politipal.data.Login.LoginUIEvent
 import com.example.politipal.ui.components.ButtonComp
 import com.example.politipal.ui.components.ClickableLogin
-import com.example.politipal.ui.components.ClickableSignUp
 import com.example.politipal.ui.components.PasswordTextField
 import com.example.politipal.ui.components.TextField
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavController, loginView: LoginView = viewModel()) {
     Surface(
         color = Color.White,
         modifier = Modifier
@@ -57,21 +59,28 @@ fun LoginScreen() {
                 )
             )
             Spacer(modifier = Modifier.height(60.dp))
-            TextField(labelValue = stringResource(id = R.string.email))
+            TextField(labelValue = stringResource(id = R.string.email), onTextSelected = {
+                loginView.onEvent(LoginUIEvent.EmailChanged(it))
+            },
+                errorStatus = loginView.loginUIState.value.emailError
+            )
             Spacer(modifier = Modifier.height(10.dp))
-            PasswordTextField(labelValue = stringResource(id = R.string.password))
+            PasswordTextField(labelValue = stringResource(id = R.string.password), onTextSelected = {
+                loginView.onEvent(LoginUIEvent.PasswordChanged(it))
+            },
+                errorStatus = loginView.loginUIState.value.passwordError
+
+            )
             Spacer(modifier = Modifier.height(40.dp))
-            ButtonComp(value = stringResource(id = R.string.login))
+            ButtonComp(value = stringResource(id = R.string.login),
+                onButtonClick = {
+                    loginView.onEvent(LoginUIEvent.LoginButton)
+                })
             Spacer(modifier = Modifier.height(20.dp))
-            ClickableSignUp(onTextSelected = {
+            ClickableLogin(tryingToLogin = false, onTextSelected = {
+                navController.navigate("SignUpScreen")
             })
         }
     }
-
-}
-@Preview
-@Composable
-fun DefaultPreviewOfLoginScreen(){
-    LoginScreen()
 
 }

@@ -1,5 +1,6 @@
 buildscript {
     dependencies {
+        classpath(libs.google.services)
         //noinspection UseTomlInstead
         //classpath ("com.google.gms:google-services:4.3.9")
     }

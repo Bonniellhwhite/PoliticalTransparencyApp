@@ -23,6 +23,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.BlendMode.Companion.Screen
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.colorResource
@@ -36,8 +37,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import com.example.politipal.R
 import com.example.politipal.ui.theme.primaryLight
+
 
 
 @Composable
@@ -73,7 +76,7 @@ fun headingSU(value:String){
 
 
 @Composable
-fun TextField(labelValue: String) {
+fun TextField(labelValue: String, onTextSelected: (String) -> Unit, errorStatus:Boolean = false) {
     val textValue = remember { mutableStateOf("") }
 
     OutlinedTextField(
@@ -83,12 +86,14 @@ fun TextField(labelValue: String) {
         value = textValue.value,
         onValueChange = {
             textValue.value = it
-        }
+            onTextSelected(it)
+        },
+        isError = !errorStatus
     )
 }
 
 @Composable
-fun PasswordTextField(labelValue: String){
+fun PasswordTextField(labelValue: String, onTextSelected: (String) -> Unit, errorStatus:Boolean = false) {
     val password = remember { mutableStateOf("")
     }
 
@@ -99,18 +104,25 @@ fun PasswordTextField(labelValue: String){
         value = password.value,
         onValueChange = {
             password.value = it
-        }
+            onTextSelected(it)
+        },
+        isError = !errorStatus
+
     )
 }
 
 @Composable
-fun ButtonComp(value: String){
-    Button(onClick ={/*TODO*/},
+fun ButtonComp(value: String, onButtonClick : () -> Unit, isEnabled :Boolean = false){
+    Button(
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(48.dp),
+        onClick = {
+            onButtonClick.invoke()
+        },
         contentPadding = PaddingValues(),
-        colors = ButtonDefaults.buttonColors(Color.Transparent)
+        colors = ButtonDefaults.buttonColors(Color.Transparent),
+        enabled = isEnabled
     ){
         Box(modifier= Modifier
             .fillMaxWidth()
@@ -120,7 +132,7 @@ fun ButtonComp(value: String){
                 shape = RoundedCornerShape(50.dp)
             ),
             contentAlignment = Alignment.Center
-            ){
+        ){
             Text(text = value,
                 fontSize = 18.sp,
                 fontWeight = FontWeight.Bold
@@ -130,18 +142,18 @@ fun ButtonComp(value: String){
 
     }
 
-    }
+}
 
 @Composable
-fun ClickableLogin(onTextSelected: (String) -> Unit){
-    val initialText = "Already Have An Account?"
-    val LoginText = " Login"
+fun ClickableLogin(tryingToLogin:Boolean = true, onTextSelected: (String) -> Unit){
+    val initialText = if (tryingToLogin) "Already Have An Account?" else "Don't have an account yet?"
+    val loginText = if (tryingToLogin) " Login" else " Sign Up"
 
     val annotatedString = buildAnnotatedString {
         append(initialText)
         withStyle(style = SpanStyle(color = primaryLight)){
-            pushStringAnnotation(tag = LoginText, annotation = LoginText)
-            append(LoginText)
+            pushStringAnnotation(tag = loginText, annotation = loginText)
+            append(loginText)
         }
     }
     ClickableText(
@@ -153,49 +165,11 @@ fun ClickableLogin(onTextSelected: (String) -> Unit){
             fontWeight = FontWeight.Normal,
             fontStyle = FontStyle.Normal
         ),
-        text = annotatedString, onClick = {offset ->
-        annotatedString.getStringAnnotations(offset, offset)
-            .firstOrNull()?.also{span ->
-                Log.d("ClickableTextComponent", "{${span.item}}")
-
-                if(span.item == LoginText){
-                    onTextSelected(span.item)
-                }
-
-
-            }
-
-    })
-
-    }
-
-@Composable
-fun ClickableSignUp(onTextSelected: (String) -> Unit){
-    val initialText = "Do Not Have An Account?"
-    val SignUpText = " Sign Up"
-
-    val annotatedString = buildAnnotatedString {
-        append(initialText)
-        withStyle(style = SpanStyle(color = primaryLight)){
-            pushStringAnnotation(tag = SignUpText, annotation = SignUpText)
-            append(SignUpText)
-        }
-    }
-    ClickableText(
-        modifier = Modifier
-            .fillMaxHeight()
-            .heightIn(min = 10.dp),
-        style = TextStyle(
-            fontSize = 21.sp,
-            fontWeight = FontWeight.Normal,
-            fontStyle = FontStyle.Normal
-        ),
-        text = annotatedString, onClick = {offset ->
+        text = annotatedString,
+        onClick = { offset ->
             annotatedString.getStringAnnotations(offset, offset)
-                .firstOrNull()?.also{span ->
-                    Log.d("ClickableTextComponent", "{${span.item}}")
-
-                    if(span.item == SignUpText){
+                .firstOrNull()?.also { span ->
+                    if(span.item == loginText){
                         onTextSelected(span.item)
                     }
 
