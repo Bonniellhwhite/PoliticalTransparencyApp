@@ -32,6 +32,9 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
+        viewModel.fetchFirebaseReps()
+        viewModel.fetchFirebaseBills()
+
         setContent {
             AppTheme {
                 val windowSize = calculateWindowSizeClass(this)

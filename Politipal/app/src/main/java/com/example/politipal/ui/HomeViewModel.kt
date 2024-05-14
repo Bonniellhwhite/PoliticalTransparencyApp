@@ -27,6 +27,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlin.math.log
@@ -56,8 +57,7 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
 
     init {
         observeEmails()
-        fetchFirebaseReps()
-        fetchFirebaseBills()
+
     }
 
     fun fetchFirebaseReps(){
@@ -69,9 +69,9 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
                 .collect { reps ->
                     //Log.d(TAG,reps.size.toString())
 
-                    _uiState.value = homeUIState(
-                        reps = reps,
-                    )
+                    _uiState.update { currentState ->
+                        currentState.copy(reps = reps)
+                    }
                 }
         }
     }
@@ -85,9 +85,9 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
                 .collect { bills ->
                     Log.d(TAG,bills.size.toString())
 
-                    _uiState.value = homeUIState(
-                        bills = bills,
-                    )
+                    _uiState.update { currentState ->
+                        currentState.copy(bills = bills)
+                    }
                 }
         }
     }
@@ -162,8 +162,8 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
         return bills.filter {
             Log.d(TAG,"Searching Bills...")
             // Match search query against first name or full name
-            (it.title.contains(searchQuery.value, ignoreCase = true) ||
-                    it.number.toString().contains(searchQuery.value, ignoreCase = true))
+            (it.title.contains(billSearchQuery.value, ignoreCase = true) ||
+                    it.number.toString().contains(billSearchQuery.value, ignoreCase = true))
                     &&
                     //Apply any selected filters
                     filters.value.all { filter -> filter.matches(it) }
