@@ -42,8 +42,8 @@ fun BillSearch(
         }
     }
 
-        val emailLazyListState = rememberLazyListState()
-        Box(modifier = modifier.fillMaxSize()) {
+    val emailLazyListState = rememberLazyListState()
+    Box(modifier = modifier.fillMaxSize()) {
 
         // Main Bill Search Screen - Bonnie
         BillSearchContent(
@@ -77,11 +77,10 @@ fun BillSearchContent(
         modifier = modifier
             .fillMaxWidth()
             .padding(top = 10.dp)
-        ){
+    ){
 
     }
 
 }
-
 
 

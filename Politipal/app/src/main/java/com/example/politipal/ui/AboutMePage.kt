@@ -1,22 +1,12 @@
 
 package com.example.politipal.ui
 
-import android.app.ActivityManager.AppTask
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Article
-import androidx.compose.material.icons.filled.KeyboardDoubleArrowLeft
-import androidx.compose.material.icons.filled.People
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ExtendedFloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -24,49 +14,31 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
 import com.example.politipal.R
-import com.example.politipal.ui.theme.AppTheme
 import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.ui.ExperimentalComposeUiApi
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.semantics.testTagsAsResourceId
-import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.dp
-import com.example.politipal.data.ImageTextList
-import MyIcons
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.filled.Archive
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Folder
+import androidx.compose.material.icons.filled.StarBorder
 import com.example.politipal.data.ProfilePopularList
 import com.example.politipal.ui.utils.PolitipalContentType
 import com.example.politipal.ui.utils.PolitipalNavigationType
@@ -77,7 +49,7 @@ const val my_description = "A college student interested in politics - in search
 val profilePopularList = listOf(
     ProfilePopularList("H.R. 0345", "Denouncing the Biden administration's immigration policies", "25", "Kotlin"),
     ProfilePopularList("Representative Brown", "Party: Nonpartisan", "9", "Kotlin"),
-    ProfilePopularList("DayNight-Theme", "A Material Design-based Theme Management System for Android Jetpack Compose.", "45", "Kotlin")
+    ProfilePopularList("S. 36", "A concurrent resolution authorizing the use of Emancipation Hall in the Capitol Visitor Center for an event to celebrate the birthday of King Kamehameha I.", "45", "Kotlin")
 )
 
 @OptIn(ExperimentalComposeUiApi::class, ExperimentalMaterial3Api::class)
@@ -97,24 +69,23 @@ fun AboutMePage(
             closeDetailScreen()
         }
     }
-
-    Scaffold(
-        modifier = Modifier.semantics {
-            testTagsAsResourceId = true
-        },
-        containerColor = Color.Transparent,
-        contentColor = MaterialTheme.colorScheme.onBackground,
-    ) { padding ->
-        Column(
-            modifier = Modifier
-                .verticalScroll(rememberScrollState())
-                .padding(padding)
-        ) {
-            TopProfileLayout()
-            MainProfileContent()
+            Scaffold(
+                modifier = Modifier.semantics {
+                    testTagsAsResourceId = true
+                },
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                contentColor = MaterialTheme.colorScheme.secondaryContainer,
+            ) { padding ->
+                Column(
+                    modifier = Modifier
+                        .verticalScroll(rememberScrollState())
+                        .padding(padding)
+                ) {
+                    TopProfileLayout()
+                    MainProfileContent()
+                }
+            }
         }
-    }
-}
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -196,7 +167,7 @@ fun MainProfileContent() {
                 modifier = Modifier.padding(vertical = 2.dp),
                 icon = {
                     Icon(
-                        Icons.Default.Favorite,
+                        Icons.Default.StarBorder,
                         contentDescription = null,
                         modifier = Modifier
                             .size(40.dp)
@@ -237,6 +208,54 @@ fun MainProfileContent() {
                     Text(
                         modifier = Modifier.padding(5.dp),
                         text = "85"
+                    )
+                }
+            )
+            GitContentItem(
+                modifier = Modifier.padding(vertical = 2.dp),
+                icon = {
+                    Icon(
+                        Icons.Default.Folder,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(40.dp)
+                            .padding(6.dp)
+                    )
+                },
+                text = {
+                    Text(
+                        text = "Contributions",
+                        style = MaterialTheme.typography.labelLarge,
+                    )
+                },
+                endItem = {
+                    Text(
+                        modifier = Modifier.padding(5.dp),
+                        text = "19"
+                    )
+                }
+            )
+            GitContentItem(
+                modifier = Modifier.padding(vertical = 2.dp),
+                icon = {
+                    Icon(
+                        Icons.Default.Favorite,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(40.dp)
+                            .padding(6.dp)
+                    )
+                },
+                text = {
+                    Text(
+                        text = "Reactions",
+                        style = MaterialTheme.typography.labelLarge,
+                    )
+                },
+                endItem = {
+                    Text(
+                        modifier = Modifier.padding(5.dp),
+                        text = "1239"
                     )
                 }
             )
@@ -310,5 +329,3 @@ fun GitContentItem(
         endItem()
     }
 }
-
-//

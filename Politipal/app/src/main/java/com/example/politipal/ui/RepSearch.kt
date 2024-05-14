@@ -80,39 +80,39 @@ fun RepSearch(
         }
     }
 
-        LazyColumn (
-            modifier = modifier
-                .fillMaxWidth(),
+    LazyColumn (
+        modifier = modifier
+            .fillMaxWidth(),
 
         ) {
-            stickyHeader {
-                Surface(
-                    Modifier
-                        .fillParentMaxWidth()
-                        .padding(top = 10.dp, bottom = 10.dp)
-                    ){
+        stickyHeader {
+            Surface(
+                Modifier
+                    .fillParentMaxWidth()
+                    .padding(top = 10.dp, bottom = 10.dp)
+            ){
 
 
-                        RepSearchBar(modifier = modifier)
+                RepSearchBar(modifier = modifier)
 
 
-                }}
-            //item{ FloatingActionButton(onClick = {  }) {} }
-            val reps = homeUIState.reps
-            items(items = reps, key = { it.id }) { rep ->
-                RepResultListView(
-                    modifier = modifier,
-                    reps = rep,
-                    //email = homeUIState.emails,
-                    //openedEmail = replyHomeUIState.openedEmail,
-                    //selectedEmailIds = replyHomeUIState.selectedEmails,
-                    toggleRepSelection = toggleSelectedRep,
-                    //emailLazyListState = emailLazyListState,
-                    //navigateToDetail = navigateToDetail
-                )
-            }
+            }}
+        //item{ FloatingActionButton(onClick = {  }) {} }
+        val reps = homeUIState.reps
+        items(items = reps, key = { it.id }) { rep ->
+            RepResultListView(
+                modifier = modifier,
+                reps = rep,
+                //email = homeUIState.emails,
+                //openedEmail = replyHomeUIState.openedEmail,
+                //selectedEmailIds = replyHomeUIState.selectedEmails,
+                toggleRepSelection = toggleSelectedRep,
+                //emailLazyListState = emailLazyListState,
+                //navigateToDetail = navigateToDetail
+            )
         }
     }
+}
 
 
 
@@ -132,109 +132,109 @@ fun RepSearchBar(
 
     // Inner Component layout for just search bar
 
-        Box(modifier = modifier
-            .fillMaxWidth()
-            .background(Color(0xFFF9F1F8))
-            .padding(bottom = 5.dp, top = 40.dp, start = 10.dp, end = 10.dp)
-            ) {
-                Column {
-                    Row (modifier.padding(bottom = 10.dp)){
+    Box(modifier = modifier
+        .fillMaxWidth()
+        .background(Color(0xFFF9F1F8))
+        .padding(bottom = 5.dp, top = 40.dp, start = 10.dp, end = 10.dp)
+    ) {
+        Column {
+            Row (modifier.padding(bottom = 10.dp)){
 
-                        // Helpful Tutorial: https://www.composables.com/material3/dockedsearchbar/video
-                        // Wanted to make it look nice and have a fade when scrolling up, for later
+                // Helpful Tutorial: https://www.composables.com/material3/dockedsearchbar/video
+                // Wanted to make it look nice and have a fade when scrolling up, for later
 
-                        DockedSearchBar(
-                            modifier = Modifier
-                                .wrapContentWidth()
-                                .width(330.dp),
-                            query = text,
-                            onQueryChange = { text = it }, // refers to actual text in search bar
-                            onSearch = { active = false },
-                            active = false,
-                            onActiveChange = { active = it },
-                            placeholder = { Text(text = "Search Representative") },
-                            leadingIcon = {
-                                Icon(
-                                    imageVector = Icons.Default.Search,
-                                    contentDescription = "Search Icon"
-                                )
-                            },
-                            trailingIcon = {
-                                if (active) {
-                                    Icon(
-                                        modifier = Modifier.clickable {
-                                            if (text.isNotEmpty()) {
-                                                text = ""
-                                            } else {
-                                                active = false
-                                            }
-                                        },
-                                        imageVector = Icons.Default.Close,
-                                        contentDescription = "Close Icon"
-                                    )
-                                }
-                            }
-
-                        ) {}
-                        // Filter Button
-                        FloatingActionButton(
-                            onClick = { boxVisible = !boxVisible},
-                            modifier = Modifier
-                                .padding(start = 5.dp),
-                        ) {
+                DockedSearchBar(
+                    modifier = Modifier
+                        .wrapContentWidth()
+                        .width(330.dp),
+                    query = text,
+                    onQueryChange = { text = it }, // refers to actual text in search bar
+                    onSearch = { active = false },
+                    active = false,
+                    onActiveChange = { active = it },
+                    placeholder = { Text(text = "Search Representative") },
+                    leadingIcon = {
+                        Icon(
+                            imageVector = Icons.Default.Search,
+                            contentDescription = "Search Icon"
+                        )
+                    },
+                    trailingIcon = {
+                        if (active) {
                             Icon(
-                                imageVector = Icons.Default.FilterList,
-                                contentDescription = "Favorite",
-                                tint = MaterialTheme.colorScheme.outline
+                                modifier = Modifier.clickable {
+                                    if (text.isNotEmpty()) {
+                                        text = ""
+                                    } else {
+                                        active = false
+                                    }
+                                },
+                                imageVector = Icons.Default.Close,
+                                contentDescription = "Close Icon"
                             )
                         }
                     }
-                        AnimatedVisibility(visible = boxVisible) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .background(Color(0xFFF0E5F4), RoundedCornerShape(15.dp)) // Box styling
 
-                            ) {
-                                Box(modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(all = 10.dp)){
-                                    Column {
-                                        Text(
-                                            text = "Demograhics",
-                                            fontSize = 16.sp, // Set font size
-                                            fontWeight = FontWeight.Bold, // Set font weight for header
-                                            modifier = Modifier.padding(5.dp) // Optionally, add padding around the text
-                                        )
-                                        HorizontalDivider(thickness = 1.dp, color = Color.Gray)
-                                        FlowRow (modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start){
+                ) {}
+                // Filter Button
+                FloatingActionButton(
+                    onClick = { boxVisible = !boxVisible},
+                    modifier = Modifier
+                        .padding(start = 5.dp),
+                ) {
+                    Icon(
+                        imageVector = Icons.Default.FilterList,
+                        contentDescription = "Favorite",
+                        tint = MaterialTheme.colorScheme.outline
+                    )
+                }
+            }
+            AnimatedVisibility(visible = boxVisible) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(Color(0xFFF0E5F4), RoundedCornerShape(15.dp)) // Box styling
 
-                                            RepFilterChip(modifier = modifier, label = "Female")
-                                            RepFilterChip(modifier = modifier, label = "Male")
-                                            RepFilterChip(modifier = modifier, label = "Democrat")
-                                            RepFilterChip(modifier = modifier, label = "Republican")
-                                            RepFilterChip(modifier = modifier, label = "Senate")
-                                            RepFilterChip(modifier = modifier, label = "House")
-                                        }
+                ) {
+                    Box(modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(all = 10.dp)){
+                        Column {
+                            Text(
+                                text = "Demograhics",
+                                fontSize = 16.sp, // Set font size
+                                fontWeight = FontWeight.Bold, // Set font weight for header
+                                modifier = Modifier.padding(5.dp) // Optionally, add padding around the text
+                            )
+                            HorizontalDivider(thickness = 1.dp, color = Color.Gray)
+                            FlowRow (modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start){
 
-                                        Text(
-                                            text = "Regions",
-                                            fontSize = 16.sp, // Set font size
-                                            fontWeight = FontWeight.Bold, // Set font weight for header
-                                            modifier = Modifier.padding(5.dp) // Optionally, add padding around the text
-                                        )
-                                        HorizontalDivider(thickness = 1.dp, color = Color.Gray)
-                                        Row {
-                                            RepFilterChip(modifier = modifier, label = "Long Beach")
-                                            RepFilterChip(modifier = modifier, label = "Los Angeles")
-                                    }
-                                }
+                                RepFilterChip(modifier = modifier, label = "Female")
+                                RepFilterChip(modifier = modifier, label = "Male")
+                                RepFilterChip(modifier = modifier, label = "Democrat")
+                                RepFilterChip(modifier = modifier, label = "Republican")
+                                RepFilterChip(modifier = modifier, label = "Senate")
+                                RepFilterChip(modifier = modifier, label = "House")
                             }
-                    }
+
+                            Text(
+                                text = "Regions",
+                                fontSize = 16.sp, // Set font size
+                                fontWeight = FontWeight.Bold, // Set font weight for header
+                                modifier = Modifier.padding(5.dp) // Optionally, add padding around the text
+                            )
+                            HorizontalDivider(thickness = 1.dp, color = Color.Gray)
+                            Row {
+                                RepFilterChip(modifier = modifier, label = "Long Beach")
+                                RepFilterChip(modifier = modifier, label = "Los Angeles")
+                            }
+                        }
                     }
                 }
+            }
+        }
 
-        
+
 
 
 
@@ -247,29 +247,29 @@ fun RepResultListView(
     modifier: Modifier,
     reps: Rep,
     toggleRepSelection: (String) -> Unit,
-    ){
-        ElevatedCard(
-            onClick = { /* Do something */ },
-            colors = CardDefaults.cardColors(containerColor = Color.White),
-            elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
+){
+    ElevatedCard(
+        onClick = { /* Do something */ },
+        colors = CardDefaults.cardColors(containerColor = Color.White),
+        elevation = CardDefaults.cardElevation(defaultElevation = 10.dp),
+        modifier = Modifier
+            .padding(horizontal = 30.dp, vertical = 4.dp)
+            .height(150.dp),
+
+        ){
+        Column(
             modifier = Modifier
-                .padding(horizontal = 30.dp, vertical = 4.dp)
-                .height(150.dp),
+                .fillMaxWidth()
 
-            ){
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-
-                    .padding(20.dp),
-            )
-            {
-                Text(text = "birthday")
-            }
+                .padding(20.dp),
+        )
+        {
+            Text(text = "birthday")
         }
-        Spacer(Modifier.height(20.dp))
-
     }
+    Spacer(Modifier.height(20.dp))
+
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
