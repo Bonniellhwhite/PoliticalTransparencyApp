@@ -12,8 +12,8 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.rememberNavController
 import com.example.politipal.ui.navigation.PoliAppRouter
 import com.example.politipal.ui.navigation.Screen
-import com.example.politipal.data.HomeViewModel
 
+/*
 @Composable
 fun PolitipalApp(homeViewModel: HomeViewModel = viewModel()) {
     val navController = rememberNavController()
@@ -43,4 +43,4 @@ fun PolitipalApp(homeViewModel: HomeViewModel = viewModel()) {
         }
 
     }
-}
+}*/

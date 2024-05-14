@@ -54,7 +54,7 @@ fun NormalText(value:String){
             fontSize = 24.sp,
             fontWeight = FontWeight.Normal,
             fontStyle = FontStyle.Normal
-        ), color = colorResource(id = R.color.scrimLight),
+        ), color = Color.Black,
         textAlign = TextAlign.Center
     )
 }
@@ -69,7 +69,7 @@ fun headingSU(value:String){
             fontSize = 30.sp,
             fontWeight = FontWeight.Bold,
             fontStyle = FontStyle.Normal
-        ), color = colorResource(id = R.color.scrimLight),
+        ), color =  Color.Black,
         textAlign = TextAlign.Center
     )
 }
