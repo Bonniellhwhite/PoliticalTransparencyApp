@@ -12,8 +12,8 @@ android {
 
     defaultConfig {
         applicationId = "com.example.politipal"
-        minSdk = libs.versions.minSdk.get().toInt()
         targetSdk = libs.versions.targetSdk.get().toInt()
+        minSdk = 23
         versionCode = 1
         versionName = "1.0"
         vectorDrawables.useSupportLibrary = true
@@ -76,13 +76,23 @@ android {
 
 }
 
+
+
 dependencies {
     // Import the BoM for the Firebase platform
     // Things I tried that didnt work: Different implementations of dependencies, deleting gradle files, Moving Around the google-services.json file
     // TODO: Follow this https://firebase.google.com/codelabs/firestore-android#2
-    implementation(platform("com.google.firebase:firebase-bom:32.8.1"))
-    implementation("com.google.firebase:firebase-firestore")
+    implementation(platform("com.google.firebase:firebase-bom:33.0.0"))
+    implementation("com.google.firebase:firebase-firestore:25.0.0")
+    //implementation ("com.google.android.gms:play-services-base:18.4.0")
 
+    implementation ("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation ("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation ("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.3.9")
+
+
+    implementation("androidx.compose.material3:material3:1.1.0")
+    implementation(libs.androidx.benchmark.macro)
 
     val composeBom = platform(libs.androidx.compose.bom)
     implementation(composeBom)
@@ -123,3 +133,4 @@ dependencies {
 
 
 }
+//apply plugin: ('com.google.gms.google-services')

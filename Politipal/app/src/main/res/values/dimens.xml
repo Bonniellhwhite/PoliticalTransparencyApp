@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="detail_card_list_padding_top">24dp</dimen>
+    <dimen name="detail_topbar_padding_bottom">24dp</dimen>
+    <dimen name="detail_card_outer_padding_horizontal">24dp</dimen>
+    <dimen name="detail_topbar_back_button_padding_horizontal">24dp</dimen>
+    <dimen name="detail_subject_padding_end">40dp</dimen>
+    <dimen name="detail_card_inner_padding">20dp</dimen>
+    <dimen name="detail_content_padding_top">12dp</dimen>
+    <dimen name="detail_expanded_subject_body_spacing">8dp</dimen>
+    <dimen name="email_header_profile_size">40dp</dimen>
+    <dimen name="email_header_content_padding_horizontal">12dp</dimen>
+    <dimen name="email_header_content_padding_vertical">4dp</dimen>
+    <dimen name="detail_action_button_padding_vertical">20dp</dimen>
+</resources>

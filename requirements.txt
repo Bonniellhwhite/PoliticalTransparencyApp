@@ -4,3 +4,4 @@ beautifulsoup4
 requests
 httpx
 openai
+firebase_admin
