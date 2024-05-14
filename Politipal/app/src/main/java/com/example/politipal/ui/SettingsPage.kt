@@ -121,7 +121,7 @@ fun SettingsPage(
                                 .fillMaxWidth()
                         )
                         Text(
-                            text = stringResource(id = R.string.empty),
+                            text = "Account Name",
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 21.sp,
                             color = Color(0xFFA891D1),
@@ -146,7 +146,7 @@ fun SettingsPage(
                                 .fillMaxWidth()
                         )
                         Text(
-                            text = stringResource(id = R.string.empty),
+                            text = "user@example.com",
                             fontWeight = FontWeight.ExtraBold,
                             fontSize = 21.sp,
                             color = Color(0xFFA891D1),
