@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.politipal.data.firebaseData.FirebaseDataRetriever
 import com.example.politipal.data.firebaseData.LocalEmailsDataProvider
 import com.example.politipal.ui.theme.AppTheme
 import com.google.accompanist.adaptive.calculateDisplayFeatures
@@ -29,19 +30,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
-        /* TODO: WIP
-        val fireStore = Firebase.firestore
-        fireStore.collection("reps")
-            .get()
-            .addOnSuccessListener { result ->
-                for (document in result) {
-                    Log.d(TAG, "${document.id} => ${document.data}")
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.w(TAG, "Error getting documents.", exception)
-            }
-        */
+        viewModel.fetchFirebaseReps()
+        viewModel.fetchFirebaseBills()
 
         setContent {
             AppTheme {

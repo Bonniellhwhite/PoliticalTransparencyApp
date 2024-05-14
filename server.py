@@ -1,8 +1,22 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 #python -m pip install fastapi
 from urllib.parse import unquote
-
 import helper_scripts
+
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+
+# Initialize Firebase Admin
+cred = credentials.Certificate('G:/Bonnie White/Documents/School/Fall 2023/491A - Senior Project/my-project-1684959286164-95638a341fed.json')
+
+firebase_admin.initialize_app(cred)
+print(cred)
+
+# Get Firestore database
+db = firestore.client()
+
+# Setup: heroku run python server.py --app politipal-backend
 
 app = FastAPI()
 
@@ -40,9 +54,36 @@ async def simplify_bill(url: str):
     except Exception as e:
         return {"Error"}
     
-@app.get("/write_to_DB/{test}")
-async def write_to_DB(test):
-    return {test}
+
+
+
+@app.get("/get-bills/")
+async def get_bill():
+    try:
+        # Attempt to get the document from Firestore
+        doc_ref = db.collection('allBills')
+        doc = doc_ref.get()
+        if doc.exists:
+            return doc.to_dict()
+        else:
+            return {"error": "Bill not found"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/get-reps/")
+async def get_bill():
+    try:
+        # Attempt to get the document from Firestore
+        doc_ref = db.collection('allLegislators')
+        doc = doc_ref.get()
+        if doc.exists:
+            return doc.to_dict()
+        else:
+            return {"error": "Bill not found"}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
 
 '''
 async def main():

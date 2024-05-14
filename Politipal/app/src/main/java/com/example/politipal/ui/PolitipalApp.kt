@@ -260,8 +260,8 @@ private fun ReplyNavHost(
                 displayFeatures = displayFeatures,
                 closeDetailScreen = closeDetailScreen,
                 navigateToDetail = navigateToDetail,
-                toggleSelectedEmail = toggleSelectedEmail
-            )
+                toggleSelectedRep = toggleSelectedRep // needs to be chaged to bill
+                )
 
         }
         composable(PolitipalRoute.REPS) {
