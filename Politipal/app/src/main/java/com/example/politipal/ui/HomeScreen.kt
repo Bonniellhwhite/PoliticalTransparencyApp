@@ -3,7 +3,9 @@ package com.example.politipal.ui
 
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,8 +17,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsBottomHeight
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
@@ -32,6 +37,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -162,7 +168,6 @@ fun ReplyEmailList(
                     fontFamily = FontFamily.Serif,
                     modifier = Modifier.padding(start = 15.dp)
                 )
-                Spacer(modifier = Modifier.height(10.dp))
             }
             item{
 
@@ -171,8 +176,6 @@ fun ReplyEmailList(
                 val month = calendar.get(Calendar.MONTH) + 1 // Month is zero-based, so add 1
                 val day = calendar.get(Calendar.DAY_OF_MONTH)
                 val dateText = "$month/$day/$year" // Change format as needed
-
-
 
                 Text(text = dateText,
                     style = MaterialTheme.typography.titleSmall,
@@ -184,28 +187,132 @@ fun ReplyEmailList(
 
                 Spacer(modifier = Modifier.height(5.dp))
             }
-
             item {
-                Row{
-                    ModernCard(title = "Your Contributions", subtitle = "Test Subtitle", description = "Test")
-                    //ModernCard(title = "Test 1", subtitle = "Test Subtitle", description = "Test")
+                    Card(
+                        modifier = Modifier
+                            .padding(15.dp)
+                            .fillMaxWidth()
+                            .wrapContentHeight(),
+                        shape = RoundedCornerShape(12.dp), // Rounded corners for a modern look
+                        colors = CardDefaults.cardColors(containerColor = Color(0xFFEEEEEE)) // Light background
+                    ) {
+                        Image(painter = painterResource(id = R.drawable.graph),
+                            contentDescription = "rep m",
+                            modifier = Modifier
+                                .clip(RoundedCornerShape(10.dp))
+                                .padding(all = 10.dp)
+                                .fillMaxSize()
+                                .height(200.dp)
+                                .align(Alignment.CenterHorizontally)
+                        )
+
+
                 }
             }
-            item{
-                ModernCard(title = "Total Contributions to Date", subtitle = "Test Subtitle", description = "Test")
-            }
-            item{
-                ModernCard(title = "Test 1", subtitle = "Test Subtitle", description = "Test")
-            }
-            item{
-                ModernCard(title = "Test 1", subtitle = "Test Subtitle", description = "Test")
-            }
-            item{
-                ModernCard(title = "Test 1", subtitle = "Test Subtitle", description = "Test")
-            }
+
             item {
-                Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.systemBars))
+                Row (modifier = Modifier.padding(end = 15.dp)){
+                    Card(
+                        modifier = Modifier
+                            .padding(start = 15.dp)
+                            .wrapContentHeight()
+                            .weight(1f),
+                        shape = RoundedCornerShape(12.dp), // Rounded corners for a modern look
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .padding(10.dp)
+                                .align(Alignment.CenterHorizontally)
+                        ) {
+                            Text(
+                                text = "42",
+                                modifier = Modifier.align(Alignment.CenterHorizontally),
+                                style = MaterialTheme.typography.headlineSmall
+                            )
+                            Text(text = "adds")
+
+                        }
+
+                    }
+                    Card(
+                        modifier = Modifier
+                            .padding(start = 15.dp)
+                            .wrapContentHeight()
+                            .weight(1f),
+                        shape = RoundedCornerShape(12.dp), // Rounded corners for a modern look
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .padding(10.dp)
+                                .align(Alignment.CenterHorizontally)
+                        ) {
+                            Text(
+                                text = "378",
+                                modifier = Modifier.align(Alignment.CenterHorizontally),
+                                style = MaterialTheme.typography.headlineSmall
+                            )
+                            Text(text = "Reps")
+
+                        }
+
+                    }
+                    Card(
+                        modifier = Modifier
+                            .padding(start = 15.dp)
+                            .wrapContentHeight()
+                            .weight(1f),
+                        shape = RoundedCornerShape(12.dp), // Rounded corners for a modern look
+                    ) {
+                        Column(
+                            modifier = Modifier
+                                .padding(10.dp)
+                                .align(Alignment.CenterHorizontally)
+                        ) {
+                            Text(
+                                text = "50",
+                                modifier = Modifier.align(Alignment.CenterHorizontally),
+                                style = MaterialTheme.typography.headlineSmall
+                            )
+                            Text(text = "Bills")
+                    }
+                }
             }
+                //Spacer(modifier = Modifier.height(30.dp))
+            }
+
+
+            item{
+                    Text(text = "Try Out The Tool",
+                        style = MaterialTheme.typography.titleLarge,
+                        color = Color.White,
+                        fontWeight = FontWeight.Bold,
+                        fontFamily = FontFamily.Serif,
+                        modifier = Modifier.padding(start = 15.dp, top = 10.dp, bottom = 10.dp)
+                            .align(Alignment.Center)
+                            .fillMaxWidth()
+                    )
+
+
+            }
+            /*
+            item{
+                Card(modifier =  Modifier.wrapContentWidth()
+                    .padding(all = 10.dp)){
+                    Box(
+                        modifier = Modifier.padding(10.dp).height(100.dp)
+                    ){
+                        Text(text = "Today's Updates!",
+                            style = MaterialTheme.typography.titleLarge,
+                            color = Color.Black,
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = FontFamily.Serif,
+                            modifier = Modifier.padding(start = 15.dp).fillMaxWidth()
+                        )
+                    }
+                }
+
+            } */
+
         }
     }
 }
@@ -234,6 +341,8 @@ fun WelcomeSection(){
         }
     }
 }
+
+
 
 @Composable
 fun ReplyEmailDetail(

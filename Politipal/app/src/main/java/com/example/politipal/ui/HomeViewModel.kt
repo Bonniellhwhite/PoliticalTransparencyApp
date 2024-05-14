@@ -18,6 +18,7 @@ import com.example.politipal.data.EmailsRepository
 import com.example.politipal.data.EmailsRepositoryImpl
 import com.example.politipal.data.Rep
 import com.example.politipal.data.RepFilterOptions
+import com.example.politipal.data.RetrofitClient
 import com.example.politipal.data.firebaseData.FirebaseDataRetriever
 import com.example.politipal.ui.utils.PolitipalContentType
 import com.google.firebase.firestore.ktx.firestore
@@ -59,6 +60,7 @@ class ReplyHomeViewModel(private val emailsRepository: EmailsRepository = Emails
         observeEmails()
 
     }
+
 
     fun fetchFirebaseReps(){
         viewModelScope.launch {
@@ -205,6 +207,7 @@ data class homeUIState(
     val error: String? = null,
     val reps: List<Rep> = emptyList(),
     val bills: List<Bill> = emptyList()
+
 
 )
 
