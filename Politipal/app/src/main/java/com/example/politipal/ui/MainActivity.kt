@@ -1,9 +1,7 @@
 
 package com.example.politipal.ui
 
-import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -17,7 +15,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.politipal.data.firebaseData.FirebaseDataRetriever
 import com.example.politipal.data.firebaseData.LocalEmailsDataProvider
 import com.example.politipal.ui.theme.AppTheme
 import com.google.accompanist.adaptive.calculateDisplayFeatures
@@ -25,7 +22,7 @@ import com.google.accompanist.adaptive.calculateDisplayFeatures
 
 class MainActivity : ComponentActivity() {
 
-    private val viewModel: ReplyHomeViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels()
 
     @OptIn(ExperimentalMaterial3WindowSizeClassApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -56,7 +53,7 @@ class MainActivity : ComponentActivity() {
                         viewModel.toggleSelectedEmail(emailId)
                     },
                     toggleSelectedRep = { repId ->
-                        viewModel.toggleSelectedRep(repId)
+                       // viewModel.toggleSelectedRep(repId)
                     }
                 )
             }

@@ -1,6 +1,9 @@
 package com.example.politipal.data;
 
 import androidx.compose.runtime.MutableState
+import com.example.politipal.ui.HomeView
+import com.example.politipal.ui.HomeViewModel
+import com.example.politipal.ui.homeUIState
 import kotlinx.coroutines.flow.MutableStateFlow
 
 data class Rep(
@@ -51,6 +54,8 @@ data class Rep(
                 }
 
         }
+
+
 }
 
 enum class RepFilterOptions {
