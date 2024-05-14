@@ -126,7 +126,7 @@ fun ReplyBottomNavigationBar(
     NavigationBar(
         modifier = Modifier
             .fillMaxWidth()
-            .height(70.dp)
+            .height(100.dp)
             .clip(RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp, bottomEnd = 16.dp, bottomStart = 16.dp))) {
         TOP_LEVEL_DESTINATIONS.forEach { replyDestination ->
             NavigationBarItem(
