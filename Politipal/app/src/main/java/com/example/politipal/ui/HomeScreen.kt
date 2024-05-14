@@ -277,41 +277,41 @@ fun ReplyEmailList(
                     }
                 }
             }
-                //Spacer(modifier = Modifier.height(30.dp))
+                Spacer(modifier = Modifier.height(30.dp))
             }
 
-
-            item{
-                    Text(text = "Try Out The Tool",
-                        style = MaterialTheme.typography.titleLarge,
-                        color = Color.White,
-                        fontWeight = FontWeight.Bold,
-                        fontFamily = FontFamily.Serif,
-                        modifier = Modifier.padding(start = 15.dp, top = 10.dp, bottom = 10.dp)
-                            .align(Alignment.Center)
-                            .fillMaxWidth()
-                    )
-
-
-            }
             /*
-            item{
-                Card(modifier =  Modifier.wrapContentWidth()
-                    .padding(all = 10.dp)){
-                    Box(
-                        modifier = Modifier.padding(10.dp).height(100.dp)
-                    ){
-                        Text(text = "Today's Updates!",
-                            style = MaterialTheme.typography.titleLarge,
-                            color = Color.Black,
-                            fontWeight = FontWeight.Bold,
-                            fontFamily = FontFamily.Serif,
-                            modifier = Modifier.padding(start = 15.dp).fillMaxWidth()
-                        )
-                    }
-                }
+                        item{
+                                Text(text = "Try Out The Tool",
+                                    style = MaterialTheme.typography.titleLarge,
+                                    color = Color.White,
+                                    fontWeight = FontWeight.Bold,
+                                    fontFamily = FontFamily.Serif,
+                                    modifier = Modifier.padding(start = 15.dp, top = 10.dp, bottom = 10.dp)
+                                        .align(Alignment.Center)
+                                        .fillMaxWidth()
+                                )
 
-            } */
+
+                        }
+
+                        item{
+                            Card(modifier =  Modifier.wrapContentWidth()
+                                .padding(all = 10.dp)){
+                                Box(
+                                    modifier = Modifier.padding(10.dp).height(100.dp)
+                                ){
+                                    Text(text = "Today's Updates!",
+                                        style = MaterialTheme.typography.titleLarge,
+                                        color = Color.Black,
+                                        fontWeight = FontWeight.Bold,
+                                        fontFamily = FontFamily.Serif,
+                                        modifier = Modifier.padding(start = 15.dp).fillMaxWidth()
+                                    )
+                                }
+                            }
+
+                        } */
 
         }
     }
